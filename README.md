@@ -3,8 +3,8 @@ AC31007/AC51003 Agile Software Engineering - Group Number [7]
 
 Group Members:
 - Tadas Saltenis (180015959)
-- Preslav Chonev (180007405)
-- Taha Kashaf (180020889)
+- Preslav Chonev (180007405) - SCRUM Master
+- Taha Kashaf (180020889) - Product Owner
 - Elisaveta Peeva (180012881)
 - Shote Deji (180004145)
 - Christy McCarron (150007015)

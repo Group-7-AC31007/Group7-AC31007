@@ -1,10 +1,16 @@
-# AgileDevelopment_templateCWRepo
-AC31007/AC51003 Agile Software Engineering - Group Number [x]
+# AgileDevelopment
+AC31007/AC51003 Agile Software Engineering - Group Number [7]
 
 Group Members:
-- Member 1 (Matriculation Number)
-- Member 2 (Matriculation Number)
-- Member X (Matriculation Number)
+Tadas Saltenis (180015959)
+Preslav Chonev (180007405)
+Taha Kashaf (180020889)
+Elisaveta Peeva (180012881)
+Shote Deji (180004145)
+Christy McCarron (150007015)
+Marko Zivojnovic (180009361)
+Dillon Reid (190014436)
+
 
 ## Hints:
 - You may wish to change the issue tags that are in GitHub to map to different activities that you are carrying out:

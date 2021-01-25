@@ -27,6 +27,6 @@ jobs:
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        app-name: ${{Group7App}}
         publish-profile: ${{ secrets.PORTAL_PUBLISH_PROFILEE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}

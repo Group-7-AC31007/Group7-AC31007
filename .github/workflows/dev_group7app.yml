@@ -33,4 +33,4 @@ jobs:
         app-name: 'group7app'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_5f2a07bee43a48679a0a7ccbae172116 }}
-        package: .
+        package: ./Software_Code/testreact

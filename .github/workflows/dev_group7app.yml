@@ -21,6 +21,7 @@ jobs:
         node-version: '12.13.0'
 
     - name: npm install, build, and test
+      working-directory: ./Software_Code/testreact
       run: |
         npm install
         npm run build --if-present

@@ -26,8 +26,8 @@ export default class QuestionnaireCreator extends Component {
     }
 
     render(){
-        let questionList = this.state.questions.map((current)=>{current.type=="YesNo"? (<YesNo information = {current}></YesNo>):(<div></div>)})
-        console.log(questionList)
+        
+        let questionList = this.state.questions.map((current)=>(current.type=="YesNo"? (<YesNo information={current}></YesNo>):(<div></div>)))
         return (
             <div>
                 <div className="quest-creator-wrapper">

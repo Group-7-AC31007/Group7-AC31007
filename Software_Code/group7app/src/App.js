@@ -45,7 +45,9 @@ function App() {
           </Route>
         </Switch>
       </div>
+      <div> Footer </div>
     </Router>
+    
   );
 }
 

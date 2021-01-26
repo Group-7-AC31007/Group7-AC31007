@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import "./QuestionnaireCreator.css"
 import YesNo from './Types/YesNo'
+import TextInput from './Types/TextInput'
+import PredefinedList from './Types/PredefinedList'
 
 export default class QuestionnaireCreator extends Component {
     constructor(props) {
@@ -27,7 +29,7 @@ export default class QuestionnaireCreator extends Component {
 
     render(){
         
-        let questionList = this.state.questions.map((current)=>(current.type=="YesNo"? (<YesNo information={current}></YesNo>):(<div></div>)))
+        let questionList = this.state.questions.map((current)=>(current.type=="YesNo"? (<YesNo information={current}></YesNo>):current.type=="TextInput"? (<TextInput information={current}></TextInput>):(<PredefinedList information={current}></PredefinedList>)))
         return (
             <div>
                 <div className="quest-creator-wrapper">

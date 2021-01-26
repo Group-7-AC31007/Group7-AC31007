@@ -7,16 +7,24 @@ export default class QuestionnaireCreator extends Component {
         console.log(props.test)
         this.test = props.test
         this.questions = []
-        this.setState({selectValue:"PredefinedList",questions:[]})
+        this.state = { selectValue: "PredefinedList", questions: [] }
 
     }
 
     createButtonHandler() {
+        let questionsCopy = this.state.questions
+        let obj = {type:this.state.selectValue,value:null,display:true,ID:questionsCopy.length}
+
+        questionsCopy.push(obj)
+        this.setState({questions:questionsCopy})
+        // questions:questions changing the object field questions to the value questions 
+        console.log(this.state.questions)
+        // We are assigning an object in this method 
 
     }
 
     handleChange(e) {
-        this.setState({selectValue:e.target.value});
+        this.state = { selectValue: e.target.value };
         console.log(this.state.selectValue)
     }
 
@@ -36,10 +44,10 @@ export default class QuestionnaireCreator extends Component {
                         <input className="quest-creator-name-value" type="text" name="quest-creator-name-value" />
                     </div>
 
-                    <button type="button" className="quest-creator-newQuestion-button"> New Question </button>
+                    <button onClick= {() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button"> New Question </button>
 
                     <label className="quest-creator-type-label" htmlFor="quest-creator-type-dropdown"> </label>
-                    <select value={this.state.selectValue} onChange={this.handleChange} className="quest-creator-type-dropdown" name="quest-creator-type-dropdown">
+                    <select value={this.state.selectValue} onChange={(e) => {this.setState({selectValue: e.target.value});console.log(e.target.value)}} className="quest-creator-type-dropdown" name="quest-creator-type-dropdown">
                         <option value="PredefinedList"> Predefined List </option>
                         <option value="TextInput"> Text Input </option>
                         <option value="YesNo"> Yes/No </option>

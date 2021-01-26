@@ -4,19 +4,58 @@ import React, { Component } from 'react'
 export default class PredefinedList extends Component {
     constructor(props) {
         super(props)
+        if (props.information.value !== null && props.information.value.responses == null) {
+            props.information.value.responses = []
+        }
         this.state = props.information
+        this.questionHandler = props.handler
         // type,value,display,ID passed from the list of questions
     }
+    handler(value) {
+        let info = this.state
+        info.value = { question: value, responses: info.value == null ? [] : info.value.responses }
+        this.questionHandler(info)
+    }
+    responseButtonHandler() {
+        let info = this.state
+        if (info.value === null) {
+            info.value = { question: "", responses: [] }
+        } else if (info.value.responses == null) {
+            info.value = { question: info.value.question, responses: [] }
+        }
+        let obj = { ID: info.value.responses.length, value: "" }
+        info.value.responses.push(obj)
+        this.questionHandler(info)
+    }
+    responsesHandler(e, current) {
+        current.value = e.target.value
+        let info = this.state
+        for (let x = 0; x < info.value.responses.length; x++) {
+            if (info.value.responses[x].ID == current.ID) {
+                info.value.responses[x] = current
+                break;
+            }
+        }
+        this.questionHandler(info)
+    }
     render() {
+        let responses = (this.state.value != null && this.state.value.responses != null) ? this.state.value.responses.map((current) => (<li key={current.ID} ><input onChange={(e) => this.responsesHandler(e, current)} className="quest-creator-predefinedList-response-textField" type="text" value={current.value} /> </li>)) : []
         return (
             <div className="quest-creator-predefinedList-wrapper">
                 <div className="quest-creator-predefinedList-question-wrapper">
                     <label className="quest-creator-predefinedList-question-label" htmlFor="quest-creator-predefinedList-question-textField"> Question: </label>
-                    <input className="quest-creator-predefinedList-question-textField" type="text" name="quest-creator-predefinedList-question-textField" value = {this.state.value==null ? "" : this.state.value}
-                    onChange={(e) => {this.setState({value: e.target.value});console.log(e.target.value)}} />
-                    
-                </div>
+                    <input className="quest-creator-predefinedList-question-textField" type="text" name="quest-creator-predefinedList-question-textField" value={this.state.value == null ? "" : this.state.value.question}
+                        onChange={(e) => (this.handler(e.target.value))} />
 
+                </div>
+                <div className="quest-creator-predefinedList-responses-wrapper">
+                    <button className="quest-creator-predefinedList-responses-button" onClick={() => this.responseButtonHandler()}>Add Response</button>
+                    <div className="quest-creator-predefinedList-responses-responses">
+                        <ul>
+                            {responses}
+                        </ul>
+                    </div>
+                </div>
             </div>
         )
     }

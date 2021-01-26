@@ -16,20 +16,29 @@ export default class QuestionnaireCreator extends Component {
 
     createButtonHandler() {
         let questionsCopy = this.state.questions
-        let obj = {type:this.state.selectValue,value:null,display:true,ID:questionsCopy.length}
+        let obj = { type: this.state.selectValue, value: null, display: true, ID: questionsCopy.length }
 
         questionsCopy.push(obj)
-        this.setState({questions:questionsCopy})
+        this.setState({ questions: questionsCopy })
         // This.state is how we hold the information about a component
         // questions:questions changing the object field questions to the value questions 
         console.log(this.state.questions)
         // We are assigning an object in this method 
 
     }
+    questionChangeHandler(question) {
+        let questionsCopy = this.state.questions
+        for (let x = 0; x < questionsCopy.length; x++) {
+            if (questionsCopy[x].ID === question.id) {
+                questionsCopy[x] = question
+                break;
+            }
+        }
+        this.setState({questions:questionsCopy})
+    }
+    render() {
 
-    render(){
-        
-        let questionList = this.state.questions.map((current)=>(current.type=="YesNo"? (<YesNo information={current}></YesNo>):current.type=="TextInput"? (<TextInput information={current}></TextInput>):(<PredefinedList information={current}></PredefinedList>)))
+        let questionList = this.state.questions.map((current) => (current.type === "YesNo" ? (<YesNo key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current} ></YesNo>) : current.type === "TextInput" ? (<TextInput key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current}></TextInput>) : (<PredefinedList key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current}></PredefinedList>)))
         return (
             <div>
                 <div className="quest-creator-wrapper">
@@ -45,10 +54,10 @@ export default class QuestionnaireCreator extends Component {
                         <input className="quest-creator-name-value" type="text" name="quest-creator-name-value" />
                     </div>
 
-                    <button onClick= {() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button"> New Question </button>
+                    <button onClick={() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button"> New Question </button>
 
                     <label className="quest-creator-type-label" htmlFor="quest-creator-type-dropdown"> </label>
-                    <select value={this.state.selectValue} onChange={(e) => {this.setState({selectValue: e.target.value});console.log(e.target.value)}} className="quest-creator-type-dropdown" name="quest-creator-type-dropdown">
+                    <select value={this.state.selectValue} onChange={(e) => { this.setState({ selectValue: e.target.value }); console.log(e.target.value) }} className="quest-creator-type-dropdown" name="quest-creator-type-dropdown">
                         <option value="PredefinedList"> Predefined List </option>
                         <option value="TextInput"> Text Input </option>
                         <option value="YesNo"> Yes/No </option>

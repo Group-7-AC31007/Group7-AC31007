@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "./QuestionnaireCreator.css"
+import YesNo from './Types/YesNo'
 
 export default class QuestionnaireCreator extends Component {
     constructor(props) {
@@ -17,18 +18,16 @@ export default class QuestionnaireCreator extends Component {
 
         questionsCopy.push(obj)
         this.setState({questions:questionsCopy})
+        // This.state is how we hold the information about a component
         // questions:questions changing the object field questions to the value questions 
         console.log(this.state.questions)
         // We are assigning an object in this method 
 
     }
 
-    handleChange(e) {
-        this.state = { selectValue: e.target.value };
-        console.log(this.state.selectValue)
-    }
-
-    render() {
+    render(){
+        let questionList = this.state.questions.map((current)=>{current.type=="YesNo"? (<YesNo information = {current}></YesNo>):(<div></div>)})
+        console.log(questionList)
         return (
             <div>
                 <div className="quest-creator-wrapper">
@@ -52,6 +51,7 @@ export default class QuestionnaireCreator extends Component {
                         <option value="TextInput"> Text Input </option>
                         <option value="YesNo"> Yes/No </option>
                     </select>
+                    {questionList}
                 </div>
             </div>
         )

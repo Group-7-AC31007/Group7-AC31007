@@ -7,8 +7,6 @@ import PredefinedList from './Types/PredefinedList'
 export default class QuestionnaireCreator extends Component {
     constructor(props) {
         super(props) /* Calls the parent constructor */
-        console.log(props.test)
-        this.test = props.test
         this.questions = []
         this.state = { selectValue: "PredefinedList", questions: [] }
 
@@ -24,6 +22,7 @@ export default class QuestionnaireCreator extends Component {
         // questions:questions changing the object field questions to the value questions 
         console.log(this.state.questions)
         // We are assigning an object in this method 
+        console.log(JSON.stringify(this.state.questions));
 
     }
 
@@ -42,7 +41,7 @@ export default class QuestionnaireCreator extends Component {
         }
         this.setState({questions:questionsCopy})
     }
-    questionChangeHandler(question) {
+    questionChangeHandler() {
         let questionsCopy = this.state.questions
         this.setState({questions:questionsCopy})
     }
@@ -58,7 +57,8 @@ export default class QuestionnaireCreator extends Component {
                     <div className="quest-creator-research-wrapper">
                         <label className="quest-creator-research-label" htmlFor="quest-creator-research-dropdown"> Researches: </label>
                         <select className="quest-creator-research-dropdown" name="quest-creator-research-dropdown">
-                            <option value="oneOption"> {this.test} </option>
+                            <option value="oneOption"> Research1 </option>
+                            <option value="oneOption"> Research2 </option>
                             {/* Link to already existing researches drom db */}
                         </select>
                     </div>

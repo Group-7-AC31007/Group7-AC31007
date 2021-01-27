@@ -19,7 +19,9 @@ export default class Questionnaire extends Component {
                     <li>
                         <Link to="/questionnaireCreator"> Questionnaire Creator </Link>
                     </li>
-
+                    <li>
+                        <Link to="/questionnaireTaker"> Questionnaire Taker </Link>
+                    </li>
                     <hr />
 
                     {/*
@@ -31,13 +33,13 @@ export default class Questionnaire extends Component {
                     */}
                     <Switch>
                         <Route path="/questionnaireCreator">
-                            <QuestionnaireCreator test="fhskftksldjfkls">  </QuestionnaireCreator>
+                            <QuestionnaireCreator>  </QuestionnaireCreator>
+                        </Route>
+                        <Route path="/questionnaireTaker">
+                            <QuestionnaireTaker>  </QuestionnaireTaker>
                         </Route>
                     </Switch>
                 </div>
-                <QuestionnaireTaker>
-                    
-                </QuestionnaireTaker>
             </Router>
 
         )

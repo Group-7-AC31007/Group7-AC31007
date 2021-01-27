@@ -12,17 +12,19 @@ function App() {
   return (
     <Router>
       <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/questionnaire">Questionnaire</Link>
-          </li>
-        </ul>
+        <header>
+          <ul id="listHeader">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/questionnaire">Questionnaire</Link>
+            </li>
+          </ul>
+        </header>
 
         <hr />
 

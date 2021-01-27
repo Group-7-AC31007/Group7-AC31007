@@ -27,8 +27,13 @@ header {
     display: inline-block;  
     margin: 0 15px;
     padding: 10px 15px;
-    transition: outline 0.2s linear;
+    transition: outline 0.2s linear; /* https://css-tricks.com/animating-border/ */
     outline: solid 0px white;
+}
+
+#listHeader li:hover{
+    outline-width: 3px;
+    color: white;
 }
 
 #listHeader li a {
@@ -39,15 +44,12 @@ header {
 
 }
 
-#listHeader li:hover{
-    outline-width: 3px;
-    color: white;
-}
+
 
 /* ----------------------------------------------------- FOOTER -----------------------------------------------------------------*/
 
 footer {
-    padding: 20px 120px;
+    padding: 20px 150px;
     background-color: #DDD9D6;
     text-transform: uppercase;
 }

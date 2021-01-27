@@ -19,7 +19,6 @@ export default class Questionnaire extends Component {
                         <Link to="/questionnaireCreator"> Questionnaire Creator </Link>
                     </li>
 
-                    <hr />
 
                     {/*
                     A <Switch> looks through all its children <Route>

@@ -7,27 +7,56 @@ body {
     padding: 0;
     font-family: 'Comfortaa', cursive;
     background-color: #FFFAF4;
+    text-transform: capitalize;
+}
+
+*:focus {
+    outline: none;
 }
 
 /* ---------------------------------------------------------------------------------------------------------------------------*/
 
 .quest-creator-wrapper{
-    margin: 0 120px;
-    padding: 50px 50px;
+    margin: 0 150px;
+    padding: 50px 100px;
     border-style: solid;
     border-width: 0.1px;
     color: black;
     background-color: #D1E2F2;   
-
+    
 
 }
 
-/*.quest-creator-research-wrapper{
+.quest-creator-icons-wrapper {
+    display: block;
+    text-align: center;
 
+}
+
+input[type=text] {
+    background-color: #D1E2F2;
+    border: none;
+    border-bottom-style: solid;
+    border-width: 0.5px;
+}
+
+button {
+}
+
+.quest-creator-icons-wrapper i {
+    padding: 20px;
+}
+
+.quest-creator-research-wrapper{
+    margin-top: 20px;
 }
 
 .quest-creator-name-wrapper{
+    margin-top: 20px;
+}
 
-}*/
+.quest-creator-newQuestion-button {
+    margin-top: 20px;
+}
 
 

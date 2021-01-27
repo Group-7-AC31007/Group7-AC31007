@@ -5,9 +5,9 @@ const Connection = mysql.createConnection(config.mysql);
 
 const pool = mysql.createPool(config.mysql);
 
-let mydb = {};
+let database = {};
 
-mydb.all = () => {
+database.all = () => {
 	return new Promise((resolve, reject) => {
 		pool.query("SELECT * FROM testing", (err, results) => {
 			if (err) {
@@ -18,4 +18,16 @@ mydb.all = () => {
 	});
 };
 
-module.exports = mydb;
+database.login = (req) => {
+	return new Promise((resolve, reject) => {
+		const {username, password} = req;
+		pool.query(`SELECT * FROM Users WHERE forename='${username}'`, (err, results) => {
+			if (err) {
+				return reject(err);
+			}
+			return resolve(results);
+		});
+	});
+};
+
+module.exports = database;

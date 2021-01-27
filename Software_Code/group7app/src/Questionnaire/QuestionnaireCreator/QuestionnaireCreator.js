@@ -26,19 +26,32 @@ export default class QuestionnaireCreator extends Component {
         // We are assigning an object in this method 
 
     }
-    questionChangeHandler(question) {
+
+    deleteButtonHandler(question) {
         let questionsCopy = this.state.questions
+        console.log(question)
         for (let x = 0; x < questionsCopy.length; x++) {
-            if (questionsCopy[x].ID === question.id) {
-                questionsCopy[x] = question
+            if (questionsCopy[x].ID === question.ID) {
+                questionsCopy.splice(x,1)
+                console.log(questionsCopy)
                 break;
             }
         }
+        for (let x = 0; x < questionsCopy.length; x++) {
+            questionsCopy[x].ID = x
+        }
+        this.setState({questions:questionsCopy})
+    }
+    questionChangeHandler(question) {
+        let questionsCopy = this.state.questions
         this.setState({questions:questionsCopy})
     }
     render() {
 
-        let questionList = this.state.questions.map((current) => (current.type === "YesNo" ? (<YesNo key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current} ></YesNo>) : current.type === "TextInput" ? (<TextInput key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current}></TextInput>) : (<PredefinedList key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current}></PredefinedList>)))
+        let questionList = this.state.questions.map((current) => 
+        (current.type === "YesNo" ? (<YesNo key={current.ID} handler= {(q)=> this.questionChangeHandler(q)}  deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current} ></YesNo>) : 
+        current.type === "TextInput" ? (<TextInput key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current}></TextInput>) : 
+        (<PredefinedList key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current}></PredefinedList>)))
         return (
             <div>
                 <div className="quest-creator-wrapper">

@@ -8,13 +8,18 @@ export default class PredefinedList extends Component {
             props.information.value.responses = []
         }
         this.state = props.information
-        this.questionHandler = props.handler
+        this.questionHandler = props.handler        
+        this.deleteHandler = props.deleteHandler
         // type,value,display,ID passed from the list of questions
     }
     handler(value) {
         let info = this.state
         info.value = { question: value, responses: info.value == null ? [] : info.value.responses }
         this.questionHandler(info)
+    }
+    deleteButtonHandler() {
+        let info = this.state
+        this.deleteHandler(info)
     }
     responseButtonHandler() {
         let info = this.state
@@ -42,8 +47,11 @@ export default class PredefinedList extends Component {
         let responses = (this.state.value != null && this.state.value.responses != null) ? this.state.value.responses.map((current) => (<li key={current.ID} ><input onChange={(e) => this.responsesHandler(e, current)} className="quest-creator-predefinedList-response-textField" type="text" value={current.value} /> </li>)) : []
         return (
             <div className="quest-creator-predefinedList-wrapper">
+                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-yesNo-question-delete-button">
+                    Delete
+                </button>
                 <div className="quest-creator-predefinedList-question-wrapper">
-                    <label className="quest-creator-predefinedList-question-label" htmlFor="quest-creator-predefinedList-question-textField"> Question: </label>
+                    <label className="quest-creator-predefinedList-question-label" htmlFor="quest-creator-predefinedList-question-textField"> Question(List): </label>
                     <input className="quest-creator-predefinedList-question-textField" type="text" name="quest-creator-predefinedList-question-textField" value={this.state.value == null ? "" : this.state.value.question}
                         onChange={(e) => (this.handler(e.target.value))} />
 

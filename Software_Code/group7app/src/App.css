@@ -26,19 +26,29 @@ header {
 #listHeader li {
     display: inline-block;  
     margin: 0 15px;
+    padding: 10px 15px;
+    transition: outline 0.2s linear;
+    outline: solid 0px white;
 }
 
 #listHeader li a {
     text-decoration: none;
     text-transform: uppercase;
-    color:white;
+    color:white ;
+    /*transition: border-style 0.2s linear;*/
+
+}
+
+#listHeader li:hover{
+    outline-width: 3px;
+    color: white;
 }
 
 /* ----------------------------------------------------- FOOTER -----------------------------------------------------------------*/
 
 footer {
     padding: 20px 120px;
-    background-color: #D1E2F2;
+    background-color: #DDD9D6;
     text-transform: uppercase;
 }
 
@@ -46,6 +56,3 @@ footer div p {
     padding: 0;
     margin: 0;
 }
-
-
-

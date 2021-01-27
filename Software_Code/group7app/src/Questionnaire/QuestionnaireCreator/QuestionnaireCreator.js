@@ -40,8 +40,8 @@ export default class QuestionnaireCreator extends Component {
 
         let questionList = this.state.questions.map((current) => (current.type === "YesNo" ? (<YesNo key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current} ></YesNo>) : current.type === "TextInput" ? (<TextInput key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current}></TextInput>) : (<PredefinedList key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current}></PredefinedList>)))
         return (
-            <div>
                 <div className="quest-creator-wrapper">
+                    <i className="fa fa-address-book" style={{fontSize:"60px"}}></i>
                     <div className="quest-creator-research-wrapper">
                         <label className="quest-creator-research-label" htmlFor="quest-creator-research-dropdown"> Researches: </label>
                         <select className="quest-creator-research-dropdown" name="quest-creator-research-dropdown">
@@ -64,7 +64,6 @@ export default class QuestionnaireCreator extends Component {
                     </select>
                     {questionList}
                 </div>
-            </div>
         )
     }
 }

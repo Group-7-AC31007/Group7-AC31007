@@ -9,6 +9,7 @@ import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import "./App.css";
+import 'font-awesome/css/font-awesome.min.css';
 function App() {
   return (
     <Router>

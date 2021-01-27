@@ -4,11 +4,12 @@ import {
     Switch,
     Route,
     Link
-  } from "react-router-dom";
+} from "react-router-dom";
 
 import './Questionnaire.css'
 
 import QuestionnaireCreator from './QuestionnaireCreator/QuestionnaireCreator'
+import QuestionnaireTaker from './QuestionnaireTaker/QuestionnaireTaker';
 
 export default class Questionnaire extends Component {
     render() {
@@ -29,12 +30,14 @@ export default class Questionnaire extends Component {
                     of them to render at a time
                     */}
                     <Switch>
-                    <Route path="/questionnaireCreator">
-                        <QuestionnaireCreator test="fhskftksldjfkls">  </QuestionnaireCreator>
-                    </Route>
+                        <Route path="/questionnaireCreator">
+                            <QuestionnaireCreator test="fhskftksldjfkls">  </QuestionnaireCreator>
+                        </Route>
                     </Switch>
                 </div>
-            
+                <QuestionnaireTaker>
+                    
+                </QuestionnaireTaker>
             </Router>
 
         )

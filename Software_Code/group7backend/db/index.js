@@ -9,6 +9,7 @@ const pool = mysql.createPool(config.mysql);
 
 let database = {};
 
+// Testing endpoint. Pretty much there to check if the database is live
 database.test = () => {
 	return new Promise((resolve, reject) => {
 		pool.query("SELECT * FROM testing", (err, results) => {
@@ -20,15 +21,13 @@ database.test = () => {
 	});
 };
 
+// Make a new entry in the Users table
 database.signup = (req) => {
 	return new Promise((resolve, reject) => {
-		// INSERT INTO Users (${req.keys().join(",")}) VALUES
-		// console.log(Object.keys(req).join(","))
-
 		let keys = Object.keys(req);
 		let vals = Object.values(req);
 		vals.forEach((element, ind) => {
-			vals[ind] = "'" + element + "'";
+			vals[ind] = typeof(element) == "string" ?  `'${element.replace("'", "\\'")}'` : element;
 		});
 
 		pool.query(`INSERT INTO Users (${keys.join(",")}) VALUES (${vals.join(",")});`, (err, results) => {
@@ -43,12 +42,26 @@ database.signup = (req) => {
 database.signin = (req) => {
 	return new Promise((resolve, reject) => {
 		const {email, password} = req;
-		pool.query(`SELECT * FROM Users WHERE email='${email}'`, (err, results) => {
+		pool.query(`SELECT * FROM sign_in WHERE email='${email}'`, (err, results) => {
 			if (err) {
-				return reject(err);
+				return reject("NO SUCH USER");
 			}
-			return resolve(results);
+			if (results[0].hashPassword != password) {
+				return reject("NOMATCH PASS")
+			}
+			return resolve("LOGGED IN")
 		});
+	});
+};
+
+// {"type":"PredefinedList","value":{"question":"aaa","responses":[{"ID":0,"value":"fasfas"},{"ID":1,"value":"fsaf"},{"ID":2,"value":"fasfasfas"}]},"display":true,"ID":0}
+database.addQuiz = (req) => {
+	return new Promise((resolve, reject) => {
+		pool.query(`SELECT * FROM sign_in`)
+		// req.forEach((element) => {
+			
+		// });
+		return resolve("WIP")
 	});
 };
 

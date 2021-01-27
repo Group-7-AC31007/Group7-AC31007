@@ -8,25 +8,18 @@ import {
 import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
+import "./App.css";
 function App() {
   return (
     <Router>
       <div>
         <header>
           <ul id="listHeader">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/questionnaire">Questionnaire</Link>
-            </li>
+            <li> <Link to="/">Home </Link> </li>
+            <li> <Link to="/login">Login </Link> </li>
+            <li> <Link to="/questionnaire">Questionnaire </Link> </li>
           </ul>
         </header>
-
-        <hr />
 
         {/*
           A <Switch> looks through all its children <Route>
@@ -47,7 +40,69 @@ function App() {
           </Route>
         </Switch>
       </div>
-      <div> Footer </div>
+
+      <div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+      </div>
+
+
+      <footer>
+        <div> 
+          <p> Footer </p>
+        </div>
+      </footer>
+      
     </Router>
     
   );

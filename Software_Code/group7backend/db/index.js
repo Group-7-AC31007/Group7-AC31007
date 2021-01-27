@@ -41,27 +41,16 @@ database.signup = (req) => {
 
 database.signin = (req) => {
 	return new Promise((resolve, reject) => {
-		const {email, password} = req;
+		const {email, hashPassword} = req;
 		pool.query(`SELECT * FROM sign_in WHERE email='${email}'`, (err, results) => {
 			if (err) {
 				return reject("NO SUCH USER");
 			}
-			if (results[0].hashPassword != password) {
+			if (results[0].hashPassword != hashPassword) {
 				return reject("NOMATCH PASS")
 			}
 			return resolve("LOGGED IN")
 		});
-	});
-};
-
-// {"type":"PredefinedList","value":{"question":"aaa","responses":[{"ID":0,"value":"fasfas"},{"ID":1,"value":"fsaf"},{"ID":2,"value":"fasfasfas"}]},"display":true,"ID":0}
-database.addQuiz = (req) => {
-	return new Promise((resolve, reject) => {
-		pool.query(`SELECT * FROM sign_in`)
-		// req.forEach((element) => {
-			
-		// });
-		return resolve("WIP")
 	});
 };
 

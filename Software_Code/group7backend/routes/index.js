@@ -41,9 +41,4 @@ router.post("/auth/signin", async(req, res) => {
 	sendResponse(req, res, db.signin);
 });
 
-router.post("/quiz/add", async(req, res) => {
-	sendResponse(req, res, db.addQuiz);
-});
-
-
 module.exports = router;

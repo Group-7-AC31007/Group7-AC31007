@@ -14,10 +14,10 @@ export default class Questionnaire extends Component {
     render() {
         return (
             <Router>
-                <div>
-                    <li>
-                        <Link to="/questionnaireCreator"> Questionnaire Creator </Link>
-                    </li>
+                <div className="quest-creator-parent-wrapper">
+                    <div className="questionnaireCreator-label">
+                        <Link className="questionnaireCreator-label-text" to="/questionnaireCreator"> Questionnaire Creator </Link>
+                    </div>
 
 
                     {/*

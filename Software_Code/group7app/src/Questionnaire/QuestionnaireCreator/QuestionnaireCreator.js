@@ -58,14 +58,16 @@ export default class QuestionnaireCreator extends Component {
                         <input className="quest-creator-name-value" type="text" name="quest-creator-name-value" />
                     </div>
 
-                    <label className="quest-creator-type-label" htmlFor="quest-creator-type-dropdown"> </label>
-                    <select value={this.state.selectValue} onChange={(e) => { this.setState({ selectValue: e.target.value }); console.log(e.target.value) }} className="quest-creator-type-dropdown" name="quest-creator-type-dropdown">
-                        <option value="PredefinedList"> Predefined List </option>
-                        <option value="TextInput"> Text Input </option>
-                        <option value="YesNo"> Yes/No </option>
-                    </select>
+                    <div className="quest-creator-type-wrapper">
+                        <label className="quest-creator-type-label" htmlFor="quest-creator-type-dropdown"> Type of question: </label>
+                        <select value={this.state.selectValue} onChange={(e) => { this.setState({ selectValue: e.target.value }); console.log(e.target.value) }} className="quest-creator-type-dropdown" name="quest-creator-type-dropdown">
+                            <option value="PredefinedList"> Predefined List </option>
+                            <option value="TextInput"> Text Input </option>
+                            <option value="YesNo"> Yes/No </option>
+                        </select>
+                    </div>
                     
-                    <button onClick={() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button"> New Question </button>
+                    <button onClick={() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button button"> New Question </button>
 
                     {questionList}
                 </div>

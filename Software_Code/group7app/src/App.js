@@ -9,6 +9,7 @@ import {
 import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
+import Registration from "./Registration/Registration";
 
 let callApi = async (endpoint = "") => {
   const response = await fetch('http://localhost:3001/' + endpoint);
@@ -39,6 +40,9 @@ function App() {
           <li>
             <Link to="/questionnaire">Questionnaire</Link>
           </li>
+          <li>
+            <Link to="/registration">Registration</Link>
+          </li>
         </ul>
 
         <hr />
@@ -60,7 +64,9 @@ function App() {
           <Route path="/questionnaire">
             <Questionnaire user={user}></Questionnaire>
           </Route>
-        
+          <Route path="/registration">
+           <Registration></Registration>
+          </Route>
       </div>
     </Router>
   );

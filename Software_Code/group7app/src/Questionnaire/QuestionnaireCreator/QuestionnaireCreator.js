@@ -27,7 +27,23 @@ export default class QuestionnaireCreator extends Component {
     }
 
     submitButtonHandler() {
-
+		const reqOpts = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(this.state.questions)
+		}
+		console.log(this.state.questions);
+		fetch('http://localhost:3001/create_quiz', reqOpts).then(response => {
+			response.json().then(json => {
+				if (json == "COULD NOT CREATE QUESTIONNAIRE") {
+					alert('Could not create questionnaire!');
+					console.log("COULD NOT CREATE QUESTIONNAIRE");
+				} else {
+					alert('Questionnaire successfully created!');
+					console.log("QUESTIONNAIRE SUCCESSFULLY CREATED")
+				}
+			});
+		});
     }
 
     deleteButtonHandler(question) {

@@ -16,8 +16,9 @@ export default class YesNo extends Component {
     render() {
         return (
             <div className="quest-creator-yesNo-wrapper questions">
+                <hr/>
                 <div className="quest-creator-yesNo-question-wrapper">
-                    <label className="quest-creator-yesNo-question-label" htmlFor="quest-creator-yesNo-question-textField"> Question: </label>
+                    <label className="quest-creator-yesNo-question-label" htmlFor="quest-creator-yesNo-question-textField"> Yes/No Question: </label>
                     <input className="quest-creator-yesNo-question-textField" type="text" name="quest-creator-yesNo-question-textField" value={this.state.value == null ? "" : this.state.value}
                         onChange={(e) => ( this.handler(e.target.value) )} />
 

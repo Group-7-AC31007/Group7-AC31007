@@ -40,10 +40,10 @@ export default class QuestionnaireCreator extends Component {
             response.json().then(json => {
                 if (json == "COULD NOT CREATE QUESTIONNAIRE") {
                     alert('Could not create questionnaire!');
-                    console.log("COULD NOT CREATE QUESTIONNAIRE");
+                    console.log(json);
                 } else {
                     alert('Questionnaire successfully created!');
-                    console.log("QUESTIONNAIRE SUCCESSFULLY CREATED")
+                    console.log(json)
                 }
             });
         });

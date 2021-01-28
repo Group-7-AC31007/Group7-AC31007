@@ -31,16 +31,16 @@ export default class QuestionnaireCreator extends Component {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(this.state.questions)
-		}
+		};
 		console.log(this.state.questions);
 		fetch('http://localhost:3001/create_quiz', reqOpts).then(response => {
 			response.json().then(json => {
 				if (json == "COULD NOT CREATE QUESTIONNAIRE") {
 					alert('Could not create questionnaire!');
-					console.log("COULD NOT CREATE QUESTIONNAIRE");
+					console.log(json);
 				} else {
 					alert('Questionnaire successfully created!');
-					console.log("QUESTIONNAIRE SUCCESSFULLY CREATED")
+					console.log(json);
 				}
 			});
 		});

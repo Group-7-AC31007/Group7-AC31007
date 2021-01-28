@@ -56,18 +56,18 @@ database.createQuiz = (req) => {
 	return new Promise((resolve, reject) => {
 		const { researchNo, projectID, questions } = req;
 
-		let insertReponses = (error, results, question, questionnaireID) => {
+		let insertResponses = (error, results, question, questionnaireID) => {
 			if (error) {
 				console.log(error);
 				return reject("COULD NOT CREATE QUESTION");
 			}
 			console.log(results);
-			let questionID = results[0].questionID;
+			let questionID = results[0][Object.keys(results[0])[0]];
 
-			for (i in question.responses) {
-				response = question.responses[i];
-				pool.query(`INSERT INTO Responses (questionnaireID, questionID, responseValue, orderID) 
-				VALUES (${questionnaireID}, ${questionID}, ${response.value}, ${response.id});`, (err, res) => {
+			for (let i in question.responses) {
+				let response = question.responses[i];
+				pool.query(`INSERT INTO Responses (questionnaireID, questionID, responseValue, orderID) ` +
+				`VALUES (${questionnaireID}, ${questionID}, ${response.value}, ${response.id});`, (err, res) => {
 					if (err) {
 						return reject("COULD NOT CREATE RESPONSE")
 					}
@@ -82,11 +82,13 @@ database.createQuiz = (req) => {
 				return reject("COULD NOT CREATE QUESTIONNAIRE");
 			}
 			console.log(results);
-			let questionnaireID = results[0].questionnairesID;
+			let questionnaireID = results[0][Object.keys(results[0])[0]];
+			
+			console.log(questions);
 
-			for (i in questions) {
-				pool.query(`CALL insert_question(${questionnaireID}, 
-					'${questions[i].type}', '${question[i].value.question}', '${question[i].id}');`,
+			for (let i in questions) {
+				pool.query(`SELECT insert_question(${questionnaireID}, ` +
+					`'${questions[i].type}', '${questions[i].value.question}', '${questions[i].id}');`,
 					(err, res) => insertResponses(err, res, questions[i], questionnaireID));
 			}
 		};

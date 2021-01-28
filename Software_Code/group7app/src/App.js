@@ -10,7 +10,17 @@ import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
+
+let callApi = async (endpoint = "") => {
+    const response = await fetch('http://localhost:3001/' + endpoint);
+	const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    
+    return body;
+};
+
 function App() {
+	callApi("test").then(res => console.log(res)).catch(err => console.log(err));
   return (
     <Router>
       <div>

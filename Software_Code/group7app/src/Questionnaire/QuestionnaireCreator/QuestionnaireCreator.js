@@ -7,8 +7,6 @@ import PredefinedList from './Types/PredefinedList'
 export default class QuestionnaireCreator extends Component {
     constructor(props) {
         super(props) /* Calls the parent constructor */
-        console.log(props.test)
-        this.test = props.test
         this.questions = []
         this.state = { selectValue: "PredefinedList", questions: [] }
 
@@ -24,21 +22,35 @@ export default class QuestionnaireCreator extends Component {
         // questions:questions changing the object field questions to the value questions 
         console.log(this.state.questions)
         // We are assigning an object in this method 
+        console.log(JSON.stringify(this.state.questions));
 
     }
-    questionChangeHandler(question) {
+
+    deleteButtonHandler(question) {
         let questionsCopy = this.state.questions
+        console.log(question)
         for (let x = 0; x < questionsCopy.length; x++) {
-            if (questionsCopy[x].ID === question.id) {
-                questionsCopy[x] = question
+            if (questionsCopy[x].ID === question.ID) {
+                questionsCopy.splice(x,1)
+                console.log(questionsCopy)
                 break;
             }
         }
+        for (let x = 0; x < questionsCopy.length; x++) {
+            questionsCopy[x].ID = x
+        }
+        this.setState({questions:questionsCopy})
+    }
+    questionChangeHandler() {
+        let questionsCopy = this.state.questions
         this.setState({questions:questionsCopy})
     }
     render() {
 
-        let questionList = this.state.questions.map((current) => (current.type === "YesNo" ? (<YesNo key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current} ></YesNo>) : current.type === "TextInput" ? (<TextInput key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current}></TextInput>) : (<PredefinedList key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} information={current}></PredefinedList>)))
+        let questionList = this.state.questions.map((current) => 
+        (current.type === "YesNo" ? (<YesNo key={current.ID} handler= {(q)=> this.questionChangeHandler(q)}  deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current} ></YesNo>) : 
+        current.type === "TextInput" ? (<TextInput key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current}></TextInput>) : 
+        (<PredefinedList key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current}></PredefinedList>)))
         return (
                 <div className="quest-creator-wrapper">
                     <div className="quest-creator-icons-wrapper">
@@ -49,7 +61,8 @@ export default class QuestionnaireCreator extends Component {
                     <div className="quest-creator-research-wrapper">
                         <label className="quest-creator-research-label" htmlFor="quest-creator-research-dropdown"> Researches: </label>
                         <select className="quest-creator-research-dropdown" name="quest-creator-research-dropdown">
-                            <option value="oneOption"> {this.test} </option>
+                            <option value="oneOption"> Research1 </option>
+                            <option value="oneOption"> Research2 </option>
                             {/* Link to already existing researches drom db */}
                         </select>
                     </div>

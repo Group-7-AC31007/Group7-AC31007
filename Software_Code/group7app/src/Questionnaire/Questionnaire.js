@@ -4,11 +4,12 @@ import {
     Switch,
     Route,
     Link
-  } from "react-router-dom";
+} from "react-router-dom";
 
 import './Questionnaire.css'
 
 import QuestionnaireCreator from './QuestionnaireCreator/QuestionnaireCreator'
+import QuestionnaireTaker from './QuestionnaireTaker/QuestionnaireTaker';
 
 export default class Questionnaire extends Component {
     render() {
@@ -18,7 +19,7 @@ export default class Questionnaire extends Component {
                     <div className="questionnaireCreator-label">
                         <Link className="questionnaireCreator-label-text" to="/questionnaireCreator"> Questionnaire Creator </Link>
                     </div>
-
+                        <Link to="/questionnaireTaker"> Questionnaire Taker </Link>
 
                     {/*
                     A <Switch> looks through all its children <Route>
@@ -28,12 +29,14 @@ export default class Questionnaire extends Component {
                     of them to render at a time
                     */}
                     <Switch>
-                    <Route path="/questionnaireCreator">
-                        <QuestionnaireCreator test="fhskftksldjfkls">  </QuestionnaireCreator>
-                    </Route>
+                        <Route path="/questionnaireCreator">
+                            <QuestionnaireCreator>  </QuestionnaireCreator>
+                        </Route>
+                        <Route path="/questionnaireTaker">
+                            <QuestionnaireTaker>  </QuestionnaireTaker>
+                        </Route>
                     </Switch>
                 </div>
-            
             </Router>
 
         )

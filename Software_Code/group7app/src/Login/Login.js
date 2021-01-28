@@ -27,18 +27,22 @@ export default class Login extends Component {
     
       render() {
         return (
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Email:
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
-            </label>
-            <br></br>
-            <label>
-              Password:
-              <input type="password" value={this.state.value} onChange={this.handleChange} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
+          <div className="login-form-wrapper"> 
+            <form className="login-form" onSubmit={this.handleSubmit}>
+              <label>
+                Email:
+                <input type="text" value={this.state.value} onChange={this.handleChange} />
+                <div className="spacer" style={{clear:"both"}} > </div>              
+              </label>
+              <br></br>
+              <label>
+                Password:
+                <input type="password" value={this.state.value} onChange={this.handleChange} />
+                
+              </label>
+              <input  className="login-submit-button" type="submit" value="Submit" />
+            </form>
+          </div>
           
         );
       }

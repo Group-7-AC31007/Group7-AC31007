@@ -59,7 +59,6 @@ header {
     overflow: auto;
     min-height: 100%;
     position: relative; 
-    padding-bottom: 38px;
 }
 
 .biggerContainer {
@@ -72,7 +71,7 @@ header {
 
 
 footer {
-    padding: 20px 150px;
+    padding: 20px 15%;
     background-color: #DDD9D6;
     text-transform: uppercase;
     /* margin-top: -38px; negative value of footer height */

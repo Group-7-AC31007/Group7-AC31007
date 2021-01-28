@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Login.css'
+import sjcl from 'sjcl'
 export default class Login extends Component {
 	constructor(props) {
 		super(props);
@@ -27,7 +28,7 @@ export default class Login extends Component {
 		fetch('http://localhost:3001/signin', reqOpts).then(response => {
 			console.log("LOLE", response);
 			response.json().then(json => {
-				if(json == "NO SUCH USER") {
+				if (json == "NO SUCH USER") {
 					console.log("XD");
 				} else {
 					alert('Signed in with the email: ' + this.state.email);
@@ -35,27 +36,29 @@ export default class Login extends Component {
 			});
 		});
 	};
-
+	 
 	//this.state.email and this.state.password are essentially variables holding the relevant data.
-	handleSubmit(event) {
-		this.signIn(this.state.email, this.state.password)
-		event.preventDefault();
-	}
-
-	render() {
-		return (
-			<form onSubmit={this.handleSubmit}>
-				<label>
-					Email:
+      handleSubmit(event) {
+        const hashBitArray = sjcl.hash.sha256.hash(this.state.password);
+		const passHash = sjcl.codec.hex.fromBits(hashBitArray);
+		this.signIn(this.state.email, passHash)
+        event.preventDefault();
+      }
+    
+      render() {
+        return (
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Email:
               <input type="text" value={this.state.value} onChange={this.handleChange} />
-				</label>
+				</label >
 				<br></br>
 				<label>
-					Password:
+		Password:
               <input type="password" value={this.state.value} onChange={this.handleChange} />
 				</label>
 				<input type="submit" value="Submit" />
-			</form>
+			</form >
 
 		);
 	}

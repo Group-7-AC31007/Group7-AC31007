@@ -14,7 +14,7 @@ export default class QuestionnaireCreator extends Component {
 
     createButtonHandler() {
         let questionsCopy = this.state.questions
-        let obj = { type: this.state.selectValue, value: null, display: true, ID: questionsCopy.length }
+        let obj = { type: this.state.selectValue, value: null, display: true, id: questionsCopy.length }
 
         questionsCopy.push(obj)
         this.setState({ questions: questionsCopy })
@@ -26,38 +26,41 @@ export default class QuestionnaireCreator extends Component {
 
     }
 
+
     submitButtonHandler() {
-		const reqOpts = {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(this.state.questions)
-		}
-		console.log(this.state.questions);
-		fetch('http://localhost:3001/create_quiz', reqOpts).then(response => {
-			response.json().then(json => {
-				if (json == "COULD NOT CREATE QUESTIONNAIRE") {
-					alert('Could not create questionnaire!');
-					console.log("COULD NOT CREATE QUESTIONNAIRE");
-				} else {
-					alert('Questionnaire successfully created!');
-					console.log("QUESTIONNAIRE SUCCESSFULLY CREATED")
-				}
-			});
-		});
+        let questionsCopy = this.state.questions
+        let result = { researchNo: 0, projectID: 0, questions: questionsCopy }
+        const reqOpts = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(result)
+        }
+        console.log(this.state.questions);
+        fetch('http://localhost:3001/create_quiz', reqOpts).then(response => {
+            response.json().then(json => {
+                if (json == "COULD NOT CREATE QUESTIONNAIRE") {
+                    alert('Could not create questionnaire!');
+                    console.log("COULD NOT CREATE QUESTIONNAIRE");
+                } else {
+                    alert('Questionnaire successfully created!');
+                    console.log("QUESTIONNAIRE SUCCESSFULLY CREATED")
+                }
+            });
+        });
     }
 
     deleteButtonHandler(question) {
         let questionsCopy = this.state.questions
         console.log(question)
         for (let x = 0; x < questionsCopy.length; x++) {
-            if (questionsCopy[x].ID === question.ID) {
+            if (questionsCopy[x].id === question.id) {
                 questionsCopy.splice(x, 1)
                 console.log(questionsCopy)
                 break;
             }
         }
         for (let x = 0; x < questionsCopy.length; x++) {
-            questionsCopy[x].ID = x
+            questionsCopy[x].id = x
         }
         this.setState({ questions: questionsCopy })
     }
@@ -68,9 +71,9 @@ export default class QuestionnaireCreator extends Component {
     render() {
 
         let questionList = this.state.questions.map((current) =>
-        (current.type === "YesNo" ? (<YesNo key={current.ID} handler={(q) => this.questionChangeHandler(q)} deleteHandler={(q) => this.deleteButtonHandler(q)} information={current} ></YesNo>) :
-            current.type === "TextInput" ? (<TextInput key={current.ID} handler={(q) => this.questionChangeHandler(q)} deleteHandler={(q) => this.deleteButtonHandler(q)} information={current}></TextInput>) :
-                (<PredefinedList key={current.ID} handler={(q) => this.questionChangeHandler(q)} deleteHandler={(q) => this.deleteButtonHandler(q)} information={current}></PredefinedList>)))
+        (current.type === "YesNo" ? (<YesNo key={current.id} handler={(q) => this.questionChangeHandler(q)} deleteHandler={(q) => this.deleteButtonHandler(q)} information={current} ></YesNo>) :
+            current.type === "TextInput" ? (<TextInput key={current.id} handler={(q) => this.questionChangeHandler(q)} deleteHandler={(q) => this.deleteButtonHandler(q)} information={current}></TextInput>) :
+                (<PredefinedList key={current.id} handler={(q) => this.questionChangeHandler(q)} deleteHandler={(q) => this.deleteButtonHandler(q)} information={current}></PredefinedList>)))
         return (
             <div>
                 <div className="quest-creator-wrapper">
@@ -95,10 +98,10 @@ export default class QuestionnaireCreator extends Component {
                         <option value="TextInput"> Text Input </option>
                         <option value="YesNo"> Yes/No </option>
                     </select>
-                    <div>
-                        <button onClick={() => this.submitButtonHandler()} type="button" className="quest-creator-submitQuestionnaire-button"> Submit Questionnaire </button>
-                    </div>
                     {questionList}
+                </div>
+                <div>
+                    <button onClick={() => this.submitButtonHandler()} type="button" className="quest-creator-submitQuestionnaire-button"> Submit Questionnaire </button>
                 </div>
             </div>
         )

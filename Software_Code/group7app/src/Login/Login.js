@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Login.css'
+import sjcl from 'sjcl'
 export default class Login extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +22,9 @@ export default class Login extends Component {
       
       //this.state.email and this.state.password are essentially variables holding the relevant data.
       handleSubmit(event) {
-        alert('A email was submitted: ' + this.state.email + ' Password: ' + this.state.password);
+        const hashBitArray = sjcl.hash.sha256.hash(this.state.password);
+        const Hash = sjcl.codec.hex.fromBits(hashBitArray);
+        alert('A email was submitted: ' + this.state.email + ' Password: ' + Hash);
         event.preventDefault();
       }
     

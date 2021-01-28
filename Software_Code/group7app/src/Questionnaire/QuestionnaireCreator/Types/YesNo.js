@@ -30,7 +30,8 @@ export default class YesNo extends Component {
                         onChange={(e) => (this.handler(e.target.value))} />
 
                 </div>
-                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-yesNo-question-delete-button">
+                
+                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-yesNo-question-delete-button delete-button">
                     Delete
                 </button>
             </div>

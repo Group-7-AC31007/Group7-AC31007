@@ -63,7 +63,8 @@ export default class PredefinedList extends Component {
                         </ul>
                     </div>
                 </div>
-                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-yesNo-question-delete-button">
+                
+                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-predefinedList-question-delete-button delete-button">
                     Delete
                 </button>
                 

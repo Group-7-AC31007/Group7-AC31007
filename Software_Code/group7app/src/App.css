@@ -7,6 +7,12 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Comfortaa', cursive;
+    height: 100%;
+
+}
+
+html {
+    height: 100%;
 }
 
 /* ------------------------------------------------------ HEADER ----------------------------------------------------------- */
@@ -15,7 +21,6 @@ header {
     padding: 20px 15%;
     background-color: #4365E2; /* Using University of Dundee palette*/
 }
-
 
 #listHeader {
     list-style-type: none;
@@ -48,11 +53,29 @@ header {
 
 
 /* ----------------------------------------------------- FOOTER -----------------------------------------------------------------*/
+.container {
+    overflow: auto;
+    padding-bottom: 38px;
+}
+
+.biggerContainer {
+    min-height:100vh;
+}
+
+#root {
+    height:100%;
+}
+
 
 footer {
     padding: 20px 150px;
     background-color: #DDD9D6;
     text-transform: uppercase;
+    position: relative;
+    margin-top: -38px; /* negative value of footer height */
+    height: 18px;
+    clear:both;
+    padding-top:20px;
 }
 
 footer div p {

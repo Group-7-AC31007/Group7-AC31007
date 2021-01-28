@@ -1,5 +1,6 @@
 /* Importing the font family from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+
 /* ---------------------------------------------------------------------------------------------------------------------------*/
 
 body {
@@ -24,7 +25,6 @@ body {
     color: black;
     background-color: #D1E2F2;   
     
-
 }
 
 .quest-creator-icons-wrapper {
@@ -45,11 +45,11 @@ button {
     border: none;
     display: block;
     margin: 0;
-    padding: 5px 20px;
+    padding: 5px 10px;
     background-color: #D1E2F2;
     font-family: 'Comfortaa', cursive;
     outline: solid 0.1px black;
-    transition: outline 0.2s linear; 
+    transition: outline 0.1s linear; 
     box-shadow: none;
 }
 
@@ -71,7 +71,7 @@ button:hover {
 }
 
 .quest-creator-newQuestion-button {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .quest-creator-type-wrapper {
@@ -83,7 +83,7 @@ button:hover {
 }
 
 .quest-creator-predefinedList-responses-button {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 select {
@@ -103,6 +103,18 @@ hr {
 {
     margin-top: 10px;
 }
+
+.quest-creator-yesNo-question-wrapper {
+    margin-bottom: 20px;
+}
+
+.quest-creator-textInput-question-wrapper {
+    margin-bottom: 10px;
+}
+
+
+
+
 
 
 

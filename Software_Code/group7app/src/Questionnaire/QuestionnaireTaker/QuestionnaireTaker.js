@@ -3,6 +3,8 @@ import YesNoTaker from './Types/YesNoTaker'
 import TextInputTaker from './Types/TextInputTaker';
 import PredefinedListTaker from './Types/PredefinedListTaker';
 
+import "./QuestionnaireTaker.css";
+
 
 export default class QuestionnaireTaker extends Component {
     constructor(props) {
@@ -20,7 +22,7 @@ export default class QuestionnaireTaker extends Component {
         current.type === "TextInput" ? (<TextInputTaker key = {key} handler = {()=>this.answerHandler()} question={current}></TextInputTaker>) : 
         (<PredefinedListTaker key = {key} handler = {()=>this.answerHandler()} question ={current}></PredefinedListTaker>)))
         return (
-            <div>
+            <div className="quest-taker-main-wrapper">
                 {questionList}
                 <button onClick={() => console.log(JSON.stringify(this.state.questions))}>Submit</button>
             </div>

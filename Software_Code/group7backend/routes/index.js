@@ -33,12 +33,16 @@ router.get("/test", async (req, res) => {
 	sendResponse(req, res, db.test);
 });
 
-router.post("/auth/signup", async(req, res) => {
+router.post("/signup", async(req, res) => {
 	sendResponse(req, res, db.signup);
 })
 
-router.post("/auth/signin", async(req, res) => {
+router.post("/signin", async(req, res) => {
 	sendResponse(req, res, db.signin);
+});
+
+router.post("/create_quiz", async(req, res) => {
+	sendResponse(req, res, db.createQuiz);
 });
 
 module.exports = router;

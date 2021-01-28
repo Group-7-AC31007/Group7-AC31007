@@ -1,9 +1,7 @@
 "use strict";
 
-const { query } = require("express");
 const mysql = require("mysql");
 const config = require("../config");
-const Connection = mysql.createConnection(config.mysql);
 
 const pool = mysql.createPool(config.mysql);
 
@@ -27,7 +25,7 @@ database.signup = (req) => {
 		let keys = Object.keys(req);
 		let vals = Object.values(req);
 		vals.forEach((element, ind) => {
-			vals[ind] = typeof(element) == "string" ?  `'${element.replace("'", "\\'")}'` : element;
+			vals[ind] = typeof (element) == "string" ? `'${element.replace("'", "\\'")}'` : element;
 		});
 
 		pool.query(`INSERT INTO Users (${keys.join(",")}) VALUES (${vals.join(",")});`, (err, results) => {
@@ -41,7 +39,7 @@ database.signup = (req) => {
 
 database.signin = (req) => {
 	return new Promise((resolve, reject) => {
-		const {email, hashPassword} = req;
+		const { email, hashPassword } = req;
 		pool.query(`SELECT * FROM sign_in WHERE email='${email}'`, (err, results) => {
 			if (err) {
 				return reject("NO SUCH USER");
@@ -51,6 +49,44 @@ database.signin = (req) => {
 			}
 			return resolve("LOGGED IN")
 		});
+	});
+};
+
+database.createQuiz = (req) => {
+	return new Promise((resolve, reject) => {
+		const { researchNo, projectID, questions } = req;
+		
+		let insertAnswer = (error, results, question, questionnaireID) => {
+			if (error) {
+				console.log(error);
+				return reject("COULD NOT CREATE QUESTION");
+			}
+			console.log(results);
+			let questionID = results[0].questionID;
+
+			for (i in question.responses) {
+				response = question.responses[i];
+				pool.query(`INSERT INTO Responses (questionnaireID, questionID, responseValue, orderID) 
+				VALUES (${questionnaireID}, ${questionID}, ${response.value}, ${response.id});`);
+			}
+		};
+		
+		let insertQuestions = (error, results) => {
+			if (error) {
+				console.log(error);
+				return reject("COULD NOT CREATE QUESTIONNAIRE");
+			}
+			console.log(results);
+			let questionnaireID = results[0].questionnairesID;
+
+			for (i in questions) {
+				pool.query(`CALL insert_question(${questionnaireID}, 
+					'${questions[i].type}', '${question[i].value.question}', '${question[i].id}');`,
+					(err, res) => insertAnswer(err, res, questions[i], questionnaireID));
+			}
+		};
+
+		pool.query(`SELECT insert_questionnaire(${projectID}, ${researchNo});`, (err, res) => insertQuestions(err, res));
 	});
 };
 

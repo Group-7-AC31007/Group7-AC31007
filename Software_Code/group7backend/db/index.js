@@ -87,9 +87,15 @@ database.createQuiz = (req) => {
 			console.log(questions);
 
 			for (let i in questions) {
-				pool.query(`SELECT insert_question(${questionnaireID}, ` +
+				if (questions[i].type === "PredefinedList") {
+					pool.query(`SELECT insert_question(${questionnaireID}, ` +
 					`'${questions[i].type}', '${questions[i].value.question}', '${questions[i].id}');`,
 					(err, res) => insertResponses(err, res, questions[i], questionnaireID));
+				} else {
+					pool.query(`SELECT insert_question(${questionnaireID}, ` +
+					`'${questions[i].type}', '${questions[i].value}', '${questions[i].id}');`,
+					(err, res) => insertResponses(err, res, questions[i], questionnaireID));
+				}
 			}
 		};
 

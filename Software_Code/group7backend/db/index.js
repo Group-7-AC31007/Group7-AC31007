@@ -66,8 +66,8 @@ database.createQuiz = (req) => {
 
 			for (let i in question.responses) {
 				let response = question.responses[i];
-				pool.query(`INSERT INTO Responses (questionnaireID, questionID, responseValue, orderID) ` +
-				`VALUES (${questionnaireID}, ${questionID}, ${response.value}, ${response.id});`, (err, res) => {
+				pool.query(`INSERT INTO Responses (questionnairesID, questionID, responseValue, orderID) ` +
+				`VALUES (${questionnaireID}, ${questionID}, '${response.value}', ${response.id});`, (err, res) => {
 					if (err) {
 						return reject("COULD NOT CREATE RESPONSE")
 					}

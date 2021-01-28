@@ -72,6 +72,7 @@ export default class QuestionnaireCreator extends Component {
                     </div>
 
                     <div className="quest-creator-type-wrapper">
+                    <hr/>
                         <label className="quest-creator-type-label" htmlFor="quest-creator-type-dropdown"> Type of question: </label>
                         <select value={this.state.selectValue} onChange={(e) => { this.setState({ selectValue: e.target.value }); console.log(e.target.value) }} className="quest-creator-type-dropdown" name="quest-creator-type-dropdown">
                             <option value="PredefinedList"> Predefined List </option>

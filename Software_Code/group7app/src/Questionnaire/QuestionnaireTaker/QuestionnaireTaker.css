@@ -38,3 +38,9 @@ body {
     padding: 5px 0;
     font-weight: bold;
 }
+
+.submit-answer-button{
+    padding: 10px 20px;
+    float: right;
+
+}

@@ -24,7 +24,7 @@ export default class QuestionnaireTaker extends Component {
         return (
             <div className="quest-taker-main-wrapper">
                 {questionList}
-                <button onClick={() => console.log(JSON.stringify(this.state.questions))}>Submit</button>
+                <button className="submit-answer-button" onClick={() => console.log(JSON.stringify(this.state.questions))}>Submit</button>
             </div>
         )
     }

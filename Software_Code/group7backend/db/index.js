@@ -39,17 +39,19 @@ database.signup = (req) => {
 	});
 };
 
+// Check if entered email and hashPassword matches ones in the DB
 database.signin = (req) => {
 	return new Promise((resolve, reject) => {
 		const {email, hashPassword} = req;
 		pool.query(`SELECT * FROM sign_in WHERE email='${email}'`, (err, results) => {
-			if (err) {
+			console.log(results);
+			if (err || results[0] == undefined) {
 				return reject("NO SUCH USER");
 			}
 			if (results[0].hashPassword != hashPassword) {
-				return reject("NOMATCH PASS")
+				return reject("NOMATCH PASS");
 			}
-			return resolve("LOGGED IN")
+			return resolve("LOGGED IN");
 		});
 	});
 };

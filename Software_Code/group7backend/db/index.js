@@ -64,8 +64,8 @@ database.createQuiz = (req) => {
 			console.log(results);
 			let questionID = results[0][Object.keys(results[0])[0]];
 
-			for (let i in question.responses) {
-				let response = question.responses[i];
+			for (let i in question.value.responses) {
+				let response = question.value.responses[i];
 				pool.query(`INSERT INTO Responses (questionnairesID, questionID, responseValue, orderID) ` +
 				`VALUES (${questionnaireID}, ${questionID}, '${response.value}', ${response.id});`, (err, res) => {
 					if (err) {

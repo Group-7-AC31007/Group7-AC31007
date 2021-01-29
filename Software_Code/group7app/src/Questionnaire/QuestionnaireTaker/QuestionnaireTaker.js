@@ -57,12 +57,12 @@ export default class QuestionnaireTaker extends Component {
         });
     }
     questionListHandler() {
-        let QuestionnaireID = 47
+        let questionnairesID = 47
 
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ QuestionnaireID })
+            body: JSON.stringify({ questionnairesID })
         }
         fetch('http://localhost:3001/get_quiz', reqOpts).then(response => {
             response.json().then(json => {

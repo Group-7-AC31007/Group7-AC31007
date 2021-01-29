@@ -151,10 +151,12 @@ database.getQuiz = (req) => {
 		const { questionnairesID } = req;
 		let buildJson = (error, results) => {
 			if (error) {
+				console.log(error);
 				return reject("COULD NOT GET QUESTIONS");
 			}
 			let promiseArray = [];
 			let questionnaire = [];
+			console.log(results);
 			for (let i in results) {
 				promiseArray.push(new Promise((inner_resolve, inner_reject) => {
 					let question = results[i];

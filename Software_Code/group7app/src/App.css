@@ -7,8 +7,11 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Comfortaa', cursive;
-    min-height: 100%;
-   
+
+    /*new*/
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -78,17 +81,18 @@ header {
 footer {
     padding: 20px 15%;
     background-color: #DDD9D6;
+    
     text-transform: uppercase;
     /* margin-top: -38px; negative value of footer height */
     height: 18px;
     clear:both;
     padding-top:20px;
 
-    position: fixed;
+    /* position: fixed; */
     left: 0;
     bottom: 0;
     right: 0;
-    width: 100%;
+    /* width: 100%; */
 }
 
 footer div p {

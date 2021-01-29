@@ -27,6 +27,7 @@ html {
 header {
     padding: 20px 15%;
     background-color: #4365E2; /* Using University of Dundee palette*/
+    float: right;
 }
 
 #listHeader {
@@ -54,6 +55,17 @@ header {
     text-transform: uppercase;
     color:white ;
     /*transition: border-style 0.2s linear;*/
+
+}
+
+.logo {
+    float: left;
+}
+
+.logo {
+    display: block;
+    width: 120px;
+    filter: brightness(0) invert(1);
 
 }
 

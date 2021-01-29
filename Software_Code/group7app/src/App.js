@@ -12,6 +12,7 @@ import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
+import logo from './logo.png'
 
 
 let callApi = async (endpoint = "") => {
@@ -56,6 +57,7 @@ function App() {
     <Router>
         <div className='container'>
           <header>
+            <img className="logo" src={logo} />
             <ul id="listHeader">
               <li> <Link to="/">Home </Link> </li>
               <li> <Link to="/login">Login </Link> </li>
@@ -86,6 +88,7 @@ function App() {
           <div> 
             <p> Footer </p>
           </div>
+          
         </footer>
           
         </div>

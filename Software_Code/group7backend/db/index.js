@@ -42,7 +42,7 @@ database.signup = (req) => {
 database.signin = (req) => {
 	return new Promise((resolve, reject) => {
 		const { email, hashPassword } = req;
-		pool.query(`SELECT * FROM sign_in WHERE email='${email}'`, (err, results) => {
+		pool.query(`SELECT * FROM Users WHERE email='${email}'`, (err, results) => {
 			console.log(results);
 			if (err || results[0] == undefined) {
 				return reject("NO SUCH USER");
@@ -50,7 +50,7 @@ database.signin = (req) => {
 			if (results[0].hashPassword != hashPassword) {
 				return reject("NOMATCH PASS");
 			}
-			return resolve("LOGGED IN");
+			return resolve(results[0]);
 		});
 	});
 };

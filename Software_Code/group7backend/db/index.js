@@ -133,6 +133,7 @@ database.getProjectList = (req) => {
 // Get the list of questionnaires available for the project
 database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {
+		console.log(req);
 		const {projectID} = req;
 		pool.query(`SELECT * FROM Questionnaires WHERE projectID=${projectID}`, (err, res) => {
 			if (err) {

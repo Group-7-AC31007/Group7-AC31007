@@ -3,30 +3,51 @@
 }
 
 .login-form-wrapper {
-    background-image: url('backgroundPic.jpg');
+    background-image: url('garden.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     padding: 100px 0;
     height: 100%;
+    position: relative;
 }
 
 .login-form {
     box-sizing: border-box;
-    padding: 20px 40px;
-    margin: 0 30%;
-    background-color: rgba(209,226,242,0.8);
+    padding: 30px;
+    background-color: rgba(255,255,255,0.8);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     
 }
 
 .login-submit-button {
     display: block;
     margin: 0 auto;
+    margin-top: 20px;
+    border: none;
+    padding: 10px 20px;
+    background-color: #D1E2F2;
+    font-family: 'Comfortaa', cursive;
+    outline: solid 0.1px black;
+    transition: outline 0.1s linear; 
+    box-shadow: none;
+}
+
+.login-submit-button:hover {
+    outline: solid 2px #4365E2;
+    color: #4365E2;
 }
 
 .login-form label {
-    
     margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.login-form label input {
+    margin-left: 10px;
 }
 
 .login-form label input {

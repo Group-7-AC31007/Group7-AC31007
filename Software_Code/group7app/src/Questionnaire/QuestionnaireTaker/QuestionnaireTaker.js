@@ -23,8 +23,8 @@ export default class QuestionnaireTaker extends Component {
 
         fetch('http://localhost:3001/get_project_list', reqOpts).then(response => {
             response.json().then(json => {
-                if (json == "COULD NOT CREATE QUESTIONNAIRE") {
-                    alert('Could not create questionnaire!');
+                if (json == "COULD NOT GET LIST OF PROJECTS") {
+                    alert('Could not get list of projects!');
                     console.log(json);
                 } else {
                     console.log(json)
@@ -57,7 +57,7 @@ export default class QuestionnaireTaker extends Component {
         });
     }
     questionListHandler() {
-        let QuestionnaireID = 21
+        let QuestionnaireID = 47
 
         const reqOpts = {
             method: 'POST',

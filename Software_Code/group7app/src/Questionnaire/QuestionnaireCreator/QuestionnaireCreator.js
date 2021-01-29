@@ -8,13 +8,18 @@ export default class QuestionnaireCreator extends Component {
     constructor(props) {
         super(props) /* Calls the parent constructor */
         this.questions = []
-        this.state = { selectValue: "PredefinedList", questions: [] }
+        this.state = { selectValue: "PredefinedList", questions: [], submitError: false }
 
     }
 
     createButtonHandler() {
         let questionsCopy = this.state.questions
-        let obj = { type: this.state.selectValue, value: null, display: true, ID: questionsCopy.length }
+
+        let ID_listnotempty = questionsCopy.length ? questionsCopy[questionsCopy.length - 1].id + 1 : 0 // increment safely           
+        let obj = {
+            type: this.state.selectValue, value: null, display: true,
+            id: ID_listnotempty
+        } // increment id for key prop // ter
 
         questionsCopy.push(obj)
         this.setState({ questions: questionsCopy })
@@ -26,31 +31,99 @@ export default class QuestionnaireCreator extends Component {
 
     }
 
+
+    submitButtonHandler() {
+        //handle quiz is not complete
+        let hasError = false
+        if (!this.state.questions.length) {
+            hasError = true
+        }
+        for (let x in this.state.questions) {
+            if (this.state.questions[x].type != "PredefinedList") {
+                if (!this.state.questions[x].value || this.state.questions[x].value == "") {
+                    console.log("empty question", this.state.questions[x]);
+                    hasError = true
+                }
+            } else {
+                console.log(this.state.questions[x]);
+                if (!this.state.questions[x].value || !this.state.questions[x].value.question || this.state.questions[x].value.question == "") {
+                    console.log("empty question", this.state.questions[x]);
+                    hasError = true
+                } else {
+                }
+
+                if (!!this.state.questions[x].value && this.state.questions[x].value.responses.length) {
+                    for (let y in this.state.questions[x].value.responses) {
+                        if (!this.state.questions[x].value.responses[y].value || this.state.questions[x].value.responses[y].value.trim() == "") {
+                            hasError = true
+                        }
+                    }
+                } else {
+                    hasError = true
+                }
+            }
+        }
+
+        // is complete we can continue 
+
+        this.setState({ submitError: hasError })
+        if (hasError) {
+            return
+        }
+        let questionsCopyNormalised = this.state.questions.map((cur, ind) => { cur.id = ind; return cur })// return a copy of the state with index's normalisd
+        let result = { researchNo: 0, projectID: 0, questions: questionsCopyNormalised } // prepare json for sending with research & project ID 
+        const reqOpts = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(result)
+        }
+        console.log(result);
+        fetch('http://localhost:3001/create_quiz', reqOpts).then(response => {
+            response.json().then(json => {
+                if (json == "COULD NOT CREATE QUESTIONNAIRE") {
+                    alert('Could not create questionnaire!');
+                    console.log(json);
+                } else {
+                    alert('Questionnaire successfully created!');
+                    console.log(json)
+                }
+            });
+        });
+    }
+
     deleteButtonHandler(question) {
         let questionsCopy = this.state.questions
         console.log(question)
         for (let x = 0; x < questionsCopy.length; x++) {
-            if (questionsCopy[x].ID === question.ID) {
-                questionsCopy.splice(x,1)
-                console.log(questionsCopy)
+            if (questionsCopy[x].id === question.id) {
+                questionsCopy.splice(x, 1)
                 break;
             }
         }
         for (let x = 0; x < questionsCopy.length; x++) {
-            questionsCopy[x].ID = x
+            questionsCopy[x].id = x
         }
-        this.setState({questions:questionsCopy})
+        this.setState({ questions: questionsCopy })
     }
     questionChangeHandler() {
         let questionsCopy = this.state.questions
-        this.setState({questions:questionsCopy})
+        this.setState({ questions: questionsCopy })
     }
     render() {
 
-        let questionList = this.state.questions.map((current) => 
-        (current.type === "YesNo" ? (<YesNo key={current.ID} handler= {(q)=> this.questionChangeHandler(q)}  deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current} ></YesNo>) : 
-        current.type === "TextInput" ? (<TextInput key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current}></TextInput>) : 
-        (<PredefinedList key={current.ID} handler= {(q)=> this.questionChangeHandler(q)} deleteHandler= {(q)=> this.deleteButtonHandler(q)} information={current}></PredefinedList>)))
+        let createProps = (cur) => {
+            return {
+                handler: (q) => this.questionChangeHandler(q),
+                deleteHandler: (q) => this.deleteButtonHandler(q),
+                key: cur.id,
+                information: cur,
+            }
+        }
+        let questionList = this.state.questions.map((current) =>
+        (current.type === "YesNo" ? (<YesNo {...createProps(current)}></YesNo>) :
+            current.type === "TextInput" ? (<TextInput {...createProps(current)}></TextInput>) :
+                (<PredefinedList {...createProps(current)}></PredefinedList>)))
+        console.log(this.state.questions)
         return (
                 <div className="quest-creator-wrapper">
                     <div className="quest-creator-icons-wrapper">
@@ -58,6 +131,9 @@ export default class QuestionnaireCreator extends Component {
                         <i className="fa fa-laptop" style={{fontSize:"60px"}}></i>
                         <i className="fa fa-file-text" style={{fontSize:"60px"}}></i>
                     </div>
+                    {this.state.submitError == true ? <div className="quest-creator-error">
+                        Errors Below Please ammend
+                    </div> : null}
                     <div className="quest-creator-research-wrapper">
                         <label className="quest-creator-research-label" htmlFor="quest-creator-research-dropdown"> Researches: </label>
                         <select className="quest-creator-research-dropdown" name="quest-creator-research-dropdown">
@@ -85,6 +161,11 @@ export default class QuestionnaireCreator extends Component {
 
                     {questionList}
                 </div>
+
+                <div>
+                    <button onClick={() => this.submitButtonHandler()} type="button" className="quest-creator-submitQuestionnaire-button"> Submit Questionnaire </button>
+                </div>
+            </div>
         )
     }
 }

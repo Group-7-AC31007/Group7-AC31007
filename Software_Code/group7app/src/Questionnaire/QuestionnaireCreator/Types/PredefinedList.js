@@ -28,7 +28,7 @@ export default class PredefinedList extends Component {
         } else if (info.value.responses == null) {
             info.value = { question: info.value.question, responses: [] }
         }
-        let obj = { ID: info.value.responses.length, value: "" }
+        let obj = { id: info.value.responses.length, value: "" }
         info.value.responses.push(obj)
         this.questionHandler(info)
     }
@@ -36,7 +36,7 @@ export default class PredefinedList extends Component {
         current.value = e.target.value
         let info = this.state
         for (let x = 0; x < info.value.responses.length; x++) {
-            if (info.value.responses[x].ID == current.ID) {
+            if (info.value.responses[x].id == current.id) {
                 info.value.responses[x] = current
                 break;
             }
@@ -44,7 +44,7 @@ export default class PredefinedList extends Component {
         this.questionHandler(info)
     }
     render() {
-        let responses = (this.state.value != null && this.state.value.responses != null) ? this.state.value.responses.map((current) => (<li key={current.ID} ><input onChange={(e) => this.responsesHandler(e, current)} className="quest-creator-predefinedList-response-textField" type="text" value={current.value} /> </li>)) : []
+        let responses = (this.state.value != null && this.state.value.responses != null) ? this.state.value.responses.map((current) => (<li key={current.id} ><input onChange={(e) => this.responsesHandler(e, current)} className="quest-creator-predefinedList-response-textField" type="text" value={current.value} /> </li>)) : []
         return (
             <div className="quest-creator-predefinedList-wrapper questions">
                 <hr/>

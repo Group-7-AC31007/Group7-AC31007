@@ -8,7 +8,7 @@ export default class Login extends Component {
     super(props);
     this.history = props.history
 
-    this.state = { email: '', password: '', user: props.user };
+    this.state = { email: '', password: '', user: props.user.user, id: props.user.id };
     this.userCallback = props.userCallback
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,6 +26,13 @@ export default class Login extends Component {
       this.setState({ email: event.target.value })
     }
   }
+  componentWillUnmount() {
+    var id = window.setTimeout(function () { }, 0);
+
+    while (id--) {
+      window.clearTimeout(id); // will do nothing if no timeout with id is present
+    }
+  }
 
   signIn = (email, hashPassword) => {
     const reqOpts = {
@@ -39,14 +46,19 @@ export default class Login extends Component {
         if (json == "NO SUCH USER") {
           console.log("NO SUCH USER");
         } else {
-          const expires = (60 * 60) * 1000
-          const inOneHour = new Date(new Date().getTime() + expires)
-          alert('Signed in with the email: ' + this.state.email);
-          Cookies.set('access_token', email + "#logged-in", { expires: inOneHour })
-          this.handleUser(email)
-          setTimeout(() => {
-            this.history.push("/")
-          }, 1000);
+          if (hashPassword == json.hashPassword) {
+            console.log(json);
+            const expires = (60 * 60) * 1000
+            const inOneHour = new Date(new Date().getTime() + expires)
+            alert('Signed in with the email: ' + this.state.email);
+            Cookies.set('access_token', json.email + "#" + json.usersID + "#logged-in", { expires: inOneHour })
+            this.handleUser({ user: json.email, id: json.usersID })
+            setTimeout(() => {
+              this.history.push("/")
+            }, 1000);
+          } else {
+            alert('Incorrect password: ' + this.state.email);
+          }
         }
       });
     });
@@ -61,8 +73,8 @@ export default class Login extends Component {
   }
 
   render() {
-    console.log(Cookies.getJSON('access_token'));
-    if (Cookies.get('access_token') == this.state.user + "#logged-in") {
+    if (Cookies.get('access_token') == this.state.user + "#" + this.state.id + "#logged-in") {
+      console.log("got in");
       return (
         <div>
           <div>{this.state.user}</div>

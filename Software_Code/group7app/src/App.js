@@ -27,11 +27,14 @@ function App() {
   callApi("test").then(res => console.log(res)).catch(err => console.log(err));
   console.log("reloading-app");
   let userStateStart = ""
+  let idStateStart = ""
   if (!!Cookies.get('access_token')) {
     userStateStart = Cookies.get('access_token').split("#")[0]
+    idStateStart = Cookies.get('access_token').split("#")[1]
   }
 
-  const [user, setUser] = useState(userStateStart)
+  const [user, setUser] = useState({user:userStateStart,id:idStateStart})
+  console.log(user);
   let homeWrapper = (props) => {
     return (
       <Home history={props.history}></Home>

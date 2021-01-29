@@ -19,14 +19,36 @@ let callApi = async (endpoint = "") => {
   return body;
 };
 function App() {
+
   callApi("test").then(res => console.log(res)).catch(err => console.log(err));
   console.log("reloading-app");
   let userStateStart = ""
-  if(!!Cookies.get('access_token')){
+  if (!!Cookies.get('access_token')) {
     userStateStart = Cookies.get('access_token').split("#")[0]
   }
+
   const [user, setUser] = useState(userStateStart)
-  
+  let homeWrapper = (props) => {
+    return (
+      <Home history={props.history}></Home>
+    )
+
+  }
+  let loginWrapper = (props) => {
+    return (
+      <Login history={props.history} user={user} userCallback={(a) => setUser(a)}></Login>
+    )
+  }
+  let registrationWrapper = (props) => {
+    return (
+      <Registration history={props.history} user={user} ></Registration>
+    )
+  }
+  let questionnaireWrapper = (props) =>{
+    return(
+      <Questionnaire history = {props.history} user={user}></Questionnaire>
+    )
+  }
   return (
     <Router>
       <div>
@@ -54,19 +76,17 @@ function App() {
           you have multiple routes, but you want only one
           of them to render at a time
         */}
-        
-          <Route exact path="/">
-            <Home></Home>
-          </Route>
-          <Route path="/login">
-            <Login user={user} userCallback={(a) => setUser(a)}></Login>
-          </Route>
-          <Route path="/questionnaire">
-            <Questionnaire user={user}></Questionnaire>
-          </Route>
-          <Route path="/registration">
-           <Registration></Registration>
-          </Route>
+
+        <Route exact path="/" component={homeWrapper}>
+
+        </Route>
+        <Route path="/login" component={loginWrapper}>
+        </Route>
+        <Route path="/questionnaire" component={questionnaireWrapper}>
+
+        </Route>
+        <Route path="/registration" component={registrationWrapper}>
+        </Route>
       </div>
     </Router>
   );

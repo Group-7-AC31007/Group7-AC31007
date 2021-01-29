@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 export default class Questionnaire extends Component {
     constructor(props) {
         super(props)
+        this.history = props.history
         this.state = { user: props.user }
     }
     render() {
@@ -18,8 +19,14 @@ export default class Questionnaire extends Component {
                 </div>
             )
         } else {
+            setTimeout(() => {
+                this.history.push("/login")
+            }, 1000)
             return (
-               <Redirect to ="/login"></Redirect>
+              <div>
+                  Redirecting to login
+                  
+              </div>
             )
         }
 

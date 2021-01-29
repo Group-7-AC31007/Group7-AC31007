@@ -8,7 +8,7 @@ body {
     padding: 0;
     font-family: 'Comfortaa', cursive;
     min-height: 100%;
-    position: relative;
+   
 
 }
 
@@ -59,6 +59,11 @@ header {
     overflow: auto;
     min-height: 100%;
     position: relative; 
+
+    /*new*/
+    height: 100vh;
+    display: flex; 
+    flex-direction: column; 
 }
 
 .biggerContainer {

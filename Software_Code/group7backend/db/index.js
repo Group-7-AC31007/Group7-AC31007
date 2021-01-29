@@ -37,12 +37,14 @@ database.signup = (req) => {
 	});
 };
 
+
 // Check if a user exists in the database and if the password hashes match
 database.signin = (req) => {
 	return new Promise((resolve, reject) => {
 		const { email, hashPassword } = req;
 		pool.query(`SELECT * FROM sign_in WHERE email='${email}'`, (err, results) => {
-			if (err) {
+			console.log(results);
+			if (err || results[0] == undefined) {
 				return reject("NO SUCH USER");
 			}
 			if (results[0].hashPassword != hashPassword) {

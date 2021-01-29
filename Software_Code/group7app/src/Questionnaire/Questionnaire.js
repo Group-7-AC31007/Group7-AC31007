@@ -21,7 +21,7 @@ export default class Questionnaire extends Component {
     render() {
         console.log(Cookies.get('access_token') );
         console.log(this.state.user+"#logged-in" == Cookies.get('access_token'));
-        if (Cookies.get('access_token') == this.state.user + "#logged-in") {
+        // if (Cookies.get('access_token') == this.state.user + "#logged-in") {
             return (
                 <div>
                    <Router>
@@ -51,17 +51,18 @@ export default class Questionnaire extends Component {
             </Router>
                 </div>
             )
-        } else {
-            setTimeout(() => {
-                this.history.push("/login")
-            }, 1000)
-            return (
-              <div>
-                  Redirecting to login
+        // }
+        // else {
+        //     setTimeout(() => {
+        //         this.history.push("/login")
+        //     }, 1000)
+        //     return (
+        //       <div>
+        //           Redirecting to login
                   
-              </div>
-            )
-        }
+        //       </div>
+        //     )
+        // }
         
     }
 }

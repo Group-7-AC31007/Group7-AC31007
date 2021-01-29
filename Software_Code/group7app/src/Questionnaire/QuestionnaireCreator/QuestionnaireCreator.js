@@ -125,39 +125,48 @@ export default class QuestionnaireCreator extends Component {
                 (<PredefinedList {...createProps(current)}></PredefinedList>)))
         console.log(this.state.questions)
         return (
-            <div>
-                <div className="quest-creator-wrapper">
-                    {this.state.submitError == true ? <div className="quest-creator-error">
-                        Errors Below Please ammend
+            <div className="quest-creator-wrapper">
+                <div className="quest-creator-icons-wrapper">
+                    <i className="fa fa-book" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-laptop" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-file-text" style={{ fontSize: "60px" }}></i>
+                </div>
+                {this.state.submitError == true ? <div className="quest-creator-error">
+                    Errors Below Please ammend
                     </div> : null}
+                <div className="quest-creator-research-wrapper">
+                    <label className="quest-creator-research-label" htmlFor="quest-creator-research-dropdown"> Researches: </label>
+                    <select className="quest-creator-research-dropdown" name="quest-creator-research-dropdown">
+                        <option value="oneOption"> Research1 </option>
+                        <option value="oneOption"> Research2 </option>
+                        {/* Link to already existing researches drom db */}
+                    </select>
+                </div>
+                <div className="quest-creator-name-wrapper">
+                    <label className="quest-creator-name-label" htmlFor="quest-creator-name-value"> Name of questionnaire: </label>
+                    <input className="quest-creator-name-value" type="text" name="quest-creator-name-value" />
+                </div>
 
-                    <div className="quest-creator-research-wrapper">
-                        <label className="quest-creator-research-label" htmlFor="quest-creator-research-dropdown"> Researches: </label>
-                        <select className="quest-creator-research-dropdown" name="quest-creator-research-dropdown">
-                            <option value="oneOption"> Research1 </option>
-                            <option value="oneOption"> Research2 </option>
-                            {/* Link to already existing researches drom db */}
-                        </select>
-                    </div>
-                    <div className="quest-creator-name-wrapper">
-                        <label className="quest-creator-name-label" htmlFor="quest-creator-name-value"> Name of questionnaire: </label>
-                        <input className="quest-creator-name-value" type="text" name="quest-creator-name-value" />
-                    </div>
-
-                    <button onClick={() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button"> New Question </button>
-
-                    <label className="quest-creator-type-label" htmlFor="quest-creator-type-dropdown"> </label>
+                <div className="quest-creator-type-wrapper">
+                    <hr />
+                    <label className="quest-creator-type-label" htmlFor="quest-creator-type-dropdown"> Type of question: </label>
                     <select value={this.state.selectValue} onChange={(e) => { this.setState({ selectValue: e.target.value }); console.log(e.target.value) }} className="quest-creator-type-dropdown" name="quest-creator-type-dropdown">
                         <option value="PredefinedList"> Predefined List </option>
                         <option value="TextInput"> Text Input </option>
                         <option value="YesNo"> Yes/No </option>
                     </select>
-                    {questionList}
                 </div>
+
+                <button onClick={() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button button"> New Question </button>
+
+                {questionList}
                 <div>
                     <button onClick={() => this.submitButtonHandler()} type="button" className="quest-creator-submitQuestionnaire-button"> Submit Questionnaire </button>
                 </div>
             </div>
+
+
+
         )
     }
 }

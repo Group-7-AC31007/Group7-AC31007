@@ -1,0 +1,19 @@
+
+.questionnaireCreator-label {
+    margin: 0;
+    padding: 20px 15%;
+    background-color: white;
+    outline: solid 0.1px black;
+    
+}
+
+.questionnaireCreator-label a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #464646; 
+}
+
+.quest-nav-item {
+    padding-right: 20px;
+}

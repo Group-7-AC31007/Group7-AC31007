@@ -14,24 +14,26 @@ export default class YesNo extends Component {
         info.value = value
         this.questionHandler(info)
     }
-    deleteButtonHandler() {
+    deleteButtonHandler(e) {
         let info = this.state
         this.deleteHandler(info)
     }
 
     render() {
         return (
-            <div className="quest-creator-yesNo-wrapper">
-                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-yesNo-question-delete-button">
-                    Delete
-                </button>
+            <div className="quest-creator-yesNo-wrapper questions">
+                <hr />
+
                 <div className="quest-creator-yesNo-question-wrapper">
-                    <label className="quest-creator-yesNo-question-label" htmlFor="quest-creator-yesNo-question-textField"> Question(Yes/No): </label>
+                    <label className="quest-creator-yesNo-question-label" htmlFor="quest-creator-yesNo-question-textField"> Yes/No Question: </label>
                     <input className="quest-creator-yesNo-question-textField" type="text" name="quest-creator-yesNo-question-textField" value={this.state.value == null ? "" : this.state.value}
                         onChange={(e) => (this.handler(e.target.value))} />
 
                 </div>
-
+                
+                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-yesNo-question-delete-button delete-button">
+                    Delete
+                </button>
             </div>
         )
     }

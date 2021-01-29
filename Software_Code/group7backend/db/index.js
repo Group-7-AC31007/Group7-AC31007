@@ -118,7 +118,7 @@ database.createQuiz = (req) => {
 	});
 };
 
-database.getProjecList = (req) => {
+database.getProjectList = (req) => {
 	return new Promise((resolve, reject) => {
 		const {userID} = req;
 		pool.query(`SELECT * FROM Projects WHERE userID=${userID}`, (err, res) => {

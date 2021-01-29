@@ -64,7 +64,6 @@ export default class Login extends Component {
     console.log(Cookies.getJSON('access_token'));
     if (Cookies.get('access_token') == this.state.user + "#logged-in") {
       return (
-
         <div>
           <div>{this.state.user}</div>
           <button onClick={() => {
@@ -77,24 +76,33 @@ export default class Login extends Component {
 
     } else {
       return (
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Email:
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
-            </label >
-            <br></br>
-            <label>
-              Password:
-              <input type="password" value={this.state.value} onChange={this.handleChange} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form >
-
-
-        </div>
+         <div className="login-form-wrapper"> 
+            <form className="login-form" onSubmit={this.handleSubmit}>
+              <label>
+                Email:
+                <input type="text" value={this.state.value} onChange={this.handleChange} />
+                <div className="spacer" style={{clear:"both"}} > </div>              
+              </label>
+              <br></br>
+              <label>
+                Password:
+                <input type="password" value={this.state.value} onChange={this.handleChange} />
+                
+              </label>
+              <input  className="login-submit-button" type="submit" value="Submit" />
+            </form>
+          </div>
 
       );
     }
   }
+
+      }
+      
+    
+         
+          
+        );
+      }
+
 }

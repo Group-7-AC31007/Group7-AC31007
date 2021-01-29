@@ -1,0 +1,33 @@
+.login-form-wrapper {
+    background-image: url('backgroundPic.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    padding: 100px 0;
+}
+
+.login-form {
+    box-sizing: border-box;
+    padding: 20px 40px;
+    margin: 0 30%;
+    background-color: rgba(209,226,242,0.8);
+    
+}
+
+.login-submit-button {
+    display: block;
+    margin: 0 auto;
+}
+
+.login-form label {
+    
+    margin-bottom: 20px;
+}
+
+.login-form label input {
+    float: right;
+    background-color: transparent;
+    border: none;
+    border-bottom: solid 0.5px black;
+    width: 150px;
+}

@@ -1,9 +1,11 @@
+/* University of Dundee website inspired */ 
+
 .container {
     height: 100%;
 }
 
 .registration-form-wrapper {
-    background-image: url('riverside.jpg');
+    background-image: url('riverside.jpg'); /* Images taken from the website of University of Dundee */
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;

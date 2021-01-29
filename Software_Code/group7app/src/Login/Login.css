@@ -1,9 +1,14 @@
+.container {
+    height: 100%;
+}
+
 .login-form-wrapper {
     background-image: url('backgroundPic.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     padding: 100px 0;
+    height: 100%;
 }
 
 .login-form {

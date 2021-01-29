@@ -54,7 +54,6 @@ function App() {
   }
   return (
     <Router>
-      <div id="biggerContainer">
         <div className='container'>
           <header>
             <ul id="listHeader">
@@ -84,8 +83,6 @@ function App() {
         </Route>
           
         </div>
-
-      </div>
 
       <footer>
         <div> 

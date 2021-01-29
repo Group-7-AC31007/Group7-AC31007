@@ -7,8 +7,13 @@ const router = express.Router();
 
 let sendResponse = async (req, res, sqlpoint) => {
 	try {
-		// console.log(req);
-		req = req.body
+		 console.log(req);
+		 //req = req.body
+		if(req.method=='GET'){
+			req = req.query
+		}else{
+			req = req.body
+		}
 		console.log("Request:", req)
 		let results = await sqlpoint(req);
 		

@@ -85,10 +85,9 @@ footer {
     text-transform: uppercase;
     /* margin-top: -38px; negative value of footer height */
     height: 18px;
-    clear:both;
     padding-top:20px;
 
-    /* position: fixed; */
+    position: fixed;
     left: 0;
     bottom: 0;
     right: 0;

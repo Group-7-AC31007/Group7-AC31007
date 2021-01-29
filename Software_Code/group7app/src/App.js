@@ -81,14 +81,15 @@ function App() {
         </Route>
         <Route path="/registration" component={registrationWrapper}>
         </Route>
+
+        <footer>
+          <div> 
+            <p> Footer </p>
+          </div>
+        </footer>
           
         </div>
 
-      <footer>
-        <div> 
-          <p> Footer </p>
-        </div>
-      </footer>
     </Router>
     
   );

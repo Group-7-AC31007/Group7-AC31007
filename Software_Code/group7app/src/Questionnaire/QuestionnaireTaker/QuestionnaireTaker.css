@@ -40,7 +40,23 @@ body {
 }
 
 .submit-answer-button{
+    color: white;
+    display: block;
+    border: none;
     padding: 10px 20px;
-    float: right;
+    background-color: #4365e2;
+    font-family: 'Comfortaa', cursive;
+    outline: solid 0.1px white;
+    transition: outline 0.1s linear; 
+    transition: background-color 0.1 linear;
+    box-shadow: none;
+    float:left;
 
 }
+
+.submit-answer-button:hover {
+    outline: solid 2px #4365e2;
+    background-color: white;
+    color: #4365e2;
+}
+

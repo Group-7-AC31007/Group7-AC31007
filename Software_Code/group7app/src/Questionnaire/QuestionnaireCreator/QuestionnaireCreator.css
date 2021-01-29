@@ -46,16 +46,21 @@ button {
     display: block;
     margin: 0;
     padding: 5px 10px;
-    background-color: #D1E2F2;
+
+    border: none;
+    background-color: #4365e2;
     font-family: 'Comfortaa', cursive;
-    outline: solid 0.1px black;
+    outline: solid 0.1px white;
     transition: outline 0.1s linear; 
+    transition: background-color 0.1 linear;
     box-shadow: none;
+    color:white;
 }
 
 button:hover {
-    outline: solid 2px #4365E2;
-    color: #4365E2;
+    outline: solid 2px #4365e2;
+    background-color: white;
+    color: #4365e2;
 }
 
 .quest-creator-icons-wrapper i {
@@ -110,6 +115,10 @@ hr {
 
 .quest-creator-textInput-question-wrapper {
     margin-bottom: 10px;
+}
+
+.quest-creator-submitQuestionnaire-button {
+    margin: 20px;
 }
 
 

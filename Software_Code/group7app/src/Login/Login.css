@@ -24,19 +24,20 @@
 }
 
 .login-submit-button {
-    color: white;
+    clear: both;
     display: block;
     margin: 0 auto;
     margin-top: 20px;
-    border: none;
     padding: 10px 20px;
+    
+    border: none;
     background-color: #4365e2;
     font-family: 'Comfortaa', cursive;
     outline: solid 0.1px white;
     transition: outline 0.1s linear; 
     transition: background-color 0.1 linear;
     box-shadow: none;
-    clear: both;
+    color:white;
 }
 
 .login-submit-button:hover {

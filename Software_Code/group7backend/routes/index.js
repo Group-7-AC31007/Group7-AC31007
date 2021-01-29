@@ -55,15 +55,15 @@ router.post("/create_quiz", async(req, res) => {
 	sendResponse(req, res, db.createQuiz);
 });
 
-router.get("/get_project_list", async(req, res) => {
+router.post("/get_project_list", async(req, res) => {
 	sendResponse(req, res, db.getProjectList);
 });
 
-router.get("/get_quiz_list", async(req, res) => {
+router.post("/get_quiz_list", async(req, res) => {
 	sendResponse(req, res, db.getQuizList);
 });
 
-router.get("/get_quiz", async(req, res) => {
+router.post("/get_quiz", async(req, res) => {
 	sendResponse(req, res, db.getQuiz);
 });
 

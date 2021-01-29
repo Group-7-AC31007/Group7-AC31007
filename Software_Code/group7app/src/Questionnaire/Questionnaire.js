@@ -20,9 +20,11 @@ export default class Questionnaire extends Component {
     }
     render() {
         console.log(Cookies.get('access_token') );
+
         if (this.state.user+"#"+this.state.id+"#logged-in" == Cookies.get('access_token')) {
+
             return (
-                <div>
+                <div className="quest-wrapper">
                    <Router>
                 <div className="quest-parent-wrapper">
                     <div className="questionnaireCreator-label">
@@ -64,3 +66,4 @@ export default class Questionnaire extends Component {
         
     }
 }
+

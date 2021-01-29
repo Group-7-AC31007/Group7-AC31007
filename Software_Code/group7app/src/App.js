@@ -12,6 +12,7 @@ import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
+import logo from './logo.png'
 
 
 let callApi = async (endpoint = "") => {
@@ -57,9 +58,9 @@ function App() {
   }
   return (
     <Router>
-      <div id="biggerContainer">
         <div className='container'>
           <header>
+            <img className="logo" src={logo} />
             <ul id="listHeader">
               <li> <Link to="/">Home </Link> </li>
               <li> <Link to="/login">Login </Link> </li>
@@ -67,7 +68,7 @@ function App() {
               <li> <Link to="/registration">Registration</Link> </li>
             </ul>
           </header>
-   <hr />
+  
           {/*
             A <Switch> looks through all its children <Route>
             elements and renders the first one whose path
@@ -85,16 +86,16 @@ function App() {
         </Route>
         <Route path="/registration" component={registrationWrapper}>
         </Route>
+
+        <footer>
+          <div> 
+            <p> Footer </p>
+          </div>
+          
+        </footer>
           
         </div>
 
-      </div>
-
-      <footer>
-        <div> 
-          <p> Footer </p>
-        </div>
-      </footer>
     </Router>
     
   );

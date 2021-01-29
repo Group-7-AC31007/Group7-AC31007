@@ -45,4 +45,8 @@ router.post("/create_quiz", async(req, res) => {
 	sendResponse(req, res, db.createQuiz);
 });
 
+router.post("/complete_quiz", async(req, res) => {
+	sendResponse(req, res, db.completeQuiz);
+});
+
 module.exports = router;

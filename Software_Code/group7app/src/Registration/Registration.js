@@ -37,28 +37,30 @@ export default class Registration extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          First Name:
-          <input name='firstName' type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <br></br>
-        <label>
-          Last Name:
-          <input name='lastName' type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <br></br>
-        <label>
-          Email:
-          <input type="email" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <br></br>
-        <label>
-          Password:
-          <input type="password" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className="registration-form-wrapper">
+        <form className="registration-form" onSubmit={this.handleSubmit}>
+          <label>
+            First Name:
+            <input name='firstName' type="text" value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <br></br>
+          <label>
+            Last Name:
+            <input name='lastName' type="text" value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <br></br>
+          <label>
+            Email:
+            <input type="email" value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <br></br>
+          <label>
+            Password:
+            <input type="password" value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <input className="registration-submit-button" type="submit" value="Sign Up" />
+        </form>
+      </div>
     );
   }
 }

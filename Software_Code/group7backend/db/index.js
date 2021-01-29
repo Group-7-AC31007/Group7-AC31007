@@ -73,15 +73,15 @@ database.createQuiz = (req) => {
 				let response = question.value.responses[i];
 				console.log(response);
 				pool.query(`INSERT INTO Responses (questionnairesID, questionID, responseValue, orderID) ` +
-				`VALUES (${questionnaireID}, ${questionID}, '${response.value.replace("\'", "\\\'").replace("\"", "\\\"").replace("\`", "\\\`")}', ${response.id});`, (err, res) => {
-					if (err) {
-						return reject("COULD NOT CREATE RESPONSE");
-					}
-				});
+					`VALUES (${questionnaireID}, ${questionID}, '${response.value.replace("\'", "\\\'").replace("\"", "\\\"").replace("\`", "\\\`")}', ${response.id});`, (err, res) => {
+						if (err) {
+							return reject("COULD NOT CREATE RESPONSE");
+						}
+					});
 			}
 			return resolve("CREATED QUESTIONNAIRE");
 		};
-		
+
 		// Insert into the Questions table and get each questionsID for use with responses
 		let insertQuestions = (error, results) => {
 			if (error) {
@@ -90,7 +90,7 @@ database.createQuiz = (req) => {
 			}
 			console.log(results);
 			let questionnaireID = results[0][Object.keys(results[0])[0]];
-			
+
 			console.log(questions);
 
 			// For each question
@@ -98,17 +98,17 @@ database.createQuiz = (req) => {
 				if (questions[i].type === "PredefinedList") {
 					// If the question type is a predefined list, insert appropriate responses available
 					pool.query(`SELECT insert_question(${questionnaireID}, ` +
-					`'${questions[i].type}', '${questions[i].value.question}', '${questions[i].id}');`,
-					(err, res) => insertResponses(err, res, questions[i], questionnaireID));
+						`'${questions[i].type}', '${questions[i].value.question}', '${questions[i].id}');`,
+						(err, res) => insertResponses(err, res, questions[i], questionnaireID));
 				} else {
 					pool.query(`SELECT insert_question(${questionnaireID}, ` +
-					`'${questions[i].type}', '${questions[i].value}', '${questions[i].id}');`,
-					(err, res) => {
-						if (err) {
-							return reject("COULD NOT CREATE QUESTION");
-						}
-						return resolve("CREATED QUESTIONNAIRE");
-					});
+						`'${questions[i].type}', '${questions[i].value}', '${questions[i].id}');`,
+						(err, res) => {
+							if (err) {
+								return reject("COULD NOT CREATE QUESTION");
+							}
+							return resolve("CREATED QUESTIONNAIRE");
+						});
 				}
 			}
 		};
@@ -120,7 +120,7 @@ database.createQuiz = (req) => {
 
 database.getProjectList = (req) => {
 	return new Promise((resolve, reject) => {
-		const {userID} = req;
+		const { userID } = req;
 		pool.query(`SELECT * FROM Projects WHERE userID=${userID}`, (err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF PROJECTS");
@@ -133,7 +133,7 @@ database.getProjectList = (req) => {
 // Get the list of questionnaires available for the project
 database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {
-		const {projectID} = req;
+		const { projectID } = req;
 		pool.query(`SELECT * FROM Questionnaires WHERE projectID=${projectID}`, (err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
@@ -144,9 +144,37 @@ database.getQuizList = (req) => {
 };
 
 // Get a questionnaire from the database
+
 database.getQuiz = (req) => {
 	return new Promise((resolve, reject) => {
-		const {questionnairesID} = req;
+		const { questionnairesID } = req;
+		pool.query(`SELECT * FROM Questions WHERE questionnairesID=${questionnairesID}`, (err, res) => {
+			if (err) {
+				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
+			}
+			//console.log(res);
+			let result = []
+			for (let x in res) {
+
+				
+				if (res[x].type == "PredefinedList") {
+					
+					pool.query(`SELECT * FROM Responses WHERE questionnairesID=${questionnairesID} AND questionID=${res[x].questionID}`, (err, res2) => {
+						if (err) {
+							return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
+						}
+						console.log(res2);
+						res[x].responses = res2
+						result.push(res[x])
+						console.log(result);
+					})
+
+				}
+			}
+			console.log(result);
+			return resolve(result)
+
+		});
 	});
 };
 
@@ -154,7 +182,7 @@ database.getQuiz = (req) => {
 database.completeQuiz = (req) => {
 	return new Promise((resolve, reject) => {
 		const { userID, questions } = req;
-		for(let i in questions) {
+		for (let i in questions) {
 			questionID = questions[i].id;
 			answer = question.answer;
 			pool.query(`INSERT INTO QuestionAnswers (questionID, userID, answer) VALUES (${questionID}, ${userID}, ${answer});`, (err, res) => {

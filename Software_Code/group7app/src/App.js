@@ -64,7 +64,7 @@ function App() {
               <li> <Link to="/registration">Registration</Link> </li>
             </ul>
           </header>
-   <hr />
+  
           {/*
             A <Switch> looks through all its children <Route>
             elements and renders the first one whose path

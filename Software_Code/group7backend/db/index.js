@@ -56,7 +56,7 @@ database.signin = (req) => {
 // Make new entries in the appropriate questionnaire tables
 database.createQuiz = (req) => {
 	return new Promise((resolve, reject) => {
-		const { researchNo, projectID, questions } = req;
+		const { questionnaireNo, projectID, questions } = req;
 
 		// Insert into the Responses table
 		let insertResponses = (error, results, question, questionnaireID) => {
@@ -103,30 +103,53 @@ database.createQuiz = (req) => {
 					`'${questions[i].type}', '${questions[i].value}', '${questions[i].id}');`,
 					(err, res) => {
 						if (err) {
-							return reject("COULD NOT CREATE QUESTION")
+							return reject("COULD NOT CREATE QUESTION");
 						}
-						return resolve("CREATED QUESTIONNAIRE")
+						return resolve("CREATED QUESTIONNAIRE");
 					});
 				}
 			}
 		};
 
 		// Insert into the questionnaire table and get the questionnairesID
-		pool.query(`SELECT insert_questionnaire(${projectID}, ${researchNo});`, (err, res) => insertQuestions(err, res));
+		pool.query(`SELECT insert_questionnaire(${projectID}, ${questionnaireNo});`, (err, res) => insertQuestions(err, res));
+	});
+};
+
+// Get the list of questionnaires available for the project
+database.getQuizList = (req) => {
+	return new Promise((resolve, reject) => {
+		const {projectID} = req;
+		pool.query(`SELECT * FROM Questionnaires WHERE projectID=${projectID}`, (err, res) => {
+			if (err) {
+				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
+			}
+			return resolve(res);
+		});
 	});
 };
 
 // Get a questionnaire from the database
 database.getQuiz = (req) => {
 	return new Promise((resolve, reject) => {
-		const { researchNo, projectID, questions} = req;
+		const {questionnairesID} = req;
 	});
 };
 
 // Insert answers to a questionnaire in the Answers table
 database.completeQuiz = (req) => {
 	return new Promise((resolve, reject) => {
-		const { researchNo, projectID, questions } = req;
+		const { userID, questions } = req;
+		for(let i in questions) {
+			questionID = questions[i].id;
+			answer = question.answer;
+			pool.query(`INSERT INTO QuestionAnswers (questionID, userID, answer) VALUES (${questionID}, ${userID}, ${answer});`, (err, res) => {
+				if (err) {
+					return reject("COULD NOT SEND COMPLETION");
+				}
+			});
+		}
+		return resolve("QUESTIONNAIRE COMPLETED");
 	});
 };
 

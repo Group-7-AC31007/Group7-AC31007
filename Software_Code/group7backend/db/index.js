@@ -58,7 +58,7 @@ database.createQuiz = (req) => {
 	return new Promise((resolve, reject) => {
 		const { researchNo, projectID, questions } = req;
 
-		// Insert into the responses table
+		// Insert into the Responses table
 		let insertResponses = (error, results, question, questionnaireID) => {
 			if (error) {
 				console.log(error);
@@ -116,6 +116,14 @@ database.createQuiz = (req) => {
 	});
 };
 
+// Get a questionnaire from the database
+database.getQuiz = (req) => {
+	return new Promise((resolve, reject) => {
+		const { researchNo, projectID, questions} = req;
+	});
+};
+
+// Insert answers to a questionnaire in the Answers table
 database.completeQuiz = (req) => {
 	return new Promise((resolve, reject) => {
 		const { researchNo, projectID, questions } = req;

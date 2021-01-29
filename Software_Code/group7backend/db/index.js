@@ -148,33 +148,42 @@ database.getQuizList = (req) => {
 database.getQuiz = (req) => {
 	return new Promise((resolve, reject) => {
 		const { questionnairesID } = req;
-		pool.query(`SELECT * FROM Questions WHERE questionnairesID=${questionnairesID}`, (err, res) => {
-			if (err) {
-				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
+		let buildJson = (error, results) => {
+			if (error) {
+				return reject("COULD NOT GET QUESTIONS");
 			}
-			//console.log(res);
-			let result = []
-			for (let x in res) {
-
-				
-				if (res[x].type == "PredefinedList") {
-					
-					pool.query(`SELECT * FROM Responses WHERE questionnairesID=${questionnairesID} AND questionID=${res[x].questionID}`, (err, res2) => {
+			let promiseArray = [];
+			let questionnaire = [];
+			for (let i in results) {
+				promiseArray.push(new Promise((inner_resolve, inner_reject) => {
+					let question = results[i];
+					let questionData = {};
+					Object.assign(questionData, question);
+					pool.query(`SELECT * FROM Responses WHERE questionID=${question.questionID};`, (err, res) => {
 						if (err) {
-							return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
+							inner_reject("COULD NOT GET RESPONSES");
 						}
-						console.log(res2);
-						res[x].responses = res2
-						result.push(res[x])
-						console.log(result);
-					})
-
-				}
+						if (res.length != 0) {
+							questionData.responses = [...res];
+							for (let j in questionData.responses) {
+								let response = {};
+								Object.assign(response, questionData.responses[j]);
+								questionData.responses[j] = response;
+							}
+							console.log("XDDDDDDDDDDDDDDDDDD", questionData.responses);
+						}
+						questionnaire.push(questionData);
+						inner_resolve();
+					});
+				}));
 			}
-			console.log(result);
-			return resolve(result)
+			Promise.all(promiseArray).then(() => {
+				console.log("XDDDDD", questionnaire);
+				return resolve(questionnaire);
+			});
+		};
 
-		});
+		pool.query(`SELECT * FROM Questions WHERE questionnairesID=${questionnairesID}`, (err, res) => buildJson(err, res));
 	});
 };
 

@@ -15,14 +15,12 @@ export default class Questionnaire extends Component {
     render() {
         return (
             <Router>
-                <div>
-                    <li>
-                        <Link to="/questionnaireCreator"> Questionnaire Creator </Link>
-                    </li>
-                    <li>
-                        <Link to="/questionnaireTaker"> Questionnaire Taker </Link>
-                    </li>
-                    <hr />
+                <div className="quest-parent-wrapper">
+                    <div className="questionnaireCreator-label">
+                        <Link className="questionnaireCreator-label-text quest-nav-item" to="/questionnaireCreator"> Questionnaire Creator </Link>
+                        <Link className= "questionnaireTaker-label-text quest-nav-item" to="/questionnaireTaker"> Questionnaire Taker </Link>
+                    </div>
+                        
 
                     {/*
                     A <Switch> looks through all its children <Route>

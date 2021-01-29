@@ -1,0 +1,121 @@
+/* Importing the font family from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+
+/* ---------------------------------------------------------------------------------------------------------------------------*/
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comfortaa', cursive;
+    background-color: #FFFAF4;
+    text-transform: capitalize;
+}
+
+*:focus {
+    outline: none;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------------*/
+
+.quest-creator-wrapper{
+    margin: 0 15%;
+    padding: 50px 100px;
+    border-style: solid;
+    border-width: 0.1px;
+    color: black;
+    background-color: #D1E2F2;   
+    
+}
+
+.quest-creator-icons-wrapper {
+    display: block;
+    text-align: center;
+
+}
+
+input[type=text] {
+    background-color: #D1E2F2;
+    border: none;
+    border-bottom-style: solid;
+    border-width: 0.5px;
+    font-family: 'Comfortaa', cursive;
+}
+
+button {
+    border: none;
+    display: block;
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #D1E2F2;
+    font-family: 'Comfortaa', cursive;
+    outline: solid 0.1px black;
+    transition: outline 0.1s linear; 
+    box-shadow: none;
+}
+
+button:hover {
+    outline: solid 2px #4365E2;
+    color: #4365E2;
+}
+
+.quest-creator-icons-wrapper i {
+    padding: 20px;
+}
+
+.quest-creator-research-wrapper{
+    margin-top: 30px;
+}
+
+.quest-creator-name-wrapper{
+    margin-top: 30px;
+}
+
+.quest-creator-newQuestion-button {
+    margin-top: 20px;
+}
+
+.quest-creator-type-wrapper {
+    margin-top: 30px;
+}
+
+.questions {
+    margin-top: 30px;
+}
+
+.quest-creator-predefinedList-responses-button {
+    margin-top: 20px;
+}
+
+select {
+    text-transform: uppercase;
+    font-family: 'Comfortaa', cursive;
+    padding: 5px 10px;
+    border-color: transparent transparent rgb(0, 0, 0) transparent;
+    cursor: pointer;
+}
+
+hr {
+    border: 0.5px solid black;
+    margin-bottom: 30px;
+}
+
+.quest-creator-predefinedList-responses-responses ul li
+{
+    margin-top: 10px;
+}
+
+.quest-creator-yesNo-question-wrapper {
+    margin-bottom: 20px;
+}
+
+.quest-creator-textInput-question-wrapper {
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+

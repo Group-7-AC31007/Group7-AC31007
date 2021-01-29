@@ -20,16 +20,19 @@ export default class TextInput extends Component {
     }
     render() {
         return (
-            <div className="quest-creator-textInput-wrapper">
-                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-yesNo-question-delete-button">
-                    Delete
-                </button>
+            <div className="quest-creator-textInput-wrapper questions">
+                <hr/>
+                
                 <div className="quest-creator-textInput-question-wrapper">
-                    <label className="quest-creator-textInput-question-label" htmlFor="quest-creator-textInput-question-textField"> Question(Text): </label>
+                    <label className="quest-creator-textInput-question-label" htmlFor="quest-creator-textInput-question-textField"> Text Input Question: </label>
                     <input className="quest-creator-textInput-question-textField" type="text" name="quest-creator-textInput-question-textField" value={this.state.value == null ? "" : this.state.value}
                         onChange={(e) => (this.handler(e.target.value))} />
 
                 </div>
+                
+                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-textInput-question-delete-button delete-button">
+                    Delete
+                </button>
 
             </div>
         )

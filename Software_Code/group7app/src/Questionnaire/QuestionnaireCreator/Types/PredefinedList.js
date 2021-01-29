@@ -46,24 +46,28 @@ export default class PredefinedList extends Component {
     render() {
         let responses = (this.state.value != null && this.state.value.responses != null) ? this.state.value.responses.map((current) => (<li key={current.id} ><input onChange={(e) => this.responsesHandler(e, current)} className="quest-creator-predefinedList-response-textField" type="text" value={current.value} /> </li>)) : []
         return (
-            <div className="quest-creator-predefinedList-wrapper">
-                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-yesNo-question-delete-button">
-                    Delete
-                </button>
+            <div className="quest-creator-predefinedList-wrapper questions">
+                <hr/>
+                
                 <div className="quest-creator-predefinedList-question-wrapper">
-                    <label className="quest-creator-predefinedList-question-label" htmlFor="quest-creator-predefinedList-question-textField"> Question(List): </label>
+                    <label className="quest-creator-predefinedList-question-label" htmlFor="quest-creator-predefinedList-question-textField"> Multiple Choice Question: </label>
                     <input className="quest-creator-predefinedList-question-textField" type="text" name="quest-creator-predefinedList-question-textField" value={this.state.value == null ? "" : this.state.value.question}
                         onChange={(e) => (this.handler(e.target.value))} />
 
                 </div>
                 <div className="quest-creator-predefinedList-responses-wrapper">
-                    <button className="quest-creator-predefinedList-responses-button" onClick={() => this.responseButtonHandler()}>Add Response</button>
+                    <button className="quest-creator-predefinedList-responses-button" onClick={() => this.responseButtonHandler()}>Add Option</button>
                     <div className="quest-creator-predefinedList-responses-responses">
                         <ul>
                             {responses}
                         </ul>
                     </div>
                 </div>
+                
+                <button onClick={() => this.deleteButtonHandler()} type="button" className="quest-creator-predefinedList-question-delete-button delete-button">
+                    Delete
+                </button>
+                
             </div>
         )
     }

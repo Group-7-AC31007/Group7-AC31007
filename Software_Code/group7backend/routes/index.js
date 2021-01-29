@@ -45,6 +45,10 @@ router.post("/create_quiz", async(req, res) => {
 	sendResponse(req, res, db.createQuiz);
 });
 
+router.get("/get_quiz_list", async(req, res) => {
+	sendResponse(req, res, db.getQuizList);
+});
+
 router.get("/get_quiz", async(req, res) => {
 	sendResponse(req, res, db.getQuiz);
 });

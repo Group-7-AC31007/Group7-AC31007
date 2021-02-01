@@ -16,14 +16,15 @@ export default class Questionnaire extends Component {
     constructor(props) {
         super(props)
         this.history = props.history
-        this.state = { user: props.user }
+        this.state = { user: props.user.user,id:props.user.id }
     }
     render() {
         console.log(Cookies.get('access_token') );
-        console.log(this.state.user+"#logged-in" == Cookies.get('access_token'));
-        // if (Cookies.get('access_token') == this.state.user + "#logged-in") {
+        if (this.state.user+"#"+this.state.id+"#logged-in" == Cookies.get('access_token')) {
+
+
             return (
-                <div>
+                <div className="quest-wrapper">
                    <Router>
                 <div className="quest-parent-wrapper">
                     <div className="questionnaireCreator-label">
@@ -51,18 +52,16 @@ export default class Questionnaire extends Component {
             </Router>
                 </div>
             )
-        // }
-        // else {
-        //     setTimeout(() => {
-        //         this.history.push("/login")
-        //     }, 1000)
-        //     return (
-        //       <div>
-        //           Redirecting to login
-                  
-        //       </div>
-        //     )
-        // }
+        } else {
+            
+                this.history.push("/login")
+            
+            return (
+              <div>
+                  Redirecting to login
+              </div>
+              )
         
     }
 }
+

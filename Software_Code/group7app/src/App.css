@@ -1,14 +1,19 @@
 /* Importing the font family from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
 
+/* University of Dundee website inspired */ 
+
 /* ---------------------------------------------------------------------------------------------------------------------------*/
 
 body {
     margin: 0;
     padding: 0;
     font-family: 'Comfortaa', cursive;
-    min-height: 100%;
-    position: relative;
+
+    /*new*/
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -22,6 +27,7 @@ html {
 header {
     padding: 20px 15%;
     background-color: #4365E2; /* Using University of Dundee palette*/
+    float: right;
 }
 
 #listHeader {
@@ -52,6 +58,17 @@ header {
 
 }
 
+.logo {
+    float: left;
+}
+
+.logo {
+    display: block;
+    width: 120px;
+    filter: brightness(0) invert(1);
+
+}
+
 
 
 /* ----------------------------------------------------- FOOTER -----------------------------------------------------------------*/
@@ -59,6 +76,11 @@ header {
     overflow: auto;
     min-height: 100%;
     position: relative; 
+
+    /*new*/
+    height: 100vh;
+    display: flex; 
+    flex-direction: column; 
 }
 
 .biggerContainer {
@@ -73,17 +95,17 @@ header {
 footer {
     padding: 20px 15%;
     background-color: #DDD9D6;
+    
     text-transform: uppercase;
     /* margin-top: -38px; negative value of footer height */
     height: 18px;
-    clear:both;
     padding-top:20px;
 
     position: fixed;
     left: 0;
     bottom: 0;
     right: 0;
-    width: 100%;
+    /* width: 100%; */
 }
 
 footer div p {

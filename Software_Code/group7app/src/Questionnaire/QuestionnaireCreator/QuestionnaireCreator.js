@@ -71,7 +71,7 @@ export default class QuestionnaireCreator extends Component {
             return
         }
         let questionsCopyNormalised = this.state.questions.map((cur, ind) => { cur.id = ind; return cur })// return a copy of the state with index's normalisd
-        let result = { researchNo: 0, projectID: 0, questions: questionsCopyNormalised } // prepare json for sending with research & project ID 
+        let result = { questionnaireNo: 0, projectID: 0, questions: questionsCopyNormalised } // prepare json for sending with questionnaire & project ID 
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -134,12 +134,12 @@ export default class QuestionnaireCreator extends Component {
                 {this.state.submitError == true ? <div className="quest-creator-error">
                     Errors Below Please ammend
                     </div> : null}
-                <div className="quest-creator-research-wrapper">
-                    <label className="quest-creator-research-label" htmlFor="quest-creator-research-dropdown"> Researches: </label>
-                    <select className="quest-creator-research-dropdown" name="quest-creator-research-dropdown">
-                        <option value="oneOption"> Research1 </option>
-                        <option value="oneOption"> Research2 </option>
-                        {/* Link to already existing researches drom db */}
+                <div className="quest-creator-product-wrapper">
+                    <label className="quest-creator-product-label" htmlFor="quest-creator-product-dropdown"> Products: </label>
+                    <select className="quest-creator-product-dropdown" name="quest-creator-product-dropdown">
+                        <option value="oneOption"> Product1 </option>
+                        <option value="oneOption"> Product2 </option>
+                        {/* Link to already existing products drom db */}
                     </select>
                 </div>
                 <div className="quest-creator-name-wrapper">

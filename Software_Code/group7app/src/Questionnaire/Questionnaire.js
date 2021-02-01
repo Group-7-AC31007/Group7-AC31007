@@ -20,8 +20,8 @@ export default class Questionnaire extends Component {
     }
     render() {
         console.log(Cookies.get('access_token') );
-
         if (this.state.user+"#"+this.state.id+"#logged-in" == Cookies.get('access_token')) {
+
 
             return (
                 <div className="quest-wrapper">
@@ -53,10 +53,11 @@ export default class Questionnaire extends Component {
                 </div>
             )
         } else {
-            setTimeout(() => {
+            
                 this.history.push("/login")
-            }, 1000)
+            
             return (
+
                 <div className="redirecting_to_login_wrapper">
                     <div className="redirecting_to_login">      
                         <p>Redirecting to login</p>

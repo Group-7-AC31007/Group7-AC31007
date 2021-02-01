@@ -3,7 +3,8 @@ import './Registration.css'
 import sjcl from 'sjcl'
 export default class Registration extends Component {
   constructor(props) {
-    super(props);
+		super(props);
+		this.history = props.history
     this.state = {firstName: '', lastName: '', email: '', password: ''};
     
     this.handleChange = this.handleChange.bind(this);
@@ -25,13 +26,32 @@ export default class Registration extends Component {
       this.setState({password: event.target.value})
     }
     
-  }
+	}
+	
+	signUp = (forename, surname, email, hashPassword) => {
+		const reqOpts = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ forename, surname, email, hashPassword })
+		};
+		fetch('http://localhost:3001/signup', reqOpts).then(response => {
+			response.json().then(json => {
+				if (json == 'SIGNUP SUCCESS') {
+					alert('Signed up with the email: ' + email);
+					this.history.push("/login")
+				} else {
+					alert('Could not sign up with the email: ' + email);
+					console.log(json);
+				}
+			});
+		});
+	};
   
   //this.state.email and this.state.password are essentially variables holding the relevant data.
   handleSubmit(event) {
     const hashBitArray = sjcl.hash.sha256.hash(this.state.password);
-    const Hash = sjcl.codec.hex.fromBits(hashBitArray);
-    alert('First Name: ' + this.state.firstName + '\n' + 'Last Name: ' + this.state.lastName + '\n' + 'Email ' + this.state.email + '\n' + 'Password: ' + this.state.password + '\n' + 'Hashed Password ' + Hash);
+		const Hash = sjcl.codec.hex.fromBits(hashBitArray);
+		this.signUp(this.state.firstName, this.state.lastName, this.state.email, Hash)
     event.preventDefault();
   }
 

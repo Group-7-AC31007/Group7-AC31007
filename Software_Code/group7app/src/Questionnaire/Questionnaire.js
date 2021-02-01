@@ -57,11 +57,12 @@ export default class Questionnaire extends Component {
             this.history.push("/login")
 
             return (
-                <div>
-                    Redirecting to login
+                <div className="redirecting_to_login_wrapper">
+                    <div className="redirecting_to_login">      
+                        <p>Redirecting to login</p>
+                    </div>
                 </div>
             )
-
         }
     }
 }

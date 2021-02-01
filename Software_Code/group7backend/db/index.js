@@ -7,7 +7,6 @@ const pool = mysql.createPool(config.mysql);
 
 let database = {};
 
-// Testing endpoint. Pretty much there to check if the database is live
 database.test = () => {
 	return new Promise((resolve, reject) => {
 		pool.query("SELECT * FROM testing", (err, results) => {

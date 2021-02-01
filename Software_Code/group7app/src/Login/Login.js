@@ -39,7 +39,7 @@ export default class Login extends Component {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, hashPassword })
-    }
+    };
     console.log(hashPassword);
     fetch('http://localhost:3001/signin', reqOpts).then(response => {
       response.json().then(json => {
@@ -48,13 +48,13 @@ export default class Login extends Component {
         } else {
           if (hashPassword == json.hashPassword) {
             console.log(json);
-            const expires = (60 * 60) * 1000
-            const inOneHour = new Date(new Date().getTime() + expires)
+            const expires = (60 * 60) * 1000;
+            const inOneHour = new Date(new Date().getTime() + expires);
             alert('Signed in with the email: ' + this.state.email);
-            Cookies.set('access_token', json.email + "#" + json.usersID + "#logged-in", { expires: inOneHour })
-            this.handleUser({ user: json.email, id: json.usersID })
+            Cookies.set('access_token', json.email + "#" + json.usersID + "#logged-in", { expires: inOneHour });
+            this.handleUser({ user: json.email, id: json.usersID });
             setTimeout(() => {
-              this.history.push("/")
+              this.history.push("/");
             }, 1000);
           } else {
             alert('Incorrect password: ' + this.state.email);
@@ -110,7 +110,3 @@ export default class Login extends Component {
   }
 
 }
-
-
-
-

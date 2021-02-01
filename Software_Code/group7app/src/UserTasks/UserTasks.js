@@ -9,6 +9,19 @@ export default class UserTasks extends Component {
 		this.state = {tasks: tasks}
 	}
 
+	getTaskList() {
+		const reqOpts = {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' },
+			query: JSON.stringify({ projectID })
+		}
+
+		fetch('http://localhost:3001/get_task_list', reqOpts)
+			.then(response => response.json().then(json => {
+				console.log("/get_task_list", json);
+			}))
+	}
+
 	handleStatusChange() {
 		let tasksCopy = this.state.tasks
 		this.setState({tasks: tasksCopy})

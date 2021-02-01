@@ -70,4 +70,8 @@ router.post("/complete_quiz", async(req, res) => {
 	sendResponse(req, res, db.completeQuiz);
 });
 
+router.get("/get_task_list", async(req, res) => {
+	sendResponse(req, res, db.getTaskList);
+});
+
 module.exports = router;

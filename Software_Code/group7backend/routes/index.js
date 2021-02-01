@@ -29,7 +29,6 @@ let sendResponse = async (req, res, sqlpoint) => {
 	}
 };
 
-
 router.get("/", async (req, res) => {
 	try {
 		res.send("API DEFAULT LANDING");

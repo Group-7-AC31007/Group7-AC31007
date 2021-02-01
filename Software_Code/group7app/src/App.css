@@ -24,6 +24,8 @@ html {
 
 /* ------------------------------------------------------ HEADER ----------------------------------------------------------- */
 
+/* Code for header taken from https://www.w3schools.com/howto/howto_js_topnav_responsive.asp  and adapted to our design */
+
 .header {
     overflow: visible;
     background-color:#4365e2;

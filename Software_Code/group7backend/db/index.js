@@ -5,9 +5,9 @@ const config = require("../config");
 
 const pool = mysql.createPool(config.mysql);
 
-let mydb = {};
+let database = {};
 
-mydb.all = () => {
+database.all = () => {
 	return new Promise((resolve, reject) => {
 		pool.query("SELECT * FROM testing", (err, results) => {
 			if (err) {

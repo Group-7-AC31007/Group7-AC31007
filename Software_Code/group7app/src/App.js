@@ -56,17 +56,30 @@ function App() {
       <Questionnaire history = {props.history} user={user}></Questionnaire>
     )
   }
+
+  let myFunction = () => {
+    var x = document.getElementById("header");
+    if (x.className === "header") {
+      x.className += " responsive";
+    } else {
+      x.className = "header";
+    }
+  }
+
   return (
     <Router>
         <div className='container'>
-          <header>
+
+          <header id="header" className="header">
             <img className="logo" src={logo} />
-            <ul id="listHeader">
-              <li> <Link to="/">Home </Link> </li>
-              <li> <Link to="/login">Login </Link> </li>
-              <li> <Link to="/questionnaire">Questionnaire </Link> </li>
-              <li> <Link to="/registration">Registration</Link> </li>
-            </ul>
+            <a href="javascript:void(0);" className="icon" onClick={(e)=>{myFunction(e)}}>  
+                <i class="fa fa-bars"> </i> 
+            </a>
+            <Link to="/registration" onClick={(e)=>{myFunction(e)}}>Registration</Link> 
+            <Link to="/questionnaire" onClick={(e)=>{myFunction(e)}}>Questionnaire </Link> 
+            <Link to="/login" onClick={(e)=>{myFunction(e)}}>Login </Link> 
+            <Link to="/" onClick={(e)=>{myFunction(e)}}>Home </Link> 
+      
           </header>
   
           {/*

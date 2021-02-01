@@ -45,7 +45,7 @@ export default class Questionnaire extends Component {
                                     <QuestionnaireCreator>  </QuestionnaireCreator>
                                 </Route>
                                 <Route path="/questionnaireTaker">
-                                    <QuestionnaireTaker user = {{user: this.state.user, id: this.state.id}}>  </QuestionnaireTaker>
+                                    <QuestionnaireTaker user = {{user: this.state.user, id: this.state.id}} history= {this.history}>  </QuestionnaireTaker>
                                 </Route>
                             </Switch>
                         </div>

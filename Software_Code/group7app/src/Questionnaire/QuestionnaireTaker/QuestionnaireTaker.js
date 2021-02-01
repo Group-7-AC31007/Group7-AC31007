@@ -9,7 +9,7 @@ import "./QuestionnaireTaker.css";
 export default class QuestionnaireTaker extends Component {
     constructor(props) {
         super(props)
-
+        this.history = props.history
         this.state = { questions: [], user: props.user.user, id: props.user.id }
 
     }
@@ -106,6 +106,8 @@ export default class QuestionnaireTaker extends Component {
                     alert('Could not send completed quiz!');
                     console.log(json);
                 } else {
+                    alert('Questionnaire Submitted!')
+                    this.history.push("/")
                     console.log(json)
                 }
             });

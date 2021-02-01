@@ -134,7 +134,7 @@ database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {
 		console.log(req);
 		const {usersID} = req;
-		pool.query(`SELECT questionnairesID FROM user_questionnaires WHERE usersID = ${usersID}`, (err, res) => {
+		pool.query(`SELECT questionnairesID, questionnairesName FROM user_questionnaires WHERE usersID = ${usersID}`, (err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
 			}

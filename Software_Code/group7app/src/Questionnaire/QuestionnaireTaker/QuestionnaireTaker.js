@@ -116,7 +116,7 @@ export default class QuestionnaireTaker extends Component {
     render() {
         console.log(this.state.questionnaires);
         let questionOptions = !this.state.questionnaires ? [] : this.state.questionnaires.map((current, index) =>
-            (<option key={index} value={current.questionnairesID}>{current.questionnairesID}</option>)
+            (<option key={index} value={current.questionnairesID}>{current.questionnairesName}</option>)
         )
         console.log(this.state.questions);
         let questionList = this.state.questions.map((current, key) =>

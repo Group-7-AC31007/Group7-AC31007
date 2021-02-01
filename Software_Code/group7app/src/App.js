@@ -66,6 +66,13 @@ function App() {
     }
   }
 
+  let dropDown = () => {
+    var x = document.getElementById("header");
+    if (x.className === "header responsive") {
+      x.className = "header";
+    }
+  }
+
   return (
     <Router>
         <div className='container'>
@@ -75,11 +82,10 @@ function App() {
             <a href="javascript:void(0);" className="icon" onClick={(e)=>{myFunction(e)}}>  
                 <i class="fa fa-bars"> </i> 
             </a>
-            <Link to="/registration" onClick={(e)=>{myFunction(e)}}>Registration</Link> 
-            <Link to="/questionnaire" onClick={(e)=>{myFunction(e)}}>Questionnaire </Link> 
-            <Link to="/login" onClick={(e)=>{myFunction(e)}}>Login </Link> 
-            <Link to="/" onClick={(e)=>{myFunction(e)}}>Home </Link> 
-      
+            <Link to="/registration" onClick={(e)=>{dropDown(e)}}>Registration</Link> 
+            <Link to="/questionnaire" onClick={(e)=>{dropDown(e)}}>Questionnaire </Link> 
+            <Link to="/login" onClick={(e)=>{dropDown(e)}}>Login </Link> 
+            <Link to="/" onClick={(e)=>{dropDown(e)}}>Home </Link>      
           </header>
   
           {/*

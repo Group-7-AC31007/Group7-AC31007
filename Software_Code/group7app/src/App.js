@@ -10,6 +10,7 @@ import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
+import Visualization from "./Visualization/Visualization";
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.png'
@@ -56,6 +57,11 @@ function App() {
       <Questionnaire history = {props.history} user={user}></Questionnaire>
     )
   }
+    let visualizationWrapper = (props) =>{
+      return(
+        <Visualization history = {props.history} user={user}></Visualization>
+      )
+  }
   return (
     <Router>
         <div className='container'>
@@ -66,6 +72,7 @@ function App() {
               <li> <Link to="/login">Login </Link> </li>
               <li> <Link to="/questionnaire">Questionnaire </Link> </li>
               <li> <Link to="/registration">Registration</Link> </li>
+              <li> <Link to="/visualization">Visualization</Link> </li>
             </ul>
           </header>
   
@@ -82,9 +89,10 @@ function App() {
         <Route path="/login" component={loginWrapper}>
         </Route>
         <Route path="/questionnaire" component={questionnaireWrapper}>
-
         </Route>
         <Route path="/registration" component={registrationWrapper}>
+        </Route>
+        <Route path="/visualization" component={visualizationWrapper}>
         </Route>
 
         <footer>

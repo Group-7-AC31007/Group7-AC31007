@@ -82,10 +82,10 @@ function App() {
             <a href="javascript:void(0);" className="icon" onClick={(e)=>{myFunction(e)}}>  
                 <i class="fa fa-bars"> </i> 
             </a>
-            <Link to="/registration" onClick={(e)=>{dropDown(e)}}>Registration</Link> 
-            <Link to="/questionnaire" onClick={(e)=>{dropDown(e)}}>Questionnaire </Link> 
-            <Link to="/login" onClick={(e)=>{dropDown(e)}}>Login </Link> 
-            <Link to="/" onClick={(e)=>{dropDown(e)}}>Home </Link>      
+            <Link className="link" to="/registration" onClick={(e)=>{dropDown(e)}}>Registration</Link> 
+            <Link className="link" to="/questionnaire" onClick={(e)=>{dropDown(e)}}>Questionnaire </Link> 
+            <Link className="link" to="/login" onClick={(e)=>{dropDown(e)}}>Login </Link> 
+            <Link className="link" to="/" onClick={(e)=>{dropDown(e)}}>Home </Link>      
           </header>
   
           {/*

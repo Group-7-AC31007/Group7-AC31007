@@ -10,6 +10,7 @@ import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
+import UserTasks from "./UserTasks/UserTasks";
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.png'
@@ -65,6 +66,7 @@ function App() {
               <li> <Link to="/">Home </Link> </li>
               <li> <Link to="/login">Login </Link> </li>
               <li> <Link to="/questionnaire">Questionnaire </Link> </li>
+			  <li> <Link to="/tasks">Tasks </Link> </li>
               <li> <Link to="/registration">Registration</Link> </li>
             </ul>
           </header>
@@ -84,6 +86,7 @@ function App() {
         <Route path="/questionnaire" component={questionnaireWrapper}>
 
         </Route>
+		<Route path="/tasks" component={UserTasks}></Route>
         <Route path="/registration" component={registrationWrapper}>
         </Route>
 

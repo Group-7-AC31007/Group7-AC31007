@@ -7,8 +7,13 @@ const router = express.Router();
 
 let sendResponse = async (req, res, sqlpoint) => {
 	try {
-		// console.log(req);
-		req = req.body
+		 console.log(req);
+		 //req = req.body
+		if(req.method=='GET'){
+			req = req.query
+		}else{
+			req = req.body
+		}
 		console.log("Request:", req)
 		let results = await sqlpoint(req);
 		
@@ -50,7 +55,15 @@ router.post("/create_quiz", async(req, res) => {
 	sendResponse(req, res, db.createQuiz);
 });
 
-router.get("/get_quiz", async(req, res) => {
+router.post("/get_project_list", async(req, res) => {
+	sendResponse(req, res, db.getProjectList);
+});
+
+router.post("/get_quiz_list", async(req, res) => {
+	sendResponse(req, res, db.getQuizList);
+});
+
+router.post("/get_quiz", async(req, res) => {
 	sendResponse(req, res, db.getQuiz);
 });
 

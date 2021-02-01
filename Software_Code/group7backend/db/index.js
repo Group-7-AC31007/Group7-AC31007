@@ -7,7 +7,7 @@ const pool = mysql.createPool(config.mysql);
 
 let database = {};
 
-database.all = () => {
+database.test = () => {
 	return new Promise((resolve, reject) => {
 		pool.query("SELECT * FROM testing", (err, results) => {
 			if (err) {

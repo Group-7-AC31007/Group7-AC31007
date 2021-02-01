@@ -130,12 +130,12 @@ database.getProjectList = (req) => {
 	});
 };
 
-// Get the list of questionnaires available for the project
+// Get the list of questionnaires available for user based on projectAccess
 database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {
 		console.log(req);
-		const {projectID} = req;
-		pool.query(`SELECT * FROM Questionnaires WHERE projectID=${projectID}`, (err, res) => {
+		const {usersID} = req;
+		pool.query(`SELECT questionnairesID FROM user_questionnaires WHERE usersID = ${usersID}`, (err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
 			}
@@ -194,10 +194,15 @@ database.getQuiz = (req) => {
 database.completeQuiz = (req) => {
 	return new Promise((resolve, reject) => {
 		const { userID, questions } = req;
+		console.log(req);
 		for (let i in questions) {
-			questionID = questions[i].id;
-			answer = question.answer;
-			pool.query(`INSERT INTO QuestionAnswers (questionID, userID, answer) VALUES (${questionID}, ${userID}, ${answer});`, (err, res) => {
+			console.log(i);
+			let questionID = questions[i].id;
+			let answer = questions[i].answer;
+			console.log(questionID,userID,answer);
+			pool.query(`INSERT INTO QuestionAnswers (questionID, userID, answer) VALUES (${questionID}, ${userID}, '${answer}');`, (err, res) => {
+				console.log(res);
+				console.log(err);
 				if (err) {
 					return reject("COULD NOT SEND COMPLETION");
 				}

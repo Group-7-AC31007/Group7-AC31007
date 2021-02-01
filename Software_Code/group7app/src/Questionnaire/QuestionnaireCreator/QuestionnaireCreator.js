@@ -71,7 +71,7 @@ export default class QuestionnaireCreator extends Component {
             return
         }
         let questionsCopyNormalised = this.state.questions.map((cur, ind) => { cur.id = ind; return cur })// return a copy of the state with index's normalisd
-        let result = { questionnaireNo: 0, projectID: 0, questions: questionsCopyNormalised } // prepare json for sending with questionnaire & project ID 
+        let result = { questionnaireNo: 1, projectID: 1, questions: questionsCopyNormalised } // prepare json for sending with questionnaire & project ID 
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -53,9 +53,9 @@ export default class Questionnaire extends Component {
                 </div>
             )
         } else {
-            setTimeout(() => {
+            
                 this.history.push("/login")
-            }, 1000)
+            
             return (
               <div>
                   Redirecting to login

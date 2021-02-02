@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTable } from 'react-table'
-import './table.css'
+import './table.scss'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import cs
 export default function UserTable(props) {

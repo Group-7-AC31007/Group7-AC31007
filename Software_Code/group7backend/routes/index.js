@@ -63,6 +63,10 @@ router.post("/get_quiz_list", async(req, res) => {
 	sendResponse(req, res, db.getQuizList);
 });
 
+router.post("/get_qvisualization", async(req, res) => {
+	sendResponse(req, res, db.getQVisualization);
+});
+
 router.post("/get_quiz", async(req, res) => {
 	sendResponse(req, res, db.getQuiz);
 });

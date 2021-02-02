@@ -6,7 +6,7 @@ export default class UserTasks extends Component {
 	constructor(props) {
 		super(props)
 		let tasks = [{"id": 1, "checked": true, "text": "test"}]
-		this.state = {projects: [], tasks: tasks, selectedProject: null}
+		this.state = {projects: [], tasks: tasks, selectedProject: ""}
 		this.getProjectList()
 	}
 
@@ -23,7 +23,10 @@ export default class UserTasks extends Component {
 				this.setState({
 					projects: json.map(element => "Project " + element.projectsID)
 				})
-				this.getTaskList()
+				if (this.state.projects.length != 0) {
+					this.setState({selectedProject: this.state.projects[0]})
+					this.getTaskList()
+				}
 			}))
 	}
 
@@ -46,6 +49,11 @@ export default class UserTasks extends Component {
 					})
 				})
 			}))
+	}
+
+	handleProjectChange(value) {
+		let projectCopy = value
+		this.setState({selectedProject: projectCopy})
 	}
 
 	handleTaskStatusChange() {
@@ -74,13 +82,13 @@ export default class UserTasks extends Component {
 					<label>Select a project</label>
 					<select value={this.state.selectedProject} onChange={
 					(event => {
-					this.setState({selectedProject: event.target.value})
+					this.handleProjectChange(event.target.value)
 					this.getTaskList()
 					})} className="projects-dropdown">
 						{projectList}
 					</select>
 				</div>
-				<div className="research-title">PLACEHOLDER tasks</div>
+				<div className="research-title">{this.state.selectedProject} tasks</div>
 				{taskList}
 			</div>
 		)

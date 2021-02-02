@@ -34,48 +34,83 @@ export default class Visualization extends Component {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST FOR CHARTS") {
                     alert('Could not get list for charts!');
-                    console.log(json);
+                    // console.log(json);
                 } else {
-                    console.log(json)
+                    // console.log(json)
                     let chartData = json;
                     console.log(chartData);
-                    console.log(chartData[5].questionText);
+                    // console.log(chartData[5].questionText);
                     let chartAnswer = [...chartData]
                     let loggedAnswers = []
                     let sortedAnswers = []
                     let sortedID = 1
 
-                    console.log(chartAnswer);
-                    for (let i = 0; i <= chartAnswer.length; i++) {
+                    // console.log(chartAnswer);
+                    for (let i = 0; i < chartAnswer.length; i++) {
                         let count = 0
                         let logCheck = false
+                        let loopct = 0
                         let curID = chartAnswer[i].questionID;
                         let curAnswer = chartAnswer[i].text_answer
-                        console.log(loggedAnswers.length); 
-                        if (loggedAnswers.length != 0) {
-                            for (let x = 0; x <= loggedAnswers.length; x++) {
+                        console.log(" Log length ");
+                        console.log(loggedAnswers.length);
+                        if (loggedAnswers.length >0) {
+                            for (let x = 0; x < loggedAnswers.length; x++) {
+                                loopct++
+                                console.log("loopct");
+                                console.log(loopct);
+                                // console.log("x");
+                                // console.log(x);
+                                console.log(" It be like that ")
                                 console.log(loggedAnswers[x]);
-                                if (curID == loggedAnswers[x].questionID && curAnswer == loggedAnswers[x].Answer) {
+                                console.log(" I wanna cry")
+                                console.log(loggedAnswers[x].Answer);
+                                // console.log(JSON.stringify(loggedAnswers[x].Answer));
+                                if (curID == loggedAnswers[x].questionID && curAnswer == loggedAnswers[x].Answer && !loggedAnswers[x].Answer) {
                                     logCheck = true
-
                                 }
+                                if(!loggedAnswers[x].Answer)
+                                {
+                                console.log(" curAnswer comparison ");
+                                console.log(curAnswer);
+                                console.log(" logged answer comparison ");
+                                console.log(loggedAnswers[x].Answer);
+                                console.log(" xr comparison ");
+                                console.log(x);
+                                }
+
                             }
+                            // console.log(" curAnswer  ");
+                            // console.log(curAnswer);
+                            // console.log("curID");
+                            // console.log(curID);
+                            // console.log(" chartAnswer length ");
+                            // console.log(chartAnswer.length);
+                            // console.log(logCheck)
                         }
-                        console.log("AAAAAAAAAAAAA");
+                        // console.log("AAAAAAAAAAAAA");
                         if (logCheck == false) {
-                            for (let y = 0; y <= chartAnswer.length; y++) {
+                            // console.log(chartAnswer);
+                            for (let y = 0; y < chartAnswer.length; y++) {
+                                console.log(y);
                                 console.log(chartAnswer[y]);
-                                if (logCheck == false && chartAnswer[y].text_answer == curAnswer && chartAnswer[y].questionID == curID) {
+                                if (chartAnswer[y].text_answer == curAnswer && chartAnswer[y].questionID == curID && !chartAnswer[y].text_answer) {
                                     count++
+                                    console.log("yes");
+
                                 }
-
-
                             }
-                            sortedAnswers.push({ ID: sortedID }, { Answer: curAnswer }, { count: count })
-                            loggedAnswers.push({ ID: i + 1 }, { Answer: curAnswer }, { questionID: curID })
+
+                            sortedAnswers.push({ ID: sortedID , Answer: curAnswer ,count: count })
+                            loggedAnswers.push({ ID: i + 1 ,Answer: curAnswer , questionID: curID })
+                            console.log(" Logged Length ")
+                            console.log(loggedAnswers.length)
+                            console.log(" Logged answer ")
+                            console.log(loggedAnswers[i].questionID)
                             sortedID++
                         }
-
+                        console.log(sortedAnswers);
+                        console.log(loggedAnswers);
 
                     }
                     console.log(sortedAnswers);
@@ -97,8 +132,8 @@ export default class Visualization extends Component {
                         layout: {
                             padding: {
                                 top: 5,
-                                left: 500,
-                                right: 500,
+                                left: 200,
+                                right: 200,
                                 bottom: 50
                             }
                         },

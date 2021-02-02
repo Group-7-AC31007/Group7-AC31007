@@ -66,9 +66,9 @@ function App() {
     </UserManagement>)
   }
   console.log(user);
-  
 
-       
+
+
 
 
   let myFunction = () => {
@@ -86,23 +86,23 @@ function App() {
       x.className = "header";
     }
   }
-    return (
+  return (
     <Router>
       <div className='container'>
         <header id="header" className="header">
-            <img className="logo" src={logo} />
-           <a href="javascript:void(0);" className="icon" onClick={(e)=>{myFunction(e)}}>  
-                <i class="fa fa-bars"> </i> 
-            </a>
-            <Link to="/" onClick={(e)=>{dropDown(e)}}>Home </Link>
-            <Link to="/login" onClick={(e)=>{dropDown(e)}} >{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link>
-            <Link to="/questionnaire" onClick={(e)=>{dropDown(e)}}>Questionnaire </Link>
-            {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e)=>{dropDown(e)}}>Registration</Link>) : null}
-            {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
-              <Link to="user_management" onClick={(e)=>{dropDown(e)}}> Manage Users</Link>) : null}
+          <img className="logo" src={logo} />
+          <a href="javascript:void(0);" className="icon" onClick={(e) => { myFunction(e) }}>
+            <i class="fa fa-bars"> </i>
+          </a>
+          <Link to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
+          <Link to="/login" onClick={(e) => { dropDown(e) }} >{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link>
+          <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
+          {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
+          {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
+            <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
+        </header>
 
-  
-          {/*
+        {/*
             A <Switch> looks through all its children <Route>
             elements and renders the first one whose path
             matches the current URL. Use a <Switch> any time

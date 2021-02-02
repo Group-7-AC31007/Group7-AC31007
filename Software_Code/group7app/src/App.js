@@ -66,23 +66,43 @@ function App() {
     </UserManagement>)
   }
   console.log(user);
-  return (
+  
+
+       
+
+
+  let myFunction = () => {
+    var x = document.getElementById("header");
+    if (x.className === "header") {
+      x.className += " responsive";
+    } else {
+      x.className = "header";
+    }
+  }
+
+  let dropDown = () => {
+    var x = document.getElementById("header");
+    if (x.className === "header responsive") {
+      x.className = "header";
+    }
+  }
+    return (
     <Router>
       <div className='container'>
-        <header>
-          <img className="logo" src={logo} />
-          <ul id="listHeader">
-            <li> <Link to="/">Home </Link> </li>
-            <li> <Link to="/login">{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link> </li>
-            <li> <Link to="/questionnaire">Questionnaire </Link> </li>
-            {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<li> <Link to="/registration">Registration</Link> </li>) : null}
+        <header id="header" className="header">
+            <img className="logo" src={logo} />
+           <a href="javascript:void(0);" className="icon" onClick={(e)=>{myFunction(e)}}>  
+                <i class="fa fa-bars"> </i> 
+            </a>
+            <Link to="/" onClick={(e)=>{dropDown(e)}}>Home </Link>
+            <Link to="/login" onClick={(e)=>{dropDown(e)}} >{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link>
+            <Link to="/questionnaire" onClick={(e)=>{dropDown(e)}}>Questionnaire </Link>
+            {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e)=>{dropDown(e)}}>Registration</Link>) : null}
             {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
-              <li> <Link to="user_management"> Manage Users</Link></li>) : null}
+              <Link to="user_management" onClick={(e)=>{dropDown(e)}}> Manage Users</Link>) : null}
 
-          </ul>
-        </header>
-
-        {/*
+  
+          {/*
             A <Switch> looks through all its children <Route>
             elements and renders the first one whose path
             matches the current URL. Use a <Switch> any time

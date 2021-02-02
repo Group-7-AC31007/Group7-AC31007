@@ -61,3 +61,7 @@
     border-bottom: solid 0.5px black;
     width: 150px;
 }
+
+.clear {
+    clear:both;
+}

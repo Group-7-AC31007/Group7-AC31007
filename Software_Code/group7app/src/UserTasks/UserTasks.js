@@ -6,7 +6,7 @@ export default class UserTasks extends Component {
 	constructor(props) {
 		super(props)
 		let tasks = [{"id": 1, "checked": true, "text": "test"}]
-		this.state = {projects: [], tasks: tasks, selectedProject: ""}
+		this.state = {projects: [], tasks: tasks, selectedProject: "", usersID: 10}
 		this.getProjectList()
 	}
 
@@ -15,7 +15,10 @@ export default class UserTasks extends Component {
 		const reqOpts = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ usersID: 10, projectAccessLevel: 1 })
+			body: JSON.stringify({
+				usersID: this.state.usersID,
+				projectAccessLevel: 1
+			})
 		}
 		fetch('http://localhost:3001/get_project_list', reqOpts)
 			.then(response => response.json().then(json => {
@@ -27,6 +30,19 @@ export default class UserTasks extends Component {
 					this.setState({selectedProject: this.state.projects[0]})
 					this.getTaskList()
 				}
+			}))
+	}
+
+	isTaskCompleted(tasksID) {
+		const reqOpts = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tasksID, usersID: this.state.usersID })
+		}
+		fetch('http://localhost:3001/get_task_completion', reqOpts)
+			.then(response => response.json().then(json => {
+				console.log(json);
+				return !!json["0"].taskCompletionsID
 			}))
 	}
 

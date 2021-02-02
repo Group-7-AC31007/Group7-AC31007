@@ -10,6 +10,8 @@ import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
+import UserManagement from './UserManagement/UserManagement'
+
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.png'
@@ -28,16 +30,18 @@ function App() {
   console.log("reloading-app");
   let userStateStart = ""
   let idStateStart = ""
+  let positionStateStart = ""
   if (!!Cookies.get('access_token')) {
     userStateStart = Cookies.get('access_token').split("#")[0]
     idStateStart = Cookies.get('access_token').split("#")[1]
+    positionStateStart = Cookies.get('access_token').split("#")[2]
   }
 
-  const [user, setUser] = useState({user:userStateStart,id:idStateStart})
+  const [user, setUser] = useState({ user: userStateStart, id: idStateStart, position: positionStateStart })
   console.log(user);
   let homeWrapper = (props) => {
     return (
-      <Home history={props.history}></Home>
+      <Home history={props.history} user={user}></Home>
     )
 
   }
@@ -51,11 +55,21 @@ function App() {
       <Registration history={props.history} user={user} ></Registration>
     )
   }
-  let questionnaireWrapper = (props) =>{
-    return(
-      <Questionnaire history = {props.history} user={user}></Questionnaire>
+  let questionnaireWrapper = (props) => {
+    return (
+      <Questionnaire history={props.history} user={user}></Questionnaire>
     )
   }
+  let userManagementWrapper = (props) => {
+    return (<UserManagement history={props.history} user={user}>
+
+    </UserManagement>)
+  }
+  console.log(user);
+
+
+
+
 
   let myFunction = () => {
     var x = document.getElementById("header");
@@ -72,51 +86,46 @@ function App() {
       x.className = "header";
     }
   }
-
   return (
     <Router>
-        <div className='container'>
+      <div className='container'>
+        <header id="header" className="header">
+          <img className="logo" src={logo} />
+          <a href="javascript:void(0);" className="icon" onClick={(e) => { myFunction(e) }}>
+            <i class="fa fa-bars"> </i>
+          </a>
+          <Link to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
+          <Link to="/login" onClick={(e) => { dropDown(e) }} >{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link>
+          <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
+          {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
+          {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
+            <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
+        </header>
 
-          <header id="header" className="header">
-            <img className="logo" src={logo} />
-            <a href="javascript:void(0);" className="icon" onClick={(e)=>{myFunction(e)}}>  
-                <i class="fa fa-bars"> </i> 
-            </a>
-            <Link className="link" to="/registration" onClick={(e)=>{dropDown(e)}}>Registration</Link> 
-            <Link className="link" to="/questionnaire" onClick={(e)=>{dropDown(e)}}>Questionnaire </Link> 
-            <Link className="link" to="/login" onClick={(e)=>{dropDown(e)}}>Login </Link> 
-            <Link className="link Home" to="/" onClick={(e)=>{dropDown(e)}}>Home </Link>      
-          </header>
-  
-          {/*
+        {/*
             A <Switch> looks through all its children <Route>
             elements and renders the first one whose path
             matches the current URL. Use a <Switch> any time
             you have multiple routes, but you want only one
             of them to render at a time
           */}
-           <Route exact path="/" component={homeWrapper}>
+        <Route exact path="/" component={homeWrapper} />
+        <Route path="/login" component={loginWrapper} />
+        <Route path="/questionnaire" component={questionnaireWrapper} />
+        <Route path="/registration" component={registrationWrapper} />
 
-        </Route>
-        <Route path="/login" component={loginWrapper}>
-        </Route>
-        <Route path="/questionnaire" component={questionnaireWrapper}>
-
-        </Route>
-        <Route path="/registration" component={registrationWrapper}>
-        </Route>
-
+        <Route path="/user_management" component={userManagementWrapper} />
         <footer>
-          <div> 
+          <div>
             <p> Footer </p>
           </div>
-          
+
         </footer>
-          
-        </div>
+
+      </div>
 
     </Router>
-    
+
   );
 }
 

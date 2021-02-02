@@ -17,7 +17,7 @@ export default class TextInputTaker extends Component {
         return (
             <div className="quest-taker-wrapper">
                 <div className="quest-taker-question">
-                    {this.state.value}
+                    {this.state.questionText}
                 </div>
                 <div className="quest-taker-text-wrapper" >
                     <form onChange={(e) => this.answerHandler(e)}>

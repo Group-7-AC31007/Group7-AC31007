@@ -225,7 +225,7 @@ export default function UserTable(props) {
     return (
         <div className="user-table-wrapper">
             <table {...getTableProps()}>
-                <thead>
+                <thead className="table-head">
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
@@ -242,8 +242,11 @@ export default function UserTable(props) {
                                 {row.cells.map((cell) => {
                                     return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
-                                <td> <button onClick={() => updateRecord(row)}>update</button>
-                                    <button style={{ backgroundColor: "red" }} onClick={() => deleteRecord(row)}>delete</button>
+                                <td className="td-update-button"> 
+                                    <button className="table-update-button" onClick={() => updateRecord(row)}>update</button>
+                                </td>
+                                <td className="td-delete-button" >
+                                     <button  className="table-delete-button" onClick={() => deleteRecord(row)}>delete</button>
                                 </td>
                             </tr>
                         );

@@ -1,15 +1,66 @@
 
 table {
   border-collapse: collapse;
-  margin: auto;
 }
 
 td,
 th {
   border: 1px solid #999;
-  padding: 0.5rem;
+  padding: 5px;
   text-align: left;
 }
 tbody tr:nth-child(odd) {
   background: #eee;
 }
+
+.table-container{
+  height: 100%;
+  margin-bottom: 58px;
+  position: relative; 
+
+}
+
+.user-table-wrapper{
+  position: absolute; 
+  top: 50%;
+  left: 50%;;
+  transform: translate(-50%, -50%);
+}
+
+.table-head{
+ 
+  background-color: #c4ebd0;
+}
+
+.td-update-button{
+  border-right: none;
+  padding-right: 0;
+}
+
+.td-delete-button{
+ border-left: none;
+}
+
+.table-update-button{
+  margin-right: 0;
+}
+
+.table-delete-button{
+  background-color: #ff6264;
+  color: white;
+  outline: solid 0.1px white;
+  transition: background-color 0.2s linear;
+  transition: color 0.2s linear;
+  transition: outline 0.2s linear;
+  
+
+}
+
+.table-delete-button:hover{
+  background-color: white;
+  color: #ff6264;
+  outline: solid 2px #ff6264;
+ 
+
+}
+

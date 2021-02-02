@@ -138,13 +138,16 @@ database.createQuiz = (req) => {
 // Get list of projects currently available to the user
 database.getProjectList = (req) => {
 	return new Promise((resolve, reject) => {
-		const { userID, projectAccessLevel } = req;
-		pool.query(`SELECT * FROM projectAccess WHERE userID=${userID} AND ` +
-		`projectAccessLevel=${projectAccessLevel};`,
+		const { usersID, projectAccessLevel } = req;
+		let sql = `SELECT * FROM projectAccess WHERE usersID=${usersID} AND ` +
+		`projectAccessLevel=${projectAccessLevel};`
+		console.log(sql);
+		pool.query(sql,
 		(err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF PROJECTS");
 			}
+			console.log(res);
 			return resolve(res);
 		});
 	});
@@ -236,8 +239,8 @@ database.completeQuiz = (req) => {
 
 database.getTaskList = (req) => {
 	return new Promise((resolve, reject) => {
-		const { projectID } = req;
-		pool.query(`SELECT * FROM Tasks WHERE projectID='${projectID}';`,
+		const { projectsID } = req;
+		pool.query(`SELECT * FROM Tasks WHERE projectsID='${projectsID}';`,
 		(err, res) => {
 			if (err) {
 				return reject(err);

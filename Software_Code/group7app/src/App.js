@@ -56,17 +56,36 @@ function App() {
       <Questionnaire history = {props.history} user={user}></Questionnaire>
     )
   }
+
+  let myFunction = () => {
+    var x = document.getElementById("header");
+    if (x.className === "header") {
+      x.className += " responsive";
+    } else {
+      x.className = "header";
+    }
+  }
+
+  let dropDown = () => {
+    var x = document.getElementById("header");
+    if (x.className === "header responsive") {
+      x.className = "header";
+    }
+  }
+
   return (
     <Router>
         <div className='container'>
-          <header>
+
+          <header id="header" className="header">
             <img className="logo" src={logo} />
-            <ul id="listHeader">
-              <li> <Link to="/">Home </Link> </li>
-              <li> <Link to="/login">Login </Link> </li>
-              <li> <Link to="/questionnaire">Questionnaire </Link> </li>
-              <li> <Link to="/registration">Registration</Link> </li>
-            </ul>
+            <a href="javascript:void(0);" className="icon" onClick={(e)=>{myFunction(e)}}>  
+                <i class="fa fa-bars"> </i> 
+            </a>
+            <Link className="link" to="/registration" onClick={(e)=>{dropDown(e)}}>Registration</Link> 
+            <Link className="link" to="/questionnaire" onClick={(e)=>{dropDown(e)}}>Questionnaire </Link> 
+            <Link className="link" to="/login" onClick={(e)=>{dropDown(e)}}>Login </Link> 
+            <Link className="link Home" to="/" onClick={(e)=>{dropDown(e)}}>Home </Link>      
           </header>
   
           {/*

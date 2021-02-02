@@ -224,7 +224,7 @@ export default function UserTable(props) {
     }
     return (
         <div className="user-table-wrapper">
-            <div className="table-container"  {...getTableProps()}>
+            <div {...getTableProps()}>
                 <ul className="responsive-table">
                     <li className="table-header">
                         {headerGroups.map((headerGroup) => (
@@ -235,7 +235,7 @@ export default function UserTable(props) {
 
                         ))}
                     </li>
-                    <tbody {...getTableBodyProps()}>
+                    <div {...getTableBodyProps()}>
                         {rows.map((row, i) => {
                             prepareRow(row);
                             return (
@@ -252,7 +252,7 @@ export default function UserTable(props) {
                                 </li>
                             );
                         })}
-                    </tbody>
+                    </div>
                 </ul>
             </div>
         </div>

@@ -101,6 +101,7 @@ function App() {
           <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
           <Link className="Home" to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
         </header>
+        <div className="main">
 
         {/*
             A <Switch> looks through all its children <Route>
@@ -115,14 +116,16 @@ function App() {
         <Route path="/registration" component={registrationWrapper} />
 
         <Route path="/user_management" component={userManagementWrapper} />
-        <footer>
+
+        </div>    
+        <footer className="site-footer">
           <div>
             <p> Footer </p>
           </div>
 
-        </footer>
-
+        </footer>    
       </div>
+
 
     </Router>
 

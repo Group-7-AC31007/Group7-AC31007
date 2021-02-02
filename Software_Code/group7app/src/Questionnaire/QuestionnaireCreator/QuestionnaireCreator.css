@@ -27,7 +27,7 @@ body {
     border-width: 0.1px;
     color: black;
     background-color: #D1E2F2;   
-    
+    min-height: 100%;
 }
 
 .quest-creator-icons-wrapper {

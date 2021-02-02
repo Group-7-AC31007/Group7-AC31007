@@ -18,11 +18,12 @@ let sanitize = (str) => {
 // For testing if we're connected to the database
 database.test = () => {
 	return new Promise((resolve, reject) => {
-		pool.query("SELECT * FROM testing", (err, results) => {
+		pool.query("SELECT * FROM testing",
+		(err, res) => {
 			if (err) {
 				return reject(err);
 			}
-			return resolve(results);
+			return resolve(res);
 		});
 	});
 };
@@ -38,7 +39,7 @@ database.signup = (req) => {
 
 		pool.query(
 		`INSERT INTO Users (${keys.join(",")}) VALUES (${vals.join(",")});`,
-		(err, results) => {
+		(err, res) => {
 			if (err) {
 				return reject(err);
 			}
@@ -52,15 +53,16 @@ database.signup = (req) => {
 database.signin = (req) => {
 	return new Promise((resolve, reject) => {
 		const { email, hashPassword } = req;
-		pool.query(`SELECT * FROM Users WHERE email='${email}'`, (err, results) => {
-			console.log(results);
-			if (err || results[0] == undefined) {
+		pool.query(`SELECT * FROM Users WHERE email='${email}'`,
+		(err, res) => {
+			console.log(res);
+			if (err || res[0] == undefined) {
 				return reject("NO SUCH USER");
 			}
-			if (results[0].hashPassword != hashPassword) {
+			if (res[0].hashPassword != hashPassword) {
 				return reject("NOMATCH PASS");
 			}
-			return resolve(results[0]);
+			return resolve(res[0]);
 		});
 	});
 };
@@ -241,6 +243,21 @@ database.getTaskList = (req) => {
 	return new Promise((resolve, reject) => {
 		const { projectsID } = req;
 		pool.query(`SELECT * FROM Tasks WHERE projectsID='${projectsID}';`,
+		(err, res) => {
+			if (err) {
+				return reject(err);
+			}
+			return resolve(res);
+		});
+	});
+};
+
+database.getTaskCompletion = (req) => {
+	return new Promise((resolve, reject) => {
+		const { tasksID, usersID } = req;
+		pool.query(
+		`SELECT * FROM TaskCompletions ` +
+		`WHERE tasksID=${tasksID} AND usersID=${usersID};`,
 		(err, res) => {
 			if (err) {
 				return reject(err);

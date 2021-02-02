@@ -74,4 +74,8 @@ router.post("/get_task_list", async(req, res) => {
 	sendResponse(req, res, db.getTaskList);
 });
 
+router.post("/get_task_completion", async(req, res) => {
+	sendResponse(req, res, db.getTaskCompletion);
+});
+
 module.exports = router;

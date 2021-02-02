@@ -5,45 +5,50 @@ import Task from './Task'
 export default class UserTasks extends Component {
 	constructor(props) {
 		super(props)
-		let tasks = [{"id": 1, "checked": true, "text": "test"}]
-		this.state = {projects: [], tasks: tasks, selectedProject: "", usersID: 10}
+		this.state = {
+			projects: [],
+			tasks: [],
+			selectedProject: "",
+			usersID: 10,
+			projectAccessLevel: 0
+		}
 		this.getProjectList()
 	}
 
 	getProjectList() {
-		console.log("AN ATTEMPT WAS MADE XDDD");
 		const reqOpts = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				usersID: this.state.usersID,
-				projectAccessLevel: 1
+				projectAccessLevel: this.state.projectAccessLevel
 			})
 		}
 		fetch('http://localhost:3001/get_project_list', reqOpts)
-			.then(response => response.json().then(json => {
-				console.log("/get_project_list", json)
-				this.setState({
-					projects: json.map(element => "Project " + element.projectsID)
-				})
-				if (this.state.projects.length != 0) {
-					this.setState({selectedProject: this.state.projects[0]})
-					this.getTaskList()
-				}
-			}))
+		.then(response => response.json().then(json => {
+			console.log("/get_project_list", json)
+			this.setState({
+				projects: json.map(element => element.projectsID)
+			})
+			if (this.state.projects.length != 0) {
+				this.setState({ selectedProject: this.state.projects[0] })
+				this.getTaskList()
+			}
+		}))
 	}
 
 	isTaskCompleted(tasksID) {
-		const reqOpts = {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ tasksID, usersID: this.state.usersID })
-		}
-		fetch('http://localhost:3001/get_task_completion', reqOpts)
+		return new Promise((resolve, reject) => {
+			const reqOpts = {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ tasksID, usersID: this.state.usersID })
+			}
+			fetch('http://localhost:3001/get_task_completion', reqOpts)
 			.then(response => response.json().then(json => {
-				console.log(json);
-				return !!json["0"].taskCompletionsID
+				return resolve(!!json["0"] && !!json["0"].taskCompletionsID)
 			}))
+		})
 	}
 
 	getTaskList() {
@@ -53,35 +58,57 @@ export default class UserTasks extends Component {
 			body: JSON.stringify({ projectsID: this.state.selectedProject })
 		}
 		fetch('http://localhost:3001/get_task_list', reqOpts)
-			.then(response => response.json().then(json => {
-				console.log("/get_task_list", json)
-				this.setState({
-					tasks: json.map(element => {
-						return {
-							"id": element.tasksID,
-							"checked": false,
-							"text": element.text
-						}
-					})
-				})
+		.then(response => response.json().then(json => {
+			console.log("/get_task_list", json)
+			let tasksCopy = json.map(element => ({
+				"id": element.tasksID,
+				"text": element.text,
+				"checked": false
 			}))
+			tasksCopy.forEach((element, ind) => {
+				this.isTaskCompleted(element.id).then(checked => {
+					tasksCopy[ind].checked = checked
+					this.setState({tasks: tasksCopy})
+				})
+			})
+		}))
+	}
+
+	sendTaskStatus(task) {
+		const reqOpts = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				usersID: this.state.usersID,
+				tasksID: task.id,
+				checked: task.checked
+			})
+		}
+		fetch('http://localhost:3001/set_task_completion', reqOpts)
+		.then(response => response.json().then(json => {
+			console.log("/set_task_status", json)
+			if (json == "COULD NOT SET COMPLETION") {
+				task.checked = !task.checked
+			}
+		}))
 	}
 
 	handleProjectChange(value) {
 		let projectCopy = value
-		this.setState({selectedProject: projectCopy})
+		this.setState({ selectedProject: projectCopy })
 	}
 
-	handleTaskStatusChange() {
+	handleTaskStatusChange(task) {
 		let tasksCopy = this.state.tasks
-		this.setState({tasks: tasksCopy})
+		this.setState({ tasks: tasksCopy })
+		this.sendTaskStatus(task)
 	}
 
 	render() {
 		let taskList = this.state.tasks.map((curr, key) => (
 			<Task
 				key={key}
-				handler={() => this.handleTaskStatusChange()}
+				handler={(task) => this.handleTaskStatusChange(task)}
 				task={curr}
 			/>
 		))
@@ -91,21 +118,24 @@ export default class UserTasks extends Component {
 
 		console.log("PROJECTS", this.state.projects)
 		console.log("TASKS", this.state.tasks)
-		
+
 		return (
 			<div className="tasks-wrapper">
-				<div className="projects-wrapper">
+				<div className="projects">
 					<label>Select a project</label>
-					<select value={this.state.selectedProject} onChange={
-					(event => {
-					this.handleProjectChange(event.target.value)
-					this.getTaskList()
-					})} className="projects-dropdown">
+					<select value={this.state.selectedProject} onChange={(
+						event => {
+							this.handleProjectChange(event.target.value)
+							this.getTaskList()
+						}
+					)} className="projects-dropdown">
 						{projectList}
 					</select>
 				</div>
-				<div className="research-title">{this.state.selectedProject} tasks</div>
-				{taskList}
+				<div className="research-title">Project {this.state.selectedProject} tasks</div>
+				<div className="task-list">
+					{taskList}
+				</div>
 			</div>
 		)
 	}

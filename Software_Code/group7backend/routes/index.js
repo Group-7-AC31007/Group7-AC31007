@@ -78,4 +78,8 @@ router.post("/get_task_completion", async(req, res) => {
 	sendResponse(req, res, db.getTaskCompletion);
 });
 
+router.post("/set_task_completion", async(req, res) => {
+	sendResponse(req, res, db.setTaskCompletion);
+});
+
 module.exports = router;

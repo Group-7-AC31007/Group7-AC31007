@@ -188,7 +188,8 @@ database.getQuiz = (req) => {
 					let questionData = {};
 					Object.assign(questionData, question);
 					pool.query(
-					`SELECT * FROM Responses WHERE questionID=${question.questionID};`,
+					`SELECT * FROM Responses` +
+					`WHERE questionID=${question.questionID};`,
 					(err, res) => {
 						if (err) {
 							inner_reject("COULD NOT GET RESPONSES");
@@ -200,7 +201,7 @@ database.getQuiz = (req) => {
 								Object.assign(response, questionData.responses[j]);
 								questionData.responses[j] = response;
 							}
-							console.log("XDDDDDDDDDDDDDDDDDD", questionData.responses);
+							console.log("RESPONSES", questionData.responses);
 						}
 						questionnaire.push(questionData);
 						inner_resolve();
@@ -242,7 +243,9 @@ database.completeQuiz = (req) => {
 database.getTaskList = (req) => {
 	return new Promise((resolve, reject) => {
 		const { projectsID } = req;
-		pool.query(`SELECT * FROM Tasks WHERE projectsID='${projectsID}';`,
+		let sql = `SELECT * FROM Tasks WHERE projectsID=${projectsID};`;
+		console.log(sql);
+		pool.query(sql,
 		(err, res) => {
 			if (err) {
 				return reject(err);
@@ -255,14 +258,54 @@ database.getTaskList = (req) => {
 database.getTaskCompletion = (req) => {
 	return new Promise((resolve, reject) => {
 		const { tasksID, usersID } = req;
-		pool.query(
-		`SELECT * FROM TaskCompletions ` +
-		`WHERE tasksID=${tasksID} AND usersID=${usersID};`,
+		let sql = `SELECT * FROM TaskCompletions ` +
+		`WHERE tasksID=${tasksID} AND usersID=${usersID};`
+		console.log(sql);
+		pool.query(sql,
 		(err, res) => {
 			if (err) {
 				return reject(err);
 			}
 			return resolve(res);
+		});
+	});
+};
+
+database.setTaskCompletion = (req) => {
+	return new Promise((resolve, reject) => {
+		const { checked, tasksID, usersID } = req;
+		let insertTaskCompletion = () => {
+			let sql = `INSERT INTO TaskCompletions (tasksID, usersID) ` +
+			`VALUES (${tasksID}, ${usersID});`;
+			console.log(sql);
+			pool.query(sql, 
+			(err, res) => {
+				if (err) {
+					return reject("COULD NOT SET COMPLETION");
+				}
+				return resolve("COMPLETION SET");
+			});
+		};
+
+		let deleteTaskCompletion = () => {
+			let sql = `DELETE FROM TaskCompletions ` +
+			`WHERE tasksID=${tasksID} AND usersID=${usersID};`;
+			console.log(sql);
+			pool.query(sql,
+			(err, res) => {
+				if (err) {
+					return reject("COULD NOT SET COMPLETION");
+				}
+				return resolve("COMPLETION SET");
+			});
+		};
+		
+		database.getTaskCompletion(req).then(res => {
+			if (res.length == 0 && checked == true) {
+				insertTaskCompletion();
+			} else if (res.length > 0 && checked == false) {
+				deleteTaskCompletion();
+			}
 		});
 	});
 };

@@ -13,7 +13,7 @@ export default class UserTasks extends Component {
 		const reqOpts = {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
-			query: JSON.stringify({ projectID })
+			query: JSON.stringify({ projectsID: 0 })
 		}
 
 		fetch('http://localhost:3001/get_task_list', reqOpts)

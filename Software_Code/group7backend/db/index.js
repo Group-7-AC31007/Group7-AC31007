@@ -138,8 +138,9 @@ database.createQuiz = (req) => {
 // Get list of projects currently available to the user
 database.getProjectList = (req) => {
 	return new Promise((resolve, reject) => {
-		const { userID } = req;
-		pool.query(`SELECT * FROM Projects WHERE userID=${userID}`,
+		const { userID, projectAccessLevel } = req;
+		pool.query(`SELECT * FROM projectAccess WHERE userID=${userID} AND ` +
+		`projectAccessLevel=${projectAccessLevel};`,
 		(err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF PROJECTS");

@@ -141,7 +141,7 @@ export default function UserTable(props) {
 
 
                             })}
-                        <button style={{ backgroundColor: "red", float: "right" }}
+                        <button className="sure-update"
                             onClick={() => {
                                 // update record
                                 console.log(row.values);
@@ -190,7 +190,7 @@ export default function UserTable(props) {
                               })}
                         </div>
                         }
-                        <button style={{ backgroundColor: "red", float: "right" }}
+                        <button className="sure-delete"
                             onClick={() => {
                                 // delete
                                 console.log(row.values);

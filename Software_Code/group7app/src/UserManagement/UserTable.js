@@ -183,12 +183,12 @@ export default function UserTable(props) {
                         <p>You want to delete?</p>
                         {
                             <div>
-                              {Object.keys(row.values).map((cur)=>{
-                                  return (
-                                      <p>{row.values[cur]}</p>
-                                  )
-                              })}
-                        </div>
+                                {Object.keys(row.values).map((cur) => {
+                                    return (
+                                        <p>{row.values[cur]}</p>
+                                    )
+                                })}
+                            </div>
                         }
                         <button className="sure-delete"
                             onClick={() => {
@@ -224,35 +224,37 @@ export default function UserTable(props) {
     }
     return (
         <div className="user-table-wrapper">
-            <table {...getTableProps()}>
-                <thead className="table-head">
-                    {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map((row, i) => {
-                        prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
-                                    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-                                })}
-                                <td className="td-update-button"> 
-                                    <button className="table-update-button" onClick={() => updateRecord(row)}>update</button>
-                                </td>
-                                <td className="td-delete-button" >
-                                     <button  className="table-delete-button" onClick={() => deleteRecord(row)}>delete</button>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+            <div className="table-container"  {...getTableProps()}>
+                <ul className="responsive-table">
+                    <li className="table-header">
+                        {headerGroups.map((headerGroup) => (
+
+                            headerGroup.headers.map((column,index) => (
+                                <div className= {`col col-${index}`} {...column.getHeaderProps()}>{column.render("Header")}</div>
+                            ))
+
+                        ))}
+                    </li>
+                    <tbody {...getTableBodyProps()}>
+                        {rows.map((row, i) => {
+                            prepareRow(row);
+                            return (
+                                <li className="table-row" {...row.getRowProps()}>
+                                    {row.cells.map((cell,index) => {
+                                        return <div className={`col col-${index}`} {...cell.getCellProps()}>{cell.render("Cell")}</div>;
+                                    })}
+                                    <div className={`col col-${row.cells.length} td-update-button`}>
+                                        <button className="table-update-button" onClick={() => updateRecord(row)}>update</button>
+                                    </div>
+                                    <div className={`col col-${row.cells.length+1} td-delete-button`}>
+                                        <button className="table-delete-button" onClick={() => deleteRecord(row)}>delete</button>
+                                    </div>
+                                </li>
+                            );
+                        })}
+                    </tbody>
+                </ul>
+            </div>
         </div>
     )
 }

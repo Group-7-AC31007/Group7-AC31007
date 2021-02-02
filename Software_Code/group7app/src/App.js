@@ -10,6 +10,8 @@ import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
+import UserManagement from './UserManagement/UserManagement'
+
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.png'
@@ -28,16 +30,18 @@ function App() {
   console.log("reloading-app");
   let userStateStart = ""
   let idStateStart = ""
+  let positionStateStart = ""
   if (!!Cookies.get('access_token')) {
     userStateStart = Cookies.get('access_token').split("#")[0]
     idStateStart = Cookies.get('access_token').split("#")[1]
+    positionStateStart = Cookies.get('access_token').split("#")[2]
   }
 
-  const [user, setUser] = useState({user:userStateStart,id:idStateStart})
+  const [user, setUser] = useState({ user: userStateStart, id: idStateStart, position: positionStateStart })
   console.log(user);
   let homeWrapper = (props) => {
     return (
-      <Home history={props.history}></Home>
+      <Home history={props.history} user={user}></Home>
     )
 
   }
@@ -51,53 +55,57 @@ function App() {
       <Registration history={props.history} user={user} ></Registration>
     )
   }
-  let questionnaireWrapper = (props) =>{
-    return(
-      <Questionnaire history = {props.history} user={user}></Questionnaire>
+  let questionnaireWrapper = (props) => {
+    return (
+      <Questionnaire history={props.history} user={user}></Questionnaire>
     )
   }
+  let userManagementWrapper = (props) => {
+    return (<UserManagement history={props.history} user={user}>
+
+    </UserManagement>)
+  }
+  console.log(user);
   return (
     <Router>
-        <div className='container'>
-          <header>
-            <img className="logo" src={logo} />
-            <ul id="listHeader">
-              <li> <Link to="/">Home </Link> </li>
-              <li> <Link to="/login">Login </Link> </li>
-              <li> <Link to="/questionnaire">Questionnaire </Link> </li>
-              <li> <Link to="/registration">Registration</Link> </li>
-            </ul>
-          </header>
-  
-          {/*
+      <div className='container'>
+        <header>
+          <img className="logo" src={logo} />
+          <ul id="listHeader">
+            <li> <Link to="/">Home </Link> </li>
+            <li> <Link to="/login">{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link> </li>
+            <li> <Link to="/questionnaire">Questionnaire </Link> </li>
+            {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<li> <Link to="/registration">Registration</Link> </li>) : null}
+            {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
+              <li> <Link to="user_management"> Manage Users</Link></li>) : null}
+
+          </ul>
+        </header>
+
+        {/*
             A <Switch> looks through all its children <Route>
             elements and renders the first one whose path
             matches the current URL. Use a <Switch> any time
             you have multiple routes, but you want only one
             of them to render at a time
           */}
-           <Route exact path="/" component={homeWrapper}>
+        <Route exact path="/" component={homeWrapper} />
+        <Route path="/login" component={loginWrapper} />
+        <Route path="/questionnaire" component={questionnaireWrapper} />
+        <Route path="/registration" component={registrationWrapper} />
 
-        </Route>
-        <Route path="/login" component={loginWrapper}>
-        </Route>
-        <Route path="/questionnaire" component={questionnaireWrapper}>
-
-        </Route>
-        <Route path="/registration" component={registrationWrapper}>
-        </Route>
-
+        <Route path="/user_management" component={userManagementWrapper} />
         <footer>
-          <div> 
+          <div>
             <p> Footer </p>
           </div>
-          
+
         </footer>
-          
-        </div>
+
+      </div>
 
     </Router>
-    
+
   );
 }
 

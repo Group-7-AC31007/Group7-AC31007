@@ -53,6 +53,17 @@ database.signin = (req) => {
 		});
 	});
 };
+database.getUsers = () => {
+	return new Promise((resolve, reject) => {
+		pool.query(`SELECT usersID, forename, surname, email, phoneNumber, position FROM Users`, (err, results) => {
+			console.log(results);
+			if (err || results[0] == undefined) {
+				return reject("UNABLE TO GET USERS");
+			}
+			return resolve(results);
+		});
+	});
+};
 
 // Make new entries in the appropriate questionnaire tables
 database.createQuiz = (req) => {
@@ -133,7 +144,7 @@ database.getProjectList = (req) => {
 database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {
 		console.log(req);
-		const {usersID} = req;
+		const { usersID } = req;
 		pool.query(`SELECT questionnairesID, questionnairesName FROM user_questionnaires WHERE usersID = ${usersID}`, (err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
@@ -198,7 +209,7 @@ database.completeQuiz = (req) => {
 			console.log(i);
 			let questionID = questions[i].id;
 			let answer = questions[i].answer;
-			console.log(questionID,userID,answer);
+			console.log(questionID, userID, answer);
 			pool.query(`INSERT INTO QuestionAnswers (questionID, userID, answer) VALUES (${questionID}, ${userID}, '${answer}');`, (err, res) => {
 				console.log(res);
 				console.log(err);
@@ -210,5 +221,39 @@ database.completeQuiz = (req) => {
 		return resolve("QUESTIONNAIRE COMPLETED");
 	});
 };
+database.updateUser = (req) => {
+	return new Promise((resolve, reject) => {
+		const { usersID, changed } = req;
 
+		console.log(usersID, changed);
+
+		let queryString = ``
+		for (let x in changed) {
+			if (x != 0) {
+				queryString += " ,"
+			}
+			queryString += `${changed[x].key} =`
+			queryString += changed[x].key == "position" ? " " + changed[x].new : `\"${changed[x].new}\"`
+
+
+		}
+		console.log(queryString);
+		//return
+		pool.query(`UPDATE users SET ${queryString} WHERE usersID = ${usersID};`), (err, res) => {
+			console.log(res);
+			console.log(err);
+			if (err) {
+				return reject("COULD NOT UPDATE USER");
+			}
+		};
+
+		return resolve("USER UPDATED");
+	});
+};
+database.deleteUser = (req) => {
+	return new Promise((resolve, reject) => {
+		const { usersID } = req;
+	}
+	)
+}
 module.exports = database;

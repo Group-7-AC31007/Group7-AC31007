@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import './Login.css'
 import sjcl from 'sjcl'
 import Cookies from 'js-cookie'
-import { Route } from 'react-router-dom'
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.history = props.history
 
-    this.state = { email: '', password: '', user: props.user.user, id: props.user.id };
+    this.state = { email: '', password: '', user: props.user.user, id: props.user.id, position: props.user.position };
     this.userCallback = props.userCallback
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,11 +47,12 @@ export default class Login extends Component {
         } else {
           if (hashPassword == json.hashPassword) {
             console.log(json);
+            console.log(json.position);
             const expires = (60 * 60) * 1000;
             const inOneHour = new Date(new Date().getTime() + expires);
             alert('Signed in with the email: ' + this.state.email);
-            Cookies.set('access_token', json.email + "#" + json.usersID + "#logged-in", { expires: inOneHour });
-            this.handleUser({ user: json.email, id: json.usersID });
+            Cookies.set('access_token', json.email + "#" + json.usersID + "#" + json.position + "#logged-in", { expires: inOneHour });
+            this.handleUser({ user: json.email, id: json.usersID, position: json.position });
             setTimeout(() => {
               this.history.push("/");
             }, 1000);
@@ -73,15 +73,17 @@ export default class Login extends Component {
   }
 
   render() {
-    if (Cookies.get('access_token') == this.state.user + "#" + this.state.id + "#logged-in") {
+    console.log(Cookies.get('access_token'));
+    console.log(this.state.user + "#" + this.state.id + "#" + this.state.position + "#logged-in");
+    if (Cookies.get('access_token') == this.state.user + "#" + this.state.id + "#" + this.state.position + "#logged-in") {
       console.log("got in");
       return (
         <div>
           <div>{this.state.user}</div>
           <button onClick={() => {
-            Cookies.remove('access_token'); setTimeout(() => {
+            Cookies.remove('access_token'); 
+            this.handleUser({user:"",id:"",position:""})
               this.history.push("/login")
-            }, 1000);
           }}>Sign Out</button>
         </div>
       )

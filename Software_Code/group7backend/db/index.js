@@ -74,10 +74,11 @@ database.signin = (req) => {
 				return reject("NOMATCH PASS")
 			}
 			console.log("signin_res", res[0])
-			return resolve(results[0]);
+			return resolve(res[0]);
 		});
 	});
 };
+
 database.getUsers = () => {
 	return new Promise((resolve, reject) => {
 		pool.query(`SELECT usersID, forename, surname, email, phoneNumber, position, locked FROM Users`, (err, results) => {

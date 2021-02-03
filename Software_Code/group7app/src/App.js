@@ -70,7 +70,12 @@ function App() {
     return (<Refresh history={props.history} user={user}>
 
     </Refresh>)
-  }
+	}
+	let tasksWrapper = (props) => {
+		return (<UserTasks history={props.history} user={user}>
+
+		</UserTasks>)
+	}
   console.log(user);
 
 
@@ -103,9 +108,10 @@ function App() {
           <Link to="/login" onClick={(e) => { dropDown(e) }} >{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link>
           {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
           <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
+          {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in")) ? (
+          <Link to="/tasks" onClick={(e) => { dropDown(e) }}> Tasks</Link>) : null}
           {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
           <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
-          <Link to="/tasks">Tasks </Link>
           <Link className="Home" to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
         </header>
         <div className="main">
@@ -122,7 +128,7 @@ function App() {
         <Route path="/questionnaire" component={questionnaireWrapper} />
         <Route path="/registration" component={registrationWrapper} />
         <Route path ="/refresh" component={refreshWrapper}/>
-        <Route path="/tasks" component={UserTasks}/>
+        <Route path="/tasks" component={tasksWrapper}/>
         <Route path="/user_management" component={userManagementWrapper} />
 
         </div>    

@@ -79,4 +79,7 @@ router.post("/update_user",async(req,res)=>{
 router.post("/delete_user",async(req,res)=>{
 	sendResponse(req,res,db.deleteUser)
 })
+router.post("/update_password",async(req,res)=>{
+	sendResponse(req,res,db.updatePassword)
+})
 module.exports = router;

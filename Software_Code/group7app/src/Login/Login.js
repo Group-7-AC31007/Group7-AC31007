@@ -42,8 +42,11 @@ export default class Login extends Component {
     console.log(hashPassword);
     fetch('http://localhost:3001/signin', reqOpts).then(response => {
       response.json().then(json => {
+        console.log(json);
         if (json == "NO SUCH USER") {
           console.log("NO SUCH USER");
+        } else if (json.locked == 1) {
+          alert("Account is locked please contact your lab manager")
         } else {
           if (hashPassword == json.hashPassword) {
             console.log(json);
@@ -53,7 +56,7 @@ export default class Login extends Component {
             //alert('Signed in with the email: ' + this.state.email);
             Cookies.set('access_token', json.email + "#" + json.usersID + "#" + json.position + "#logged-in", { expires: inOneHour });
             this.handleUser({ user: json.email, id: json.usersID, position: json.position });
-           this.history.push(`/refresh?message=Logging in to ${json.email}&timer=1000`)
+            this.history.push(`/refresh?message=Logging in to ${json.email}&timer=1000`)
           } else {
             alert('Incorrect password: ' + this.state.email);
           }
@@ -79,9 +82,9 @@ export default class Login extends Component {
         <div>
           <div>{this.state.user}</div>
           <button onClick={() => {
-            Cookies.remove('access_token'); 
-            this.handleUser({user:"",id:"",position:""})
-              this.history.push("/refresh?next=login&message=Logging out")
+            Cookies.remove('access_token');
+            this.handleUser({ user: "", id: "", position: "" })
+            this.history.push("/refresh?next=login&message=Logging out")
           }}>Sign Out</button>
         </div>
       )

@@ -15,7 +15,7 @@ export default function UserTable(props) {
             "Header": cur, "accessor": cur,
         }
     })
-    cols.push({ "Header": "Actions", "accessor": "Actions" })
+
     const columns = React.useMemo(
         () =>
             cols, []
@@ -141,7 +141,10 @@ export default function UserTable(props) {
                                 </div>)
 
 
-                            })}
+                            })}                             
+                            <div className="col col-6"></div>
+                            <div className="col col-7"></div>
+
                         <button className="sure-update"
                             onClick={() => {
                                 // update record
@@ -241,18 +244,15 @@ export default function UserTable(props) {
                             prepareRow(row);
                             return (
                                 <li className="table-row" {...row.getRowProps()}>
-                                    {row.cells.map((cell, index) => {
-                                        if (cell.column.Header == "Actions") {
-                                            return <div className={`col col-${index}`}>
-                                                <button className="table-update-button" onClick={() => updateRecord(row)}>update</button>
-                                                <button className="table-delete-button" onClick={() => deleteRecord(row)}>delete</button>
-                                            </div>
-                                        }
-                                        return <div className={`col col-${index}`} {...cell.getCellProps()}>{cell.render("Cell")}
-                                        </div>;
-
-                                    })
-                                    }
+                                    {row.cells.map((cell,index) => {
+                                        return <div className={`col col-${index}`} {...cell.getCellProps()}>{cell.render("Cell")}</div>;
+                                    })}
+                                    <div className={`col col-${row.cells.length} td-update-button`}>
+                                        <button className="table-update-button" onClick={() => updateRecord(row)}>update</button>
+                                    </div>
+                                    <div className={`col col-${row.cells.length+1} td-delete-button`}>
+                                        <button className="table-delete-button" onClick={() => deleteRecord(row)}>delete</button>
+                                    </div>
                                 </li>
                             );
                         })}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Task from './Task'
+import './Task.css'
 
 
 export default class UserTasks extends Component {
@@ -120,23 +121,32 @@ export default class UserTasks extends Component {
 		console.log("TASKS", this.state.tasks)
 
 		return (
-			<div className="tasks-wrapper">
-				<div className="projects">
-					<label>Select a project</label>
-					<select value={this.state.selectedProject} onChange={(
-						event => {
-							this.handleProjectChange(event.target.value)
-							this.getTaskList()
-						}
-					)} className="projects-dropdown">
-						{projectList}
-					</select>
-				</div>
-				<div className="research-title">
-					Project {this.state.selectedProject} tasks
-				</div>
-				<div className="task-list">
-					{taskList}
+			<div className="tasks-main-wrapper">
+				<div className="tasks-wrapper">
+				<div className="quest-creator-icons-wrapper">
+                    <i className="fa fa-book" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-laptop" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-file-text" style={{ fontSize: "60px" }}></i>
+                </div>
+					<div className="projects">
+					
+						<label>Select a project: </label>
+						<select value={this.state.selectedProject} onChange={(
+							event => {
+								this.handleProjectChange(event.target.value)
+								this.getTaskList()
+							}
+						)} className="projects-dropdown">
+							{projectList}
+						</select>
+					</div>
+					<div className="research-title">
+						Project {this.state.selectedProject} tasks
+					</div>
+					<hr />
+					<div className="task-list">
+						{taskList}
+					</div>
 				</div>
 			</div>
 		)

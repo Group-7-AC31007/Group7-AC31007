@@ -88,6 +88,11 @@ export default class QuestionnaireTaker extends Component {
                 (<PredefinedListTaker key={key} handler={() => this.answerHandler()} question={current}></PredefinedListTaker>)))
         return (
             <div className="quest-taker-main-wrapper" >
+                <div className="quest-creator-icons-wrapper">
+                    <i className="fa fa-book" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-laptop" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-file-text" style={{ fontSize: "60px" }}></i>
+                </div>
                 { questionList}
                 {/* <button className="submit-answer-button" onClick={() => console.log(JSON.stringify(this.state.questions))}>Submit</button> */}
                 <button className="questionnaire-display-button" onClick={() => /*console.log(JSON.stringify(this.state.questions)) + */this.questionnaireListHandler()

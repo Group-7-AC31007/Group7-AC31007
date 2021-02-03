@@ -1,0 +1,46 @@
+/* Importing the font family from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comfortaa', cursive;
+    background-color: #FFFAF4;
+    text-transform: capitalize;
+}
+
+*:focus {
+    outline: none;
+}
+
+
+.tasks-main-wrapper{
+    min-height: 100%;
+}
+
+
+.tasks-wrapper{
+    margin: 0 15%;
+    padding: 50px 100px;
+    border-style: solid;
+    border-width: 0.1px;
+    color: black;
+    background-color: #D1E2F2; 
+
+}
+
+.projects{
+    margin-top: 10px
+}
+
+.research-title{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold; 
+    font-size: 20px;
+}
+
+.task{
+    margin-top: 20px
+}

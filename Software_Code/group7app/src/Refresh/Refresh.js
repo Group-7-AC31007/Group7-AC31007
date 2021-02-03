@@ -23,7 +23,7 @@ export default class Refresh extends Component {
     componentDidMount() {
         setTimeout(() => {
             console.log("pushing");
-            this.state.history.push("/" + this.state.next)
+            // this.state.history.push("/" + this.state.next)
         }, this.state.timer);
     }
     render() {

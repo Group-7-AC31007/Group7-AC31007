@@ -142,8 +142,6 @@ export default function UserTable(props) {
 
 
                             })}                             
-                            <div className="col col-6"></div>
-                            <div className="col col-7"></div>
 
                         <button className="sure-update"
                             onClick={() => {
@@ -240,6 +238,8 @@ export default function UserTable(props) {
                             ))
 
                         ))}
+                        <div className="col col-6"></div>
+                        <div className="col col-7"></div>
                     </li>
                     <div {...getTableBodyProps()}>
                         {rows.map((row, i) => {
@@ -247,7 +247,7 @@ export default function UserTable(props) {
                             return (
                                 <li className="table-row" {...row.getRowProps()}>
                                     {row.cells.map((cell,index) => {
-                                        return <div className={`col col-${index}`} {...cell.getCellProps()}>{cell.render("Cell")}</div>;
+                                        return <div className={`col col-${index}`} {...cell.getCellProps()} data-label={cell.column.Header}>{cell.render("Cell")}</div>;
                                     })}
                                     <div className={`col col-${row.cells.length} td-update-button`}>
                                         <button className="table-update-button" onClick={() => updateRecord(row)}>update</button>

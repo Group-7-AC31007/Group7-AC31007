@@ -15,6 +15,7 @@ import UserManagement from './UserManagement/UserManagement'
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.png'
+import Refresh from "./Refresh/Refresh";
 
 
 let callApi = async (endpoint = "") => {
@@ -65,6 +66,11 @@ function App() {
 
     </UserManagement>)
   }
+  let refreshWrapper = (props) => {
+    return (<Refresh history={props.history} user={user}>
+
+    </Refresh>)
+  }
   console.log(user);
 
 
@@ -114,7 +120,7 @@ function App() {
         <Route path="/login" component={loginWrapper} />
         <Route path="/questionnaire" component={questionnaireWrapper} />
         <Route path="/registration" component={registrationWrapper} />
-
+        <Route path ="/refresh" component={refreshWrapper}/>
         <Route path="/user_management" component={userManagementWrapper} />
 
         </div>    

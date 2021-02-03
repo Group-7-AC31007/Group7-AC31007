@@ -161,8 +161,10 @@ export default function UserTable(props) {
                                         if (json == "COULD NOT UPDATE USER") {
                                             alert("Could not update user");
                                         } else {
-                                            props.history.push("/refresh")
-                                            props.history.push("/user_management")
+                                                setTimeout(() => {
+                                                    props.history.push("refresh?next=user_management&message=Updating Records&timer=1000")
+                                                }, 100);
+                                           
                                         }
                                     });
                                 });

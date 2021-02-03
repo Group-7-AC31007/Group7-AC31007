@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { Bar } from 'react-chartjs-2';
 
 const testData = {
@@ -169,16 +170,21 @@ export default class Visualization extends Component {
             });
         });
     }
+
     render() {
         //    let fullList= ;this.GetQuizListHandler()
         let qlist = this.state.questionnaireList.map((cur) => {
             // console.log(" q list stuff ")
             // console.log(qlist.questionnairesID)
+            console.log(cur.questionnairesID);
             return <option value={cur.questionnairesID}>
                 {cur.questionnairesID}
             </option>
 
         })
+        let qoption = document.getElementById("Questionnaire")
+
+
         let options = {
             scales: {
                 yAxes: [
@@ -211,13 +217,14 @@ export default class Visualization extends Component {
                     options={options}
                 />
                 <label for="questionnaire list ">Choose a Questionnaire:
-                    <select name="Questionnaire" id=" Questionnaire " onChange={() => this.QVisualizerHandler(qlist.questionnaireID)}>
+                    {/* <select name="Questionnaire" id=" Questionnaire " onChange={() => this.QuestionnaireChooser()}> */}
+                    <select name="Questionnaire" id="Questionnaire" onChange= {() =>  this.QVisualizerHandler(qoption.options[qoption.selectedIndex].value)}>
                         {qlist}
-                        {console.log(" q list stuff ")}
-                        {console.log(qlist.questionnairesID)}
+                        {/* {console.log(" q list stuff ")} */}
+                        {/* {console.log(qlist.questionnairesID)} */}
                     </select>
                 </label>
-                <button className="chart-test-button" onClick={() => /*console.log(JSON.stringify(this.state.questions)) + */this.QVisualizerHandler()}  > Visualizer Test</button >
+                <button className="chart-test-button" onClick={() => /*console.log(JSON.stringify(this.state.questions)) + */console.log(document.getElementById("Questionnaire"))}  > Visualizer Test</button >
                 <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> Next Question </button>
                 <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> Prev Question </button>
                 <hr></hr>

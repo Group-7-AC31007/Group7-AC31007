@@ -22,8 +22,8 @@ const testData = {
 export default class Visualization extends Component {
     constructor(props) {
         super(props)
-        this.state = { data: [], question: 0 }
-
+        this.state = { data: [], question: 0, questionnaireList: [] }
+        this.GetQuizListHandler()
     }
     NextButton(ch) {
         console.log(" This is the ch ")
@@ -71,16 +71,21 @@ export default class Visualization extends Component {
                 } else {
                     console.log(json)
                     let questionnaireList = json;
+                    this.setState({ questionnaireList })
+                    console.log(" I wanna cry  ");
                     console.log(questionnaireList);
                 }
+
                 console.log("pog");
             });
         });
     }
 
-    QVisualizerHandler() {
-        let questionnairesID = 49 /*remove after being able to choose questionnaire*/
-
+    QVisualizerHandler(questionnaireID) {
+        // console.log(" I just want you to work pls ");
+        // JSON.stringify({ questionnaireID })
+        // console.log(questionnaireID);
+        let questionnairesID = questionnaireID /*remove after being able to choose questionnaire*/
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -165,6 +170,15 @@ export default class Visualization extends Component {
         });
     }
     render() {
+        //    let fullList= ;this.GetQuizListHandler()
+        let qlist = this.state.questionnaireList.map((cur) => {
+            // console.log(" q list stuff ")
+            // console.log(qlist.questionnairesID)
+            return <option value={cur.questionnairesID}>
+                {cur.questionnairesID}
+            </option>
+
+        })
         let options = {
             scales: {
                 yAxes: [
@@ -185,6 +199,8 @@ export default class Visualization extends Component {
                 }
             },
         }
+        // var a = document.getElementById("Questionnaire");
+        // console.log(a.options[a.selectedIndex.value])
         return (
             <div>
                 <Bar
@@ -194,6 +210,13 @@ export default class Visualization extends Component {
                     width={500}
                     options={options}
                 />
+                <label for="questionnaire list ">Choose a Questionnaire:
+                    <select name="Questionnaire" id=" Questionnaire " onChange={() => this.QVisualizerHandler(qlist.questionnaireID)}>
+                        {qlist}
+                        {console.log(" q list stuff ")}
+                        {console.log(qlist.questionnairesID)}
+                    </select>
+                </label>
                 <button className="chart-test-button" onClick={() => /*console.log(JSON.stringify(this.state.questions)) + */this.QVisualizerHandler()}  > Visualizer Test</button >
                 <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> Next Question </button>
                 <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> Prev Question </button>

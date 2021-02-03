@@ -187,8 +187,8 @@ database.createQuiz = (req) => {
 database.getProjectList = (req) => {
 	return new Promise((resolve, reject) => {
 		const { usersID, projectAccessLevel } = req
-		let sql = `SELECT * FROM projectAccess WHERE (usersID=${usersID},` +
-			`projectAccessLevel=${projectAccessLevel});`
+		let sql = `SELECT * FROM projectAccess WHERE usersID=${usersID} AND ` +
+			`projectAccessLevel=${projectAccessLevel};`
 
 		console.log("getProjectList_sql", sql)
 
@@ -342,7 +342,7 @@ database.getTaskCompletion = (req) => {
 	return new Promise((resolve, reject) => {
 		const { tasksID, usersID } = req
 		let sql = `SELECT * FROM TaskCompletions ` +
-			`WHERE (tasksID=${tasksID}, usersID=${usersID});`
+			`WHERE tasksID=${tasksID} AND usersID=${usersID};`
 
 		console.log("getTaskCompletion_sql", sql)
 
@@ -378,7 +378,7 @@ database.setTaskCompletion = (req) => {
 
 		let deleteTaskCompletion = () => {
 			let sql = `DELETE FROM TaskCompletions ` +
-				`WHERE (tasksID=${tasksID}, usersID=${usersID});`
+				`WHERE tasksID=${tasksID} AND usersID=${usersID};`
 
 			console.log("setTaskComplete_deleteTaskCompletion_sql", sql)
 

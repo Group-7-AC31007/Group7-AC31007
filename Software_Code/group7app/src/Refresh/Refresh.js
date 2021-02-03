@@ -34,9 +34,9 @@ export default class Refresh extends Component {
                 <div className="redirectContainer">
                     <h1>
                         {this.state.message == "" ? "Redirecting ..." : this.state.message}
-                    </h1>
+                    </h1> 
 
-                    <Loader color="#4365e2" width={150} height={150} type="TailSpin" />
+                    <Loader color="#4365e2" width={150} height={150} type="Oval" />
                 </div>
             </div>
         )

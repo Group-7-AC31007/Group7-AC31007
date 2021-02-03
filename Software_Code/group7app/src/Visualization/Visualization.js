@@ -22,47 +22,62 @@ const testData = {
 export default class Visualization extends Component {
     constructor(props) {
         super(props)
-        this.state = { data: [],question:0 }
+        this.state = { data: [], question: 0 }
 
     }
-    NextButton(ch)
-    {
+    NextButton(ch) {
         console.log(" This is the ch ")
         console.log(this.state.data.length)
         console.log(ch)
-        if(ch<this.state.data.length-1)
-        {
-        ch++;
-        console.log(" if Part ")
-        this.setState({question:ch})
+        if (ch < this.state.data.length - 1) {
+            ch++;
+            console.log(" if Part ")
+            this.setState({ question: ch })
         }
-        else
-        {
+        else {
             console.log(" Else part ")
-            this.setState({question:0})
+            this.setState({ question: 0 })
         }
         console.log(this.state.data)
         console.log(this.state.data[1])
 
     }
-    PrevButton(ch)
-    {
+    PrevButton(ch) {
         console.log(" This is the ch ")
         console.log(this.state.data.length)
         console.log(ch)
-        if(ch<=0)
-        {
-        ch = this.state.data.length-1
-        this.setState({question:ch})
+        if (ch <= 0) {
+            ch = this.state.data.length - 1
+            this.setState({ question: ch })
         }
-        else
-        {
+        else {
             ch--
-            this.setState({question:ch})
+            this.setState({ question: ch })
         }
         console.log(this.state.data)
         console.log(this.state.data[1])
     }
+
+    GetQuizListHandler() {
+        const reqOpts = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        }
+        fetch('http://localhost:3001/get_complete_quiz_list', reqOpts).then(response => {
+            response.json().then(json => {
+                if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
+                    alert('Could not get list of questionnaires!');
+                    console.log(json);
+                } else {
+                    console.log(json)
+                    let questionnaireList = json;
+                    console.log(questionnaireList);
+                }
+                console.log("pog");
+            });
+        });
+    }
+
     QVisualizerHandler() {
         let questionnairesID = 49 /*remove after being able to choose questionnaire*/
 
@@ -180,9 +195,11 @@ export default class Visualization extends Component {
                     options={options}
                 />
                 <button className="chart-test-button" onClick={() => /*console.log(JSON.stringify(this.state.questions)) + */this.QVisualizerHandler()}  > Visualizer Test</button >
-                <button className=" next-button " onClick={()=>this.NextButton(this.state.question)}> Next Question </button>
-                <button className=" prev-button " onClick={()=>this.PrevButton(this.state.question)}> Prev Question </button>
-            </div>
+                <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> Next Question </button>
+                <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> Prev Question </button>
+                <hr></hr>
+                <hr></hr>
+            </div >
         )
     }
 }

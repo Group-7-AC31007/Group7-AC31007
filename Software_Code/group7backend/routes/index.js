@@ -67,6 +67,10 @@ router.post("/get_qvisualization", async(req, res) => {
 	sendResponse(req, res, db.getQVisualization);
 });
 
+router.get("/get_complete_quiz_list", async(req,res) =>{
+	sendResponse(req, res, db.getCompleteQuizList)
+})
+
 router.post("/get_quiz", async(req, res) => {
 	sendResponse(req, res, db.getQuiz);
 });

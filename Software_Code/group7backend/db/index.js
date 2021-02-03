@@ -160,6 +160,17 @@ database.getQuizList = (req) => {
 	});
 };
 
+database.getCompleteQuizList = () => {
+	return new Promise((resolve, reject) => {
+		pool.query(`SELECT * FROM Questionnaires`, (err, res) => {
+			if (err) {
+				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
+			}
+			return resolve(res);
+		});
+	});
+}
+
 // Get a questionnaire from the database
 
 database.getQuiz = (req) => {

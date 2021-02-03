@@ -33,7 +33,7 @@ export default class UserManagement extends Component {
         console.log(this.state);
         if (this.state.user + "#" + this.state.id + "#" + this.state.position + "#logged-in" == Cookies.get('access_token')) {
         return (
-            <div>
+            <div className="table-container">
                 {!this.state.data.length ? null :  <UserTable regetUsers={()=>this.getUsers()} history={this.history} data={this.state.data}></UserTable>}
                 
             </div>

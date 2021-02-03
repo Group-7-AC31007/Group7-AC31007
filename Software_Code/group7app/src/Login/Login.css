@@ -9,9 +9,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    padding: 100px 0;
-    height: 100%;
-    position: relative;
+    min-height:100%;
 }
 
 .login-form {
@@ -23,6 +21,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 0.1cm;
+    
 }
 
 .login-submit-button {

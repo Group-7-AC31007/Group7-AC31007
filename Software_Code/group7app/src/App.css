@@ -12,9 +12,6 @@ body {
 
     /*new*/
     height: 100%;
-    display: flex;
-    flex-direction: column;
-
 }
 
 html {
@@ -31,6 +28,9 @@ html {
     background-color:#4365e2;
     padding: 20px 15%;
     transition: background-color 0.2s linear;
+
+    
+
 }
 
 .header a {
@@ -112,11 +112,8 @@ html {
     /*new*/
     height: 100vh;
     display: flex; 
-    flex-direction: column; 
-}
+    flex-direction: column;
 
-.biggerContainer {
-    min-height:100vh;
 }
 
 #root {
@@ -124,20 +121,23 @@ html {
 }
 
 
-footer {
+
+.site-footer{
     padding: 20px 15%;
     background-color: #DDD9D6;
     
     text-transform: uppercase;
     /* margin-top: -38px; negative value of footer height */
-    height: 18px;
-    padding-top:20px;
 
-    position: fixed;
+
     left: 0;
     bottom: 0;
     right: 0;
     /* width: 100%; */
+}
+
+.main{
+    flex: 1;
 }
 
 footer div p {

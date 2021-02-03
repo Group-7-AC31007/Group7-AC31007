@@ -94,13 +94,14 @@ function App() {
           <a href="javascript:void(0);" className="icon" onClick={(e) => { myFunction(e) }}>
             <i class="fa fa-bars"> </i>
           </a>
-          <Link to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
           <Link to="/login" onClick={(e) => { dropDown(e) }} >{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link>
-          <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
-          {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
           {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
-            <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
+          <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
+          {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
+          <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
+          <Link className="Home" to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
         </header>
+        <div className="main">
 
         {/*
             A <Switch> looks through all its children <Route>
@@ -115,14 +116,16 @@ function App() {
         <Route path="/registration" component={registrationWrapper} />
 
         <Route path="/user_management" component={userManagementWrapper} />
-        <footer>
+
+        </div>    
+        <footer className="site-footer">
           <div>
             <p> Footer </p>
           </div>
 
-        </footer>
-
+        </footer>    
       </div>
+
 
     </Router>
 

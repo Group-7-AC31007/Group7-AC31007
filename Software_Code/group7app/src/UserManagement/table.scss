@@ -34,7 +34,8 @@ div.col-2 input {
     margin-bottom: 25px;
   }
   .table-header {
-    background-color: #95A5A6;
+    background-color: #d1e2f2;
+    ;
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -82,17 +83,23 @@ div.col-2 input {
       flex-basis: 100%;
 
     }
-    .col {
+    .col-0, .col-1, .col-2, .col-3, .col-4, .col-5 {
       display: flex;
       padding: 10px 0;
       &:before {
-        color: #6C7A89;
+        color:#464646;
         padding-right: 10px;
         content: attr(data-label);
         flex-basis: 50%;
-        text-align: left;
+        text-align: right;
       }
     }
+    .col-6, .col-7 {
+      margin-bottom: 10px;
+      button {
+        margin: 0 auto;
+      }
+    }    
   }
 }
 

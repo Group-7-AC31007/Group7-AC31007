@@ -55,7 +55,7 @@ database.signin = (req) => {
 };
 database.getUsers = () => {
 	return new Promise((resolve, reject) => {
-		pool.query(`SELECT usersID, forename, surname, email, phoneNumber, position FROM Users`, (err, results) => {
+		pool.query(`SELECT usersID, forename, surname, email, phoneNumber, position, locked FROM Users`, (err, results) => {
 			console.log(results);
 			if (err || results[0] == undefined) {
 				return reject("UNABLE TO GET USERS");
@@ -253,7 +253,31 @@ database.updateUser = (req) => {
 database.deleteUser = (req) => {
 	return new Promise((resolve, reject) => {
 		const { usersID } = req;
+		pool.query(`UPDATE users SET hashPassword = \"DELETED${usersID}\", email= \"DELETED${usersID}\", forename = \"DELETED${usersID}\", surname = \"DELETED${usersID}\", phoneNumber = \"DELETED${usersID}\", locked = 1 WHERE usersID = ${usersID};`), (err, res) => {
+			console.log(res);
+			console.log(err);
+			if (err) {
+				return reject("COULD NOT DELETE USER");
+			}
+			
+		};
+		return resolve("USER DELETED");
 	}
 	)
 }
+database.updatePassword = (req) => {
+	return new Promise((resolve, reject) => {
+		const { usersID, newPassword } = req;
+		console.log(req);
+		pool.query(`UPDATE users SET hashPassword = \"${newPassword}\" WHERE usersID = ${usersID};`), (err, res) => {
+			console.log(res);
+			console.log(err);
+			if (err) {
+				return reject("COULD NOT UPDATE USER PASSWORD");
+			}
+		};
+
+		return resolve("USER PASSWORD UPDATED");
+	});
+};
 module.exports = database;

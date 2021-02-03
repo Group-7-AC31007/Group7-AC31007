@@ -3,6 +3,7 @@ import { useTable } from 'react-table'
 import './table.scss'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import cs
+import sjcl from 'sjcl'
 export default function UserTable(props) {
     console.log(props);
     if (!props.data) {
@@ -26,6 +27,10 @@ export default function UserTable(props) {
         1: "Researcher",
         2: "Lab Manager",
         3: "Admin",
+    }
+    const lockedDict = {
+        0: "Unlocked",
+        1: "Locked",
     }
     const dataCreate = props.data.map((cur) => {
         let newObj = {};
@@ -87,6 +92,12 @@ export default function UserTable(props) {
                 <option value={3}>Admin</option>
             </select>
         }
+        if(id=="locked"){
+            return <select onChange={onChange} defaultValue={value}>
+                <option value={0}>Unlocked</option>
+                <option value={1}>Locked</option>
+            </select>
+        }
         if (value == null) {
             return <input value={value} onChange={onChange} onBlur={onBlur} />
         }
@@ -136,12 +147,12 @@ export default function UserTable(props) {
                             changed.map((cur, index) => {
                                 return (<div>
                                     <p>{cur.key}</p>
-                                    <p>{cur.key == "position" ? positionDict[cur.old] : cur.old} changed to : {cur.key == "position" ? positionDict[cur.new] : cur.new} </p>
+                                    <p>{cur.key == "position" ? positionDict[cur.old] : cur.key == "locked" ? lockedDict[cur.old] : cur.old} changed to : {cur.key == "position" ? positionDict[cur.new] :cur.key == "locked" ? lockedDict[cur.new] :cur.new} </p>
                                     {index != cur.length - 1 ? <hr /> : null}
                                 </div>)
 
 
-                            })}                             
+                            })}
 
                         <button className="sure-update"
                             onClick={() => {
@@ -159,10 +170,10 @@ export default function UserTable(props) {
                                         if (json == "COULD NOT UPDATE USER") {
                                             alert("Could not update user");
                                         } else {
-                                                setTimeout(() => {
-                                                    props.history.push("refresh?next=user_management&message=Updating Records&timer=1000")
-                                                }, 100);
-                                           
+                                            setTimeout(() => {
+                                                props.history.push("refresh?next=user_management&message=Updating Records&timer=1000")
+                                            }, 100);
+
                                         }
                                     });
                                 });
@@ -207,11 +218,11 @@ export default function UserTable(props) {
                                 };
                                 fetch('http://localhost:3001/delete_user', reqOpts).then(response => {
                                     response.json().then(json => {
-                                        if (json == "COULD NOT DELETE") {
+                                        console.log(json);
+                                        if (json == "COULD NOT DELETE USER") {
                                             alert("Could not delete user");
                                         } else {
-                                            props.history.push("/refresh")
-                                            props.history.push("/user_management")
+                                            props.history.push("refresh?next=user_management&message=Locking account / Removing Personal Data&timer=1000")
                                         }
                                     });
                                 });
@@ -226,6 +237,53 @@ export default function UserTable(props) {
         });
 
     }
+    let updatePassword = (row) => {
+        console.log(row);
+        let usersID = row.values["usersID"]
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                let myRef = React.createRef();
+                return (
+                    <div className='custom-ui'>
+                        <h1>Enter Password</h1>
+                        <input ref={myRef} type="password" onChange={(e) => { console.log(e.target.value, myRef.current.value); }}></input>
+                        <button className="sure-password"
+                            onClick={() => {
+                                if(!myRef.current.value || myRef.current.value==""){
+                                    alert("Please enter a new value for the password")
+                                    return
+                                }
+                                const hashBitArray = sjcl.hash.sha256.hash(myRef.current.value);
+                                const passHash = sjcl.codec.hex.fromBits(hashBitArray);
+                                let newPassword = passHash
+                                const reqOpts = {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ usersID, newPassword })
+                                };
+                                fetch('http://localhost:3001/update_password', reqOpts).then(response => {
+                                    response.json().then(json => {
+                                        if (json == "COULD NOT UPDATE USER PASSWORD") {
+                                            alert("Could not update user password");
+                                        } else {
+                                            console.log("pw",json);
+                                            setTimeout(() => {
+                                                props.history.push("refresh?next=user_management&message=Updating Password&timer=1000")
+                                            }, 100);
+
+                                        }
+                                    });
+                                });
+                                onClose();
+                            }}
+                        >
+                           Yes, Change the password!
+                  </button>
+                    </div>
+                );
+            }
+        });
+    }
     return (
         <div className="user-table-wrapper">
             <div {...getTableProps()}>
@@ -238,22 +296,26 @@ export default function UserTable(props) {
                             ))
 
                         ))}
-                        <div className="col col-6"></div>
                         <div className="col col-7"></div>
+                        <div className="col col-8"></div>
+                        <div className="col col-9"></div>
                     </li>
                     <div {...getTableBodyProps()}>
                         {rows.map((row, i) => {
                             prepareRow(row);
                             return (
                                 <li className="table-row" {...row.getRowProps()}>
-                                    {row.cells.map((cell,index) => {
+                                    {row.cells.map((cell, index) => {
                                         return <div className={`col col-${index}`} {...cell.getCellProps()} data-label={cell.column.Header}>{cell.render("Cell")}</div>;
                                     })}
                                     <div className={`col col-${row.cells.length} td-update-button`}>
                                         <button className="table-update-button" onClick={() => updateRecord(row)}>update</button>
                                     </div>
-                                    <div className={`col col-${row.cells.length+1} td-delete-button`}>
+                                    <div className={`col col-${row.cells.length + 1} td-delete-button`}>
                                         <button className="table-delete-button" onClick={() => deleteRecord(row)}>delete</button>
+                                    </div>
+                                    <div className={`col col-${row.cells.length + 2} td-password-button`}>
+                                        <button className="table-password-button" onClick={() => updatePassword(row)}>password</button>
                                     </div>
                                 </li>
                             );

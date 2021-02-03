@@ -60,14 +60,22 @@ div.col-2 input {
     flex-basis: 15%;
   }
   .col-5 {
-    flex-basis: 16%;
+    flex-basis: 10%;
   }
   .col-6 {
-    flex-basis: 7%;
+    flex-basis: 5%;
   }
   .col-7 {
-    flex-basis: 7%;
+    flex-basis: 5%;
   }
+  .col-8 {
+    flex-basis: 5%;
+  }
+  .col-9 {
+    flex-basis: 5%;
+  }
+
+
 
   @media all and (max-width: 1300px) {
     .table-header {

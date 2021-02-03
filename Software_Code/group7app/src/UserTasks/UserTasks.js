@@ -132,7 +132,9 @@ export default class UserTasks extends Component {
 						{projectList}
 					</select>
 				</div>
-				<div className="research-title">Project {this.state.selectedProject} tasks</div>
+				<div className="research-title">
+					Project {this.state.selectedProject} tasks
+				</div>
 				<div className="task-list">
 					{taskList}
 				</div>

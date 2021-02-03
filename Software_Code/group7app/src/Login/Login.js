@@ -50,12 +50,10 @@ export default class Login extends Component {
             console.log(json.position);
             const expires = (60 * 60) * 1000;
             const inOneHour = new Date(new Date().getTime() + expires);
-            alert('Signed in with the email: ' + this.state.email);
+            //alert('Signed in with the email: ' + this.state.email);
             Cookies.set('access_token', json.email + "#" + json.usersID + "#" + json.position + "#logged-in", { expires: inOneHour });
             this.handleUser({ user: json.email, id: json.usersID, position: json.position });
-            setTimeout(() => {
-              this.history.push("/");
-            }, 1000);
+           this.history.push(`/refresh?message=Logging in to ${json.email}&timer=1000`)
           } else {
             alert('Incorrect password: ' + this.state.email);
           }
@@ -83,7 +81,7 @@ export default class Login extends Component {
           <button onClick={() => {
             Cookies.remove('access_token'); 
             this.handleUser({user:"",id:"",position:""})
-              this.history.push("/login")
+              this.history.push("/refresh?next=login&message=Logging out")
           }}>Sign Out</button>
         </div>
       )

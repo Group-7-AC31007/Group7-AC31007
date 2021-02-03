@@ -9,9 +9,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    padding: 100px 0;
-    height: 100%;
-    position: relative;
+    min-height: 100%;
 }
 
 .registration-form {

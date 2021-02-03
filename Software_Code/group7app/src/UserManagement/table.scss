@@ -1,0 +1,143 @@
+/* Design and code of the table and it's responsive beahvious copied from -> https://codepen.io/faaezahmd/pen/dJeRex */
+
+body {
+  font-family: 'lato', sans-serif;
+}
+ .user-table-wrapper {
+  margin: 30px 15%;
+}
+
+.col input {
+  display: block;
+  width: 130px;
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.table-row div.col-0 {
+  color: #464646;
+  font-weight: bold;
+
+}
+
+div.col-1 input {
+  width: 100px;
+}
+
+div.col-2 input {
+  width: 90px;
+}
+
+.responsive-table {
+  margin: 0;
+  padding:0 ;
+
+  li {
+    border-radius: 3px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+  .table-header {
+    background-color: #d1e2f2;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+  }
+  .col-0 {
+    flex-basis: 7%;
+  }
+  .col-1 {
+    flex-basis: 10%;
+  }
+  .col-2 {
+    flex-basis: 10%;
+  }
+  .col-3 {
+    flex-basis: 12%;
+  }
+  .col-4 {
+    flex-basis: 12%;
+  }
+  .col-5 {
+    flex-basis: 14%;
+  }
+  .col-6 {
+    flex-basis: 13%;
+  }
+  .col-7 {
+    flex-basis: 8%;
+  }
+  .col-8 {
+    flex-basis: 7%;
+  }
+  .col-9 {
+    flex-basis: 7%;
+  }
+
+
+
+  @media all and (max-width: 1580px) {
+    .table-header {
+      display: none;
+    }
+    .table-row{
+
+    }
+    li {
+      display: block;
+    }
+    .col {
+      flex-basis: 100%;
+
+    }
+    .col-0, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6 {
+      display: flex;
+      padding: 10px 0;
+      &:before {
+        color:#464646;
+        padding-right: 10px;
+        content: attr(data-label);
+        flex-basis: 50%;
+        text-align: right;
+      }
+    }
+    .col-7, .col-8, .col-9  {
+      margin-bottom: 10px;
+      button {
+        margin: 0 auto;
+      }
+    }    
+  }
+}
+
+.table-delete-button, .sure-delete{
+  background-color: #ff6264;
+  color: white;
+  outline: solid 0.1px white;
+  transition: background-color 0.2s linear;
+  transition: color 0.2s linear;
+  transition: outline 0.2s linear;
+  border-radius: 3px;
+
+
+}
+
+.table-delete-button:hover, .sure-delete:hover{
+  background-color: white;
+  color: #ff6264;
+  outline: solid 2px #ff6264;
+
+}
+
+.sure-password {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border-radius: 3px;
+}

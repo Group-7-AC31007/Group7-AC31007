@@ -18,6 +18,7 @@ import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.png'
 import Refresh from "./Refresh/Refresh";
+import Share from "./Share/Share";
 
 
 let callApi = async (endpoint = "") => {
@@ -74,6 +75,7 @@ function App() {
 
     </Refresh>)
 	}
+            
 	let tasksWrapper = (props) => {
 		return (<UserTasks history={props.history} user={user}>
 
@@ -84,6 +86,9 @@ function App() {
       <Visualization history = {props.history} user={user}></Visualization>
     )
 }
+  let shareWrapper = (props) => {
+    return (<Share history={props.history} user={user}></Share>)
+  }
   console.log(user);
 
 
@@ -133,6 +138,7 @@ function App() {
             you have multiple routes, but you want only one
             of them to render at a time
           */}
+          
         <Route exact path="/" component={homeWrapper} />
         <Route path="/login" component={loginWrapper} />
         <Route path="/questionnaire" component={questionnaireWrapper} />
@@ -141,14 +147,16 @@ function App() {
         <Route path="/tasks" component={tasksWrapper}/>
         <Route path= "/visualisation" component={visualizationWrapper}></Route>
         <Route path="/user_management" component={userManagementWrapper} />
+        <Route path="/share" component={shareWrapper} />
 
         </div>    
+          
         <footer className="site-footer">
           <div>
             <p> Footer </p>
           </div>
 
-        </footer>    
+        </footer>
       </div>
 
 

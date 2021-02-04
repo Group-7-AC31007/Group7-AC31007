@@ -79,6 +79,11 @@ function App() {
 
 		</UserTasks>)
 	}
+  let visualizationWrapper = (props) =>{
+    return(
+      <Visualization history = {props.history} user={user}></Visualization>
+    )
+}
   console.log(user);
 
 
@@ -115,29 +120,11 @@ function App() {
           <Link to="/tasks" onClick={(e) => { dropDown(e) }}> Tasks</Link>) : null}
           {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
           <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
+          <Link  to="/visualisation" onClick={(e) => { dropDown(e) }}>visualisation</Link>
           <Link className="Home" to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
         </header>
         <div className="main">
 
-       
-    let visualizationWrapper = (props) =>{
-      return(
-        <Visualization history = {props.history} user={user}></Visualization>
-      )
-  }
-  return (
-    <Router>
-        <div className='container'>
-          <header>
-            <img className="logo" src={logo} />
-            <ul id="listHeader">
-              <li> <Link to="/">Home </Link> </li>
-              <li> <Link to="/login">Login </Link> </li>
-              <li> <Link to="/questionnaire">Questionnaire </Link> </li>
-              <li> <Link to="/registration">Registration</Link> </li>
-              <li> <Link to="/visualization">Visualization</Link> </li>
-            </ul>
-          </header>
   
           {/*
          A <Switch> looks through all its children <Route>
@@ -152,6 +139,7 @@ function App() {
         <Route path="/registration" component={registrationWrapper} />
         <Route path ="/refresh" component={refreshWrapper}/>
         <Route path="/tasks" component={tasksWrapper}/>
+        <Route path= "/visualisation" component={visualizationWrapper}></Route>
         <Route path="/user_management" component={userManagementWrapper} />
 
         </div>    

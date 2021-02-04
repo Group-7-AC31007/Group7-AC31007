@@ -55,7 +55,6 @@ database.signup = (req) => {
 	})
 }
 
-
 // Check if a user exists in the database and if the password hashes match
 database.signin = (req) => {
 	return new Promise((resolve, reject) => {
@@ -74,22 +73,28 @@ database.signin = (req) => {
 				return reject("NOMATCH PASS")
 			}
 			console.log("signin_res", res[0])
-			return resolve(res[0]);
-		});
-	});
-};
+			return resolve(res[0])
+		})
+	})
+}
 
 database.getUsers = () => {
 	return new Promise((resolve, reject) => {
-		pool.query(`SELECT usersID, forename, surname, email, phoneNumber, position, locked FROM Users`, (err, results) => {
-			console.log(results);
-			if (err || results[0] == undefined) {
-				return reject("UNABLE TO GET USERS");
+		let sql = `SELECT usersID, forename, surname, email,` +
+			`phoneNumber, position, locked FROM Users;`
+
+		console.log("getUsers_sql", sql)
+
+		pool.query(sql, (err, res) => {
+			if (err || res[0] == undefined) {
+				console.log("getUsers_err", err)
+				return reject("UNABLE TO GET USERS")
 			}
-			return resolve(results);
-		});
-	});
-};
+			console.log("getUsers_res", res)
+			return resolve(res)
+		})
+	})
+}
 
 // Insert into the Responses table
 let insertResponses = (results, question, questionnaireID) => {
@@ -129,12 +134,10 @@ let insertResponses = (results, question, questionnaireID) => {
 
 // Insert into the Questions table and get each questionsID
 // Call insertResponses for each predefinedList type question
-let insertQuestions = (results, questions) => {
+let insertQuestions = (questionnairesID, questions) => {
 	return new Promise((resolve, reject) => {
-		console.log("insertQuestions_results", results)
 		console.log("insertQuestions_questions", questions)
 
-		let questionnaireID = results[0][Object.keys(results[0])[0]]
 		let promiseArray = []
 
 		for (let i in questions) {
@@ -142,7 +145,7 @@ let insertQuestions = (results, questions) => {
 				let question = questions[i]
 				let predefList = question.type === "PredefinedList"
 				let questionText = predefList ? question.value.question : question.value
-				let sql = `SELECT insert_question(${questionnaireID},` +
+				let sql = `SELECT insert_question(${questionnairesID},` +
 					`'${question.type}', '${sanitize(questionText)}', '${question.id}');`
 
 				console.log("insertQuestions_loop_question", question)
@@ -155,7 +158,7 @@ let insertQuestions = (results, questions) => {
 					}
 					console.log("insertQuestions_loop_res", res)
 					if (predefList) {
-						insertResponses(res, question, questionnaireID)
+						insertResponses(res, question, questionnairesID)
 							.then(() => { return loop_resolve() })
 							.catch((promise_err) => { return loop_reject(promise_err) })
 					} else {
@@ -174,23 +177,30 @@ let insertQuestions = (results, questions) => {
 // Make new entries in the appropriate questionnaire tables
 database.createQuiz = (req) => {
 	return new Promise((resolve, reject) => {
-		const { questionnaireNo, projectID, questions } = req
+		const { host, questionnaireNo, projectID, questions } = req
 		let sql = `SELECT insert_questionnaire(${projectID}, ${questionnaireNo});`
 
 		console.log("createQuiz_sql", sql)
 
-		// Insert into the questionnaire table and get the questionnairesID
+		// Insert into the questionnaires table and get the questionnairesID
 		pool.query(sql, (err, res) => {
 			if (err) {
 				console.log("createQuiz_err", err)
 				return reject("COULD NOT CREATE QUESTIONNAIRE")
 			}
 			console.log("createQuiz_res", res)
-			insertQuestions(res, questions)
-				.then(() => {
-					return resolve("CREATED QUESTIONNAIRE")
-				})
-				.catch((promise_err) => { return reject(promise_err) })
+
+			let questionnairesID = results[0][Object.keys(results[0])[0]]
+			let url = host + `/?questionnaireID=${questionnairesID}`
+
+			self.createTask({
+				text: `<a href=${url}>Complete this questionnaire</a>`,
+				projectsID: projectID
+			}).then(() => {
+				insertQuestions(questionnairesID, questions)
+					.then(() => { return resolve("CREATED QUESTIONNAIRE") })
+					.catch(promise_err => { return reject(promise_err) })
+			}).catch(promise_err => { return reject(promise_err) })
 		})
 	})
 }
@@ -218,8 +228,13 @@ database.getProjectList = (req) => {
 // Get the list of questionnaires available for user based on projectAccess
 database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {
-		const { usersID } = req;
-		pool.query(`SELECT questionnairesID, questionnairesName FROM user_questionnaires WHERE usersID = ${usersID}`, (err, res) => {
+		const { usersID } = req
+		let sql = `SELECT questionnairesID, questionnairesName ` +
+			`FROM user_questionnaires WHERE usersID=${usersID};`
+
+		console.log("getQuizList_sql", sql)
+
+		pool.query(sql, (err, res) => {
 			if (err) {
 				console.log("getQuizList_err", err)
 				return reject("COULD NOT GET LIST OF QUESTIONNAIRES")
@@ -252,6 +267,7 @@ let buildJson = (results) => {
 						console.log("buildJson_loop_err", err)
 						return loop_reject("COULD NOT GET RESPONSES")
 					}
+					console.log("buildJson_loop_res", res)
 					if (res.length != 0) {
 						questionData.responses = [...res]
 						for (let j in questionData.responses) {
@@ -328,6 +344,25 @@ database.completeQuiz = (req) => {
 	})
 }
 
+database.createTask = (req) => {
+	return new Promise((resolve, reject) => {
+		const { projectsID, text } = req
+		let sql = `INSERT INTO Tasks (projectsID, text) (${projectsID}, ${text})`
+
+		console.log("createTask_sql", sql)
+
+		pool.query(sql, (err, res) => {
+			if (err) {
+				console.log("createTask_err", err)
+				return reject("COULD NOT CREATE TASK")
+			}
+			console.log("createTask_res", res)
+			return resolve("CREATED TASK")
+		})
+
+	})
+}
+
 database.getTaskList = (req) => {
 	return new Promise((resolve, reject) => {
 		const { projectsID } = req
@@ -368,105 +403,82 @@ database.getTaskCompletion = (req) => {
 database.setTaskCompletion = (req) => {
 	return new Promise((resolve, reject) => {
 		const { checked, tasksID, usersID } = req
-		let insertTaskCompletion = () => {
-			let sql = `INSERT INTO TaskCompletions (tasksID, usersID) ` +
-				`VALUES (${tasksID}, ${usersID});`
-
-			console.log("setTaskCompleton_insertTaskCompletion_sql", sql)
-
-			pool.query(sql, (err, res) => {
-				if (err) {
-					console.log("setTaskCompleton_insertTaskCompletion_err", err)
-					return reject("COULD NOT SET COMPLETION")
-				}
-				console.log("setTaskCompleton_insertTaskCompletion_res", res)
-				return resolve("COMPLETION SET")
-			})
-		}
-		let deleteTaskCompletion = () => {
-			let sql = `DELETE FROM TaskCompletions ` +
-				`WHERE tasksID=${tasksID} AND usersID=${usersID};`
-
-			console.log("setTaskComplete_deleteTaskCompletion_sql", sql)
-
-			pool.query(sql, (err, res) => {
-				if (err) {
-					console.log("setTaskComplete_deleteTaskCompletion_err", err)
-					return reject("COULD NOT SET COMPLETION")
-				}
-				console.log("setTaskComplete_deleteTaskCompletion_res", res)
-				return resolve("COMPLETION SET")
-			})
-		}
 
 		database.getTaskCompletion(req).then(res => {
+			let sql = ``
+
 			if (res.length == 0 && checked == true) {
-				insertTaskCompletion()
+				sql = `DELETE FROM TaskCompletions ` +
+					`WHERE tasksID=${tasksID} AND usersID=${usersID};`
 			} else if (res.length > 0 && checked == false) {
-				deleteTaskCompletion()
+				sql = `INSERT INTO TaskCompletions (tasksID, usersID) ` +
+					`VALUES (${tasksID}, ${usersID});`
 			}
+
+			console.log("setTaskComplete_sql", sql)
+
+			pool.query(sql, (err, res) => {
+				if (err) {
+					console.log("setTaskComplete_err", err)
+					return reject("COULD NOT SET COMPLETION")
+				}
+				console.log("setTaskComplete_res", res)
+				return resolve("COMPLETION SET")
+			})
 		})
 	})
 }
 
 database.updateUser = (req) => {
 	return new Promise((resolve, reject) => {
-		const { usersID, changed } = req;
+		const { usersID, changed } = req
 
-		console.log(usersID, changed);
+		let pairs = changed.map(element => `${element.key}='${element.new}'`)
+			.join(", ")
+		console.log(pairs)
 
-		let queryString = ``
-		for (let x in changed) {
-			if (x != 0) {
-				queryString += " ,"
-			}
-			queryString += `${changed[x].key} =`
-			queryString += changed[x].key == "position" ? " " + changed[x].new : `\"${changed[x].new}\"`
-
-
-		}
-		console.log(queryString);
-		//return
-		pool.query(`UPDATE users SET ${queryString} WHERE usersID = ${usersID};`), (err, res) => {
-			console.log(res);
-			console.log(err);
+		pool.query(`UPDATE users SET ${pairs} WHERE usersID = ${usersID};`), (err, res) => {
+			console.log(res)
+			console.log(err)
 			if (err) {
-				return reject("COULD NOT UPDATE USER");
+				return reject("COULD NOT UPDATE USER")
 			}
-		};
+		}
 
-		return resolve("USER UPDATED");
-	});
-};
+		return resolve("USER UPDATED")
+	})
+}
+
 database.deleteUser = (req) => {
 	return new Promise((resolve, reject) => {
-		const { usersID } = req;
+		const { usersID } = req
 		pool.query(`UPDATE users SET hashPassword = \"DELETED${usersID}\", email= \"DELETED${usersID}\", forename = \"DELETED${usersID}\", surname = \"DELETED${usersID}\", phoneNumber = \"DELETED${usersID}\", locked = 1 WHERE usersID = ${usersID};`), (err, res) => {
-			console.log(res);
-			console.log(err);
+			console.log(res)
+			console.log(err)
 			if (err) {
-				return reject("COULD NOT DELETE USER");
+				return reject("COULD NOT DELETE USER")
 			}
-			
-		};
-		return resolve("USER DELETED");
+
+		}
+		return resolve("USER DELETED")
 	}
 	)
 }
+
 database.updatePassword = (req) => {
 	return new Promise((resolve, reject) => {
-		const { usersID, newPassword } = req;
-		console.log(req);
+		const { usersID, newPassword } = req
+		console.log(req)
 		pool.query(`UPDATE users SET hashPassword = \"${newPassword}\" WHERE usersID = ${usersID};`), (err, res) => {
-			console.log(res);
-			console.log(err);
+			console.log(res)
+			console.log(err)
 			if (err) {
-				return reject("COULD NOT UPDATE USER PASSWORD");
+				return reject("COULD NOT UPDATE USER PASSWORD")
 			}
-		};
+		}
 
-		return resolve("USER PASSWORD UPDATED");
-	});
-};
+		return resolve("USER PASSWORD UPDATED")
+	})
+}
 
 module.exports = database

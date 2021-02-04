@@ -3,15 +3,17 @@
 }
 
 .next-button {
-     float: right;
+    border-radius: 0.1cm;
+    float: right;
 }
 
 .prev-button{
     margin-top: 20px;
+    border-radius: 0.1cm;
 }
 
 .next-button {
-    margin: 10px;
+    margin-top: 10px;
 
 }
 

@@ -10,7 +10,9 @@ import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
+import UserTasks from "./UserTasks/UserTasks";
 import UserManagement from './UserManagement/UserManagement'
+import Visualization from "./Visualization/Visualization";
 
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
@@ -62,6 +64,7 @@ function App() {
       <Questionnaire history={props.history} user={user}></Questionnaire>
     )
   }
+
   let userManagementWrapper = (props) => {
     return (<UserManagement history={props.history} user={user}>
 
@@ -71,7 +74,18 @@ function App() {
     return (<Refresh history={props.history} user={user}>
 
     </Refresh>)
-  }
+	}
+            
+	let tasksWrapper = (props) => {
+		return (<UserTasks history={props.history} user={user}>
+
+		</UserTasks>)
+	}
+  let visualizationWrapper = (props) =>{
+    return(
+      <Visualization history = {props.history} user={user}></Visualization>
+    )
+}
   let shareWrapper = (props) => {
     return (<Share history={props.history} user={user}></Share>)
   }
@@ -106,29 +120,37 @@ function App() {
           </a>
           <Link to="/login" onClick={(e) => { dropDown(e) }} >{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link>
           {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
-            <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
+          <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
+          {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in")) ? (
+          <Link to="/tasks" onClick={(e) => { dropDown(e) }}> Tasks</Link>) : null}
           {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
           <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
+          <Link  to="/visualisation" onClick={(e) => { dropDown(e) }}>visualisation</Link>
           <Link className="Home" to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
         </header>
         <div className="main">
 
+  
           {/*
-            A <Switch> looks through all its children <Route>
+         A <Switch> looks through all its children <Route>
             elements and renders the first one whose path
             matches the current URL. Use a <Switch> any time
             you have multiple routes, but you want only one
             of them to render at a time
           */}
-          <Route exact path="/" component={homeWrapper} />
-          <Route path="/login" component={loginWrapper} />
-          <Route path="/questionnaire" component={questionnaireWrapper} />
-          <Route path="/registration" component={registrationWrapper} />
-          <Route path="/refresh" component={refreshWrapper} />
-          <Route path="/user_management" component={userManagementWrapper} />
-          <Route path="/share" component={shareWrapper} />
+          
+        <Route exact path="/" component={homeWrapper} />
+        <Route path="/login" component={loginWrapper} />
+        <Route path="/questionnaire" component={questionnaireWrapper} />
+        <Route path="/registration" component={registrationWrapper} />
+        <Route path ="/refresh" component={refreshWrapper}/>
+        <Route path="/tasks" component={tasksWrapper}/>
+        <Route path= "/visualisation" component={visualizationWrapper}></Route>
+        <Route path="/user_management" component={userManagementWrapper} />
+        <Route path="/share" component={shareWrapper} />
 
-        </div>
+        </div>    
+          
         <footer className="site-footer">
           <div>
             <p> Footer </p>

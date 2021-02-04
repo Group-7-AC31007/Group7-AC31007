@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Bar } from 'react-chartjs-2';
+import Cookies from 'js-cookie'
 
 const testData = {
     labels: ['answer 1', 'answer 2', 'answer 3',
@@ -60,15 +61,26 @@ export default class Visualization extends Component {
     }
 
     GetQuizListHandler() {
+        let cookie = Cookies.get('access_token')
+        let patt = /#\d+#/i
+        let matchResult1 = cookie.match(patt)
+        let patt2 = /\d+/i
+        let matchResult2 = matchResult1[0].match(patt2)
+        let researcherID = matchResult2[0]
+        console.log("userID");
+        console.log(researcherID);
         const reqOpts = {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },            
+            body: JSON.stringify({ researcherID })
+
         }
-        fetch('http://localhost:3001/get_complete_quiz_list', reqOpts).then(response => {
+        fetch('http://localhost:3001/get_user_quiz_list', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
                     alert('Could not get list of questionnaires!');
                     console.log(json);
+                    console.log(response);
                 } else {
                     console.log(json)
                     let questionnaireList = json;
@@ -139,6 +151,7 @@ export default class Visualization extends Component {
                         console.log(curQuestion);
                         result.push({ questionnairesID: questionnairesID, questionnaireName: json[0].questionnairesName, answers: answersCount, questionText: curQuestion[0].questionText })
                     }
+                    console.log("result");
                     console.log(result);
                     let arrayOfQuestionData = []
                     for (let x in result) {
@@ -174,6 +187,13 @@ export default class Visualization extends Component {
             </option>
 
         })
+        let cookie = Cookies.get('access_token')
+        var patt = /#\d+#/i
+        var result1 = cookie.match(patt)
+        var patt2 = /\d+/i
+        var result2 = result1[0].match(patt2)
+        var userID = result2[0]
+
         let options = {
             scales: {
                 yAxes: [
@@ -197,7 +217,7 @@ export default class Visualization extends Component {
         if (this.state.data.length) {
             return (
                 <div>
-
+                    {console.log(this.state.question)}
                     <Bar
                         data={this.state.data[this.state.question]}
                         height={500}
@@ -211,6 +231,7 @@ export default class Visualization extends Component {
                     </label>
                     <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> Next Question </button>
                     <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> Prev Question </button>
+                    <button className=" test-button " onClick={() => console.log(this.state.data)}> test </button>
                     <hr></hr>
                     <hr></hr>
                 </div >

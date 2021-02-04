@@ -160,6 +160,19 @@ database.getQuizList = (req) => {
 	});
 };
 
+database.getUsersQuizList = (req) => {
+	return new Promise((resolve, reject) => {
+		console.log(req);
+		const {researcherID} = req;
+		pool.query(`SELECT * FROM Questionnaires WHERE researcherID=${researcherID}`, (err, res) => {
+			if (err) {
+				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
+			}
+			return resolve(res);
+		});
+	});
+};
+
 database.getCompleteQuizList = () => {
 	return new Promise((resolve, reject) => {
 		pool.query(`SELECT * FROM Questionnaires`, (err, res) => {

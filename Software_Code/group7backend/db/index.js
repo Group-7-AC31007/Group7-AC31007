@@ -1,6 +1,7 @@
 "use strict";
 
 const mysql = require("mysql");
+const { resolve } = require("path");
 const config = require("../config");
 
 const pool = mysql.createPool(config.mysql);
@@ -141,6 +142,22 @@ database.getProjectList = (req) => {
 };
 
 // Get the list of questionnaires available for user based on projectAccess
+database.getQVisualization = (req) => {
+	return new Promise((resolve, reject) => {
+		const {questionnairesID} = req;
+		console.log("WAAAAAGH");
+		pool.query(`SELECT * FROM Qtesting WHERE questionnairesID=${questionnairesID}`, (err, res) => {
+			if (err) {
+				console.log("REEEEE");
+				return reject("COULD NOT GET LIST FOR CHARTS")
+			}
+			console.log("AAAAAAAAAAAAAAH");
+			return resolve(res);
+		});
+	});
+}
+
+// Get the list of questionnaires available for the project
 database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {
 		console.log(req);
@@ -153,6 +170,17 @@ database.getQuizList = (req) => {
 		});
 	});
 };
+
+database.getCompleteQuizList = () => {
+	return new Promise((resolve, reject) => {
+		pool.query(`SELECT * FROM Questionnaires`, (err, res) => {
+			if (err) {
+				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
+			}
+			return resolve(res);
+		});
+	});
+}
 
 // Get a questionnaire from the database
 

@@ -178,8 +178,8 @@ let insertQuestions = (questionnairesID, questions) => {
 // Make new entries in the appropriate questionnaire tables
 database.createQuiz = (req) => {
 	return new Promise((resolve, reject) => {
-		const { host, questionnaireNo, projectID, questions } = req
-		let sql = `SELECT insert_questionnaire(${projectID}, ${questionnaireNo});`
+		const { host, researcherID, projectID, questions } = req
+		let sql = `SELECT insert_questionnaire(${projectID}, ${researcherID});`
 
 		console.log("createQuiz_sql", sql)
 
@@ -192,10 +192,10 @@ database.createQuiz = (req) => {
 			console.log("createQuiz_res", res)
 
 			let questionnairesID = results[0][Object.keys(results[0])[0]]
-			let url = host + `/?questionnaireID=${questionnairesID}`
+			let url = host + `/share?id=${questionnairesID}`
 
 			self.createTask({
-				text: `<a href=${url}>Complete this questionnaire</a>`,
+				text: `Complete this questionnaire: ${url}`,
 				projectsID: projectID
 			}).then(() => {
 				insertQuestions(questionnairesID, questions)

@@ -58,6 +58,14 @@ export default class UserTasks extends Component {
 		})
 	}
 
+	// https://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript
+	urlify(text) {
+		var urlRegex = /(https?:\/\/[^\s]+)/g;
+		return text.replace(urlRegex, (url) => {
+			return '<a href="' + url + '">' + url + '</a>';
+		})
+	}
+
 	getTaskList() {
 		const reqOpts = {
 			method: 'POST',
@@ -70,14 +78,13 @@ export default class UserTasks extends Component {
 				this.setState({ tasks: [] })
 				console.log("/get_task_list", json)
 				let tasksCopy = json.map(element => ({
-					"id": element.tasksID,
+					"id": this.urlify(element.tasksID),
 					"text": element.text,
 					"checked": false
 				}))
 				tasksCopy.forEach((element, ind) => {
 					this.isTaskCompleted(element.id).then(checked => {
 						tasksCopy[ind].checked = checked
-						console.log("TASKS_COPYYYY", tasksCopy)
 						this.setState({ tasks: tasksCopy })
 					})
 				})

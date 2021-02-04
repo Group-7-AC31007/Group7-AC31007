@@ -16,6 +16,7 @@ import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.png'
 import Refresh from "./Refresh/Refresh";
+import Share from "./Share/Share";
 
 
 let callApi = async (endpoint = "") => {
@@ -71,6 +72,9 @@ function App() {
 
     </Refresh>)
   }
+  let shareWrapper = (props) => {
+    return (<Share history={props.history} user={user}></Share>)
+  }
   console.log(user);
 
 
@@ -102,34 +106,35 @@ function App() {
           </a>
           <Link to="/login" onClick={(e) => { dropDown(e) }} >{!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? "Login" : "Sign Out"} </Link>
           {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position > 1) ? (
-          <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
+            <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
           {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
           <Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>
           <Link className="Home" to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
         </header>
         <div className="main">
 
-        {/*
+          {/*
             A <Switch> looks through all its children <Route>
             elements and renders the first one whose path
             matches the current URL. Use a <Switch> any time
             you have multiple routes, but you want only one
             of them to render at a time
           */}
-        <Route exact path="/" component={homeWrapper} />
-        <Route path="/login" component={loginWrapper} />
-        <Route path="/questionnaire" component={questionnaireWrapper} />
-        <Route path="/registration" component={registrationWrapper} />
-        <Route path ="/refresh" component={refreshWrapper}/>
-        <Route path="/user_management" component={userManagementWrapper} />
+          <Route exact path="/" component={homeWrapper} />
+          <Route path="/login" component={loginWrapper} />
+          <Route path="/questionnaire" component={questionnaireWrapper} />
+          <Route path="/registration" component={registrationWrapper} />
+          <Route path="/refresh" component={refreshWrapper} />
+          <Route path="/user_management" component={userManagementWrapper} />
+          <Route path="/share" component={shareWrapper} />
 
-        </div>    
+        </div>
         <footer className="site-footer">
           <div>
             <p> Footer </p>
           </div>
 
-        </footer>    
+        </footer>
       </div>
 
 

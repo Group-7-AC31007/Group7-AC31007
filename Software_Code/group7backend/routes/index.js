@@ -9,7 +9,7 @@ let sendResponse = async (req, res, sqlpoint) => {
 	try {
 		console.log(req);
 		//req = req.body
-		if (req.method == 'GET') {
+		if(req.method=='GET'){
 			req = req.query
 		} else {
 			req = req.body
@@ -75,6 +75,22 @@ router.get("/get_complete_quiz_list", async(req,res) =>{
 
 router.post("/complete_quiz", async (req, res) => {
 	sendResponse(req, res, db.completeQuiz);
+});
+
+router.post("/create_task", async (req, res) => {
+	sendResponse(res, res, db.createTask);
+})
+
+router.post("/get_task_list", async(req, res) => {
+	sendResponse(req, res, db.getTaskList);
+});
+
+router.post("/get_task_completion", async(req, res) => {
+	sendResponse(req, res, db.getTaskCompletion);
+});
+
+router.post("/set_task_completion", async(req, res) => {
+	sendResponse(req, res, db.setTaskCompletion);
 });
 
 router.get("/get_users", async (req, res) => {

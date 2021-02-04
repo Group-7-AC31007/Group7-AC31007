@@ -191,11 +191,11 @@ database.createQuiz = (req) => {
 			}
 			console.log("createQuiz_res", res)
 
-			let questionnairesID = results[0][Object.keys(results[0])[0]]
+			let questionnairesID = res[0][Object.keys(res[0])[0]]
 			let url = host + `/share?id=${questionnairesID}`
 
-			self.createTask({
-				text: `Complete this questionnaire: ${url}`,
+			database.createTask({
+				text: `Complete this questionnaire ${url}`,
 				projectsID: projectID
 			}).then(() => {
 				insertQuestions(questionnairesID, questions)
@@ -284,7 +284,7 @@ let buildJson = (results) => {
 			promiseArray.push(new Promise((loop_resolve, loop_reject) => {
 				let question = results[i]
 				let questionData = {}
-				let sql = `SELECT * FROM Responses` +
+				let sql = `SELECT * FROM Responses ` +
 					`WHERE questionID=${question.questionID};`
 				Object.assign(questionData, question)
 
@@ -375,7 +375,8 @@ database.completeQuiz = (req) => {
 database.createTask = (req) => {
 	return new Promise((resolve, reject) => {
 		const { projectsID, text } = req
-		let sql = `INSERT INTO Tasks (projectsID, text) (${projectsID}, ${text})`
+		let sql = `INSERT INTO Tasks (projectsID, text) ` +
+		`VALUES (${projectsID}, '${sanitize(text)}')`
 
 		console.log("createTask_sql", sql)
 

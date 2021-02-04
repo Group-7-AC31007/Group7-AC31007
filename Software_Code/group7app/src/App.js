@@ -22,7 +22,7 @@ import Share from "./Share/Share";
 
 
 let callApi = async (endpoint = "") => {
-  const response = await fetch('http://localhost:3001/' + endpoint);
+  const response = await fetch('/api/' + endpoint);
   const body = await response.json();
   if (response.status !== 200) throw Error(body.message);
 

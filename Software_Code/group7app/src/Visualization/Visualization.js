@@ -64,7 +64,7 @@ export default class Visualization extends Component {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         }
-        fetch('http://localhost:3001/get_complete_quiz_list', reqOpts).then(response => {
+        fetch('/api/get_complete_quiz_list', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
                     alert('Could not get list of questionnaires!');
@@ -88,7 +88,7 @@ export default class Visualization extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ questionnairesID })
         }
-        fetch('http://localhost:3001/get_qvisualization', reqOpts).then(response => {
+        fetch('/api/get_qvisualization', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST FOR CHARTS") {
                     alert('Could not get list for charts!');

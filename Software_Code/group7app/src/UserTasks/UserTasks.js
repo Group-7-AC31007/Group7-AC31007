@@ -31,7 +31,7 @@ export default class UserTasks extends Component {
 				projectAccessLevel: this.state.projectAccessLevel
 			})
 		}
-		fetch('http://localhost:3001/get_project_list', reqOpts)
+		fetch('/api/get_project_list', reqOpts)
 			.then(response => response.json().then(json => {
 				console.log("/get_project_list", json)
 				this.setState({
@@ -51,7 +51,7 @@ export default class UserTasks extends Component {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ tasksID, usersID: this.state.usersID })
 			}
-			fetch('http://localhost:3001/get_task_completion', reqOpts)
+			fetch('/api/get_task_completion', reqOpts)
 				.then(response => response.json().then(json => {
 					return resolve(!!json["0"] && !!json["0"].taskCompletionsID)
 				}))
@@ -65,7 +65,7 @@ export default class UserTasks extends Component {
 			body: JSON.stringify({ projectsID: this.state.selectedProject })
 		}
 		console.log("XDDDDDDDD", this.state.selectedProject)
-		fetch('http://localhost:3001/get_task_list', reqOpts)
+		fetch('/api/get_task_list', reqOpts)
 			.then(response => response.json().then(json => {
 				this.setState({ tasks: [] })
 				console.log("/get_task_list", json)
@@ -93,7 +93,7 @@ export default class UserTasks extends Component {
 				checked: task.checked
 			})
 		}
-		fetch('http://localhost:3001/set_task_completion', reqOpts)
+		fetch('/api/set_task_completion', reqOpts)
 			.then(response => response.json().then(json => {
 				console.log("/set_task_status", json)
 				if (json == "COULD NOT SET COMPLETION") {

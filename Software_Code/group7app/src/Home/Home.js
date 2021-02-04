@@ -9,7 +9,7 @@ export default class Home extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="home-page-wrapper">
                 
             </div>
         )

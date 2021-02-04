@@ -57,7 +57,9 @@ router.post("/create_quiz", async (req, res) => {
 router.post("/get_project_list", async (req, res) => {
 	sendResponse(req, res, db.getProjectList);
 });
-
+router.post("/get_project_access_list", async (req, res) => {
+	sendResponse(req, res, db.getProjectAccessList);
+});
 router.post("/get_quiz_list", async (req, res) => {
 	sendResponse(req, res, db.getQuizList);
 });
@@ -69,7 +71,12 @@ router.post("/get_quiz", async (req, res) => {
 router.post("/complete_quiz", async (req, res) => {
 	sendResponse(req, res, db.completeQuiz);
 });
-
+router.get("/get_project", async (req, res) => {
+	sendResponse(req, res, db.getProject)
+})
+router.get("/get_project_users", async (req, res) => {
+	sendResponse(req, res, db.getProject)
+})
 router.get("/get_users", async (req, res) => {
 	sendResponse(req, res, db.getUsers)
 })

@@ -65,6 +65,28 @@ database.getUsers = () => {
 	});
 };
 
+database.getProject = () => {
+	return new Promise((resolve, reject) => {
+		pool.query(`SELECT * FROM group_7.projects`, (err, results) => {
+			console.log(results);
+			if (err || results[0] == undefined) {
+				return reject("UNABLE TO GET Projects");
+			}
+			return resolve(results);
+		});
+	});
+};
+database.getprojectUsers = (req) => {
+	return new Promise((resolve, reject) => {
+		pool.query(`SELECT usersID, email FROM group_7.project_managment WHERE projectsID = (${req})`, (err, results) => {
+			console.log(results);
+			if (err || results[0] == undefined) {
+				return reject("UNABLE TO GET Projects");
+			}
+			return resolve(results);
+		});
+	});
+};
 // Make new entries in the appropriate questionnaire tables
 database.createQuiz = (req) => {
 	return new Promise((resolve, reject) => {
@@ -139,7 +161,17 @@ database.getProjectList = (req) => {
 		});
 	});
 };
-
+database.getProjectAccessList = (req) => {
+	return new Promise((resolve, reject) => {
+		const { usersID } = req;
+		pool.query(`SELECT * FROM ProjectAccess WHERE usersID=${usersID}`, (err, res) => {
+			if (err) {
+				return reject("COULD NOT GET LIST OF PROJECTS");
+			}
+			return resolve(res);
+		});
+	});
+};
 // Get the list of questionnaires available for user based on projectAccess
 database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {

@@ -12,9 +12,6 @@ body {
 
     /*new*/
     height: 100%;
-    display: flex;
-    flex-direction: column;
-
 }
 
 html {
@@ -24,52 +21,87 @@ html {
 
 /* ------------------------------------------------------ HEADER ----------------------------------------------------------- */
 
-header {
+/* Code for header taken from https://www.w3schools.com/howto/howto_js_topnav_responsive.asp  and adapted to our design */
+
+.header {
+    overflow: visible;
+    background-color:#4365e2;
     padding: 20px 15%;
-    background-color: #4365E2; /* Using University of Dundee palette*/
+    transition: background-color 0.2s linear;
+
+    
+
+}
+
+.header a {
+    box-sizing: border-box;
     float: right;
-}
-
-#listHeader {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-align: right;
-}
-
-#listHeader li {
-    display: inline-block;  
-    margin: 0 0 0 15px;
-    padding: 10px 15px;
-    transition: outline 0.2s linear; /* https://css-tricks.com/animating-border/ */
-    outline: solid 0px white;
-}
-
-#listHeader li:hover{
-    outline-width: 3px;
-    color: white;
-}
-
-#listHeader li a {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
     text-decoration: none;
-    text-transform: uppercase;
-    color:white ;
-    /*transition: border-style 0.2s linear;*/
+    font-size: 17px;
+    padding: 5px 10px;
+    padding-top: 10px;
+    transition: color 0.2s linear;
+  }
 
-}
+  .header a:hover {
+      color: #ff6264;
+
+  }
 
 .logo {
     float: left;
-}
-
-.logo {
-    display: block;
+    display: inline-block;
     width: 120px;
     filter: brightness(0) invert(1);
-
+    transition: filter 0.2s linear;
 }
 
+.header .icon {
+    display: none;
+  }
 
+
+@media screen and (max-width: 860px) {
+    .header a:not(:first-child) {display: none;}
+    .header a.icon {
+        float: right;
+        display: inline-block;
+        padding-top: 10px;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .header.responsive {position: relative;}
+    .header.responsive .icon {
+        position: absolute;
+        right: 15%;
+        top: 20px; 
+    }
+    .header.responsive{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .header.responsive .logo {
+        position: absolute;
+        left: 15%;
+        top: 20px;
+    }
+
+    .header.responsive a {
+        clear: both;
+        float: none;
+        display: block;
+        text-align: left;
+        padding-left:0; 
+    }
+
+    .header.responsive .Home {
+        margin-top: 50px;
+    }
+}
 
 /* ----------------------------------------------------- FOOTER -----------------------------------------------------------------*/
 .container {
@@ -80,11 +112,8 @@ header {
     /*new*/
     height: 100vh;
     display: flex; 
-    flex-direction: column; 
-}
+    flex-direction: column;
 
-.biggerContainer {
-    min-height:100vh;
 }
 
 #root {
@@ -92,20 +121,23 @@ header {
 }
 
 
-footer {
+
+.site-footer{
     padding: 20px 15%;
     background-color: #DDD9D6;
     
     text-transform: uppercase;
     /* margin-top: -38px; negative value of footer height */
-    height: 18px;
-    padding-top:20px;
 
-    position: fixed;
+
     left: 0;
     bottom: 0;
     right: 0;
     /* width: 100%; */
+}
+
+.main{
+    flex: 1;
 }
 
 footer div p {

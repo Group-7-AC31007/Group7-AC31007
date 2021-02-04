@@ -12,6 +12,8 @@ import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
 import UserTasks from "./UserTasks/UserTasks";
 import UserManagement from './UserManagement/UserManagement'
+import Visualization from "./Visualization/Visualization";
+
 import "./App.css";
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.png'
@@ -61,6 +63,7 @@ function App() {
       <Questionnaire history={props.history} user={user}></Questionnaire>
     )
   }
+
   let userManagementWrapper = (props) => {
     return (<UserManagement history={props.history} user={user}>
 
@@ -116,8 +119,28 @@ function App() {
         </header>
         <div className="main">
 
-        {/*
-            A <Switch> looks through all its children <Route>
+       
+    let visualizationWrapper = (props) =>{
+      return(
+        <Visualization history = {props.history} user={user}></Visualization>
+      )
+  }
+  return (
+    <Router>
+        <div className='container'>
+          <header>
+            <img className="logo" src={logo} />
+            <ul id="listHeader">
+              <li> <Link to="/">Home </Link> </li>
+              <li> <Link to="/login">Login </Link> </li>
+              <li> <Link to="/questionnaire">Questionnaire </Link> </li>
+              <li> <Link to="/registration">Registration</Link> </li>
+              <li> <Link to="/visualization">Visualization</Link> </li>
+            </ul>
+          </header>
+  
+          {/*
+         A <Switch> looks through all its children <Route>
             elements and renders the first one whose path
             matches the current URL. Use a <Switch> any time
             you have multiple routes, but you want only one

@@ -1,3 +1,12 @@
 .home-page-wrapper {
-    
+    background-image: url('riverside.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100%;
+}
+
+.home-page-square-one {
+    min-height: 45%;
+    background-color: rgba(209,226,242,0.5);
 }

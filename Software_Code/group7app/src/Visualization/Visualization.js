@@ -66,30 +66,30 @@ export default class Visualization extends Component {
         let matchResult1 = cookie.match(patt)
         let patt2 = /\d+/i
         let matchResult2 = matchResult1[0].match(patt2)
-        let researcherID = matchResult2[0]
-        console.log("userID");
-        console.log(researcherID);
-        const reqOpts = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },            
-            body: JSON.stringify({ researcherID })
+        let userID = matchResult2[0]
+            console.log("userID");
+            console.log(userID);
+            const reqOpts = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userID })
 
-        }
-        fetch('http://localhost:3001/get_user_quiz_list', reqOpts).then(response => {
-            response.json().then(json => {
-                if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
-                    alert('Could not get list of questionnaires!');
-                    console.log(json);
-                    console.log(response);
-                } else {
-                    console.log(json)
-                    let questionnaireList = json;
-                    this.setState({ questionnaireList }, () => this.QVisualizerHandler(json[0].questionnairesID))
-                }
+            }
+            fetch('http://localhost:3001/get_user_quiz_list', reqOpts).then(response => {
+                response.json().then(json => {
+                    if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
+                        alert('Could not get list of questionnaires!');
+                        console.log(json);
+                        console.log(response);
+                    } else {
+                        console.log(json)
+                        let questionnaireList = json;
+                        this.setState({ questionnaireList }, () => this.QVisualizerHandler(json[0].questionnairesID))
+                    }
 
-                console.log("pog");
+                    console.log("pog");
+                });
             });
-        });
     }
 
     QVisualizerHandler(questionnaireID) {
@@ -174,7 +174,8 @@ export default class Visualization extends Component {
                         }
                         arrayOfQuestionData.push(curData)
                     }
-                    this.setState({ data: arrayOfQuestionData })
+                    console.log(arrayOfQuestionData);
+                    this.setState({ data: arrayOfQuestionData, question: 0})
                 }
             });
         });
@@ -187,12 +188,6 @@ export default class Visualization extends Component {
             </option>
 
         })
-        let cookie = Cookies.get('access_token')
-        var patt = /#\d+#/i
-        var result1 = cookie.match(patt)
-        var patt2 = /\d+/i
-        var result2 = result1[0].match(patt2)
-        var userID = result2[0]
 
         let options = {
             scales: {
@@ -215,6 +210,7 @@ export default class Visualization extends Component {
             },
         }
         if (this.state.data.length) {
+            console.log(this.state);
             return (
                 <div>
                     {console.log(this.state.question)}

@@ -34,7 +34,7 @@ export default class Registration extends Component {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ forename, surname, email, hashPassword })
 		};
-		fetch('/api/signup', reqOpts).then(response => {
+		fetch('http://localhost:3001/signup', reqOpts).then(response => {
 			response.json().then(json => {
 				if (json == 'SIGNUP SUCCESS') {
 					alert('Signed up with the email: ' + email);

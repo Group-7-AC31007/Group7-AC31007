@@ -25,7 +25,7 @@ export default class QuestionnaireTaker extends Component {
             body: JSON.stringify({ userID })
         }
 
-        fetch('/api/get_project_list', reqOpts).then(response => {
+        fetch('http://localhost:3001/get_project_list', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST OF PROJECTS") {
                     alert('Could not get list of projects!');
@@ -50,7 +50,7 @@ export default class QuestionnaireTaker extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ usersID })
         }
-        fetch('/api/get_quiz_list', reqOpts).then(response => {
+        fetch('http://localhost:3001/get_quiz_list', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
                     alert('Could not get list of questionnaires!');
@@ -74,7 +74,7 @@ export default class QuestionnaireTaker extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ questionnairesID })
         }
-        fetch('/api/get_quiz', reqOpts).then(response => {
+        fetch('http://localhost:3001/get_quiz', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
                     alert('Could not get list of questionnaires!');
@@ -104,7 +104,7 @@ export default class QuestionnaireTaker extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(submitJson)
         }
-        fetch('/api/complete_quiz', reqOpts).then(response => {
+        fetch('http://localhost:3001/complete_quiz', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT SEND COMPLETION") {
                     alert('Could not send completed quiz!');

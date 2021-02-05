@@ -165,7 +165,7 @@ export default function UserTable(props) {
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ usersID, changed })
                                 };
-                                fetch('/api/update_user', reqOpts).then(response => {
+                                fetch('http://localhost:3001/update_user', reqOpts).then(response => {
                                     response.json().then(json => {
                                         if (json == "COULD NOT UPDATE USER") {
                                             alert("Could not update user");
@@ -216,7 +216,7 @@ export default function UserTable(props) {
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ usersID })
                                 };
-                                fetch('/api/delete_user', reqOpts).then(response => {
+                                fetch('http://localhost:3001/delete_user', reqOpts).then(response => {
                                     response.json().then(json => {
                                         console.log(json);
                                         if (json == "COULD NOT DELETE USER") {
@@ -261,7 +261,7 @@ export default function UserTable(props) {
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ usersID, newPassword })
                                 };
-                                fetch('/api/update_password', reqOpts).then(response => {
+                                fetch('http://localhost:3001/update_password', reqOpts).then(response => {
                                     response.json().then(json => {
                                         if (json == "COULD NOT UPDATE USER PASSWORD") {
                                             alert("Could not update user password");

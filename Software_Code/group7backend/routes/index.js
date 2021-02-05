@@ -29,7 +29,7 @@ let sendResponse = async (req, res, sqlpoint) => {
 	}
 };
 
-router.get("/api/", async (req, res) => {
+router.get("/", async (req, res) => {
 	try {
 		res.send("API DEFAULT LANDING");
 	} catch (e) {
@@ -38,93 +38,88 @@ router.get("/api/", async (req, res) => {
 	}
 });
 
-router.get("/api/test", async (req, res) => {
+router.get("/test", async (req, res) => {
 	sendResponse(req, res, db.test);
 });
 
-router.post("/api/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
 	sendResponse(req, res, db.signup);
 })
 
-router.post("/api/signin", async (req, res) => {
+router.post("/signin", async (req, res) => {
 	sendResponse(req, res, db.signin);
 });
 
-router.post("/api/create_quiz", async (req, res) => {
+router.post("/create_quiz", async (req, res) => {
 	sendResponse(req, res, db.createQuiz);
 });
 
-router.post("/api/get_project_list", async (req, res) => {
+router.post("/get_project_list", async (req, res) => {
 	sendResponse(req, res, db.getProjectList);
 });
 
-router.post("/api/get_quiz_list", async (req, res) => {
+router.post("/get_quiz_list", async (req, res) => {
 	sendResponse(req, res, db.getQuizList);
 });
 
-router.post("/api/get_quiz", async (req, res) => {
+router.post("/get_quiz", async (req, res) => {
   sendResponse(req, res, db.getQuiz);
 });
 
-
-router.post("/api/get_user_quiz_list", async(req, res) => {
+router.post("/get_user_quiz_list", async(req, res) => {
 	sendResponse(req, res, db.getUsersQuizList);
 });
 
-router.post("/api/get_user_project_list", async(req, res) => {
+router.post("/get_user_project_list", async(req, res) => {
 	sendResponse(req, res, db.getUsersProjectList);
 });
 
-router.post("/api/get_qvisualization", async(req, res) => {
+router.post("/get_qvisualization", async(req, res) => {
 	sendResponse(req, res, db.getQVisualization);
 });
 
-router.get("/api/get_complete_quiz_list", async(req,res) =>{
+router.get("/get_complete_quiz_list", async(req,res) =>{
 	sendResponse(req, res, db.getCompleteQuizList)
 })
 
-router.post("/api/complete_quiz", async (req, res) => {
+router.post("/complete_quiz", async (req, res) => {
 	sendResponse(req, res, db.completeQuiz);
 });
 
-router.post("/api/create_task", async (req, res) => {
+router.post("/create_task", async (req, res) => {
 	sendResponse(res, res, db.createTask);
 })
 
-router.post("/api/get_task_list", async(req, res) => {
+router.post("/get_task_list", async(req, res) => {
 	sendResponse(req, res, db.getTaskList);
 });
 
-router.post("/api/get_task_completion", async(req, res) => {
+router.post("/get_task_completion", async(req, res) => {
 	sendResponse(req, res, db.getTaskCompletion);
 });
 
-router.post("/api/set_task_completion", async(req, res) => {
+router.post("/set_task_completion", async(req, res) => {
 	sendResponse(req, res, db.setTaskCompletion);
 });
 
-router.post("/api/update_task", async(req, res) => {
+router.post("/update_task", async(req, res) => {
 	sendResponse(req, res, db.updateTask);
 });
 
-router.post("/api/delete_task", async(req, res) => {
+router.post("/delete_task", async(req, res) => {
 	sendResponse(req, res, db.deleteTask);
 });
 
-
-router.get("/api/get_users", async (req, res) => {
+router.get("/get_users", async (req, res) => {
 	sendResponse(req, res, db.getUsers)
 })
-
-router.post("/api/update_user",async(req,res)=>{
+router.post("/update_user",async(req,res)=>{
 	sendResponse(req,res,db.updateUser)
 })
-
-router.post("/api/delete_user",async(req,res)=>{
+router.post("/delete_user",async(req,res)=>{
 	sendResponse(req,res,db.deleteUser)
 })
-
-router.post("/api/update_password",async(req,res)=>{
+router.post("/update_password",async(req,res)=>{
 	sendResponse(req,res,db.updatePassword)
 })
 module.exports = router;

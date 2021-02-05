@@ -119,7 +119,7 @@ export default class QuestionnaireCreator extends Component {
             body: JSON.stringify(result)
         }
         console.log(result);
-        fetch('/api/create_quiz', reqOpts).then(response => {
+        fetch('http://localhost:3001/create_quiz', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT CREATE QUESTIONNAIRE") {
                     alert('Could not create questionnaire!');

@@ -15,7 +15,7 @@ export default class UserManagement extends Component {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         };
-        fetch('/api/get_users', reqOpts).then(response => {
+        fetch('http://localhost:3001/get_users', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "UNABLE TO GET USERS") {
                     console.log("NO SUCH USER");

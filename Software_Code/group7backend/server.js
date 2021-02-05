@@ -7,18 +7,10 @@ const cors = require("cors");
 
 const app = express();
 
-const connectHistoryApiFallback = require('connect-history-api-fallback');
-const path = require('path')
-
-app.use(connectHistoryApiFallback({
-	verbose: false
-  }));
 app.use(cors())
 app.use(express.json());
-app.use(apiRouter);
-app.use(express.static(path.join(__dirname,"/group7app/build")));
+app.use("/", apiRouter);
 
-
-app.listen(process.env.PORT || 6969, () => {
+app.listen(3001, () => {
 	console.log("API Server up");
 });

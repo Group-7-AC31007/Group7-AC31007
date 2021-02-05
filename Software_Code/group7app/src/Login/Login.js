@@ -41,7 +41,7 @@ export default class Login extends Component {
       body: JSON.stringify({ email, hashPassword })
     };
     console.log(hashPassword);
-    fetch('/api/signin', reqOpts).then(response => {
+    fetch('http://localhost:3001/signin', reqOpts).then(response => {
       response.json().then(json => {
         console.log(json);
         if (json == "NO SUCH USER") {

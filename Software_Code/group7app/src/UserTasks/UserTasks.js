@@ -152,7 +152,6 @@ export default class UserTasks extends Component {
 						<select value={this.state.selectedProject} onChange={(
 							event => {
 								this.handleProjectChange(event.target.value)
-								this.getTaskList()
 							}
 						)} className="projects-dropdown">
 							{projectList}

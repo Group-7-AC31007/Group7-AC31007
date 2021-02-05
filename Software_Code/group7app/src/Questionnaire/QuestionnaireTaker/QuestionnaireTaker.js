@@ -2,15 +2,19 @@ import React, { Component } from 'react'
 import YesNoTaker from './Types/YesNoTaker'
 import TextInputTaker from './Types/TextInputTaker';
 import PredefinedListTaker from './Types/PredefinedListTaker';
-
+import Cookies from 'js-cookie'
 import "./QuestionnaireTaker.css";
 
 
 export default class QuestionnaireTaker extends Component {
     constructor(props) {
         super(props)
-        let questions = [{ "type": "PredefinedList", "value": { "question": "list of responses", "responses": [{ "ID": 0, "value": "num1" }, { "ID": 1, "value": "num2" }, { "ID": 2, "value": "num3" }] }, "display": true, "ID": 0 }, { "type": "TextInput", "value": "enter some text", "display": true, "ID": 1 }, { "type": "TextInput", "value": "enter more text", "display": true, "ID": 2 }, { "type": "YesNo", "value": "Pick yes/no", "display": true, "ID": 3 }, { "type": "YesNo", "value": "pick more yes/no", "display": true, "ID": 4 }, { "type": "PredefinedList", "value": { "question": "more lists", "responses": [{ "ID": 0, "value": "num1" }, { "ID": 1, "value": "num2" }, { "ID": 2, "value": "num3" }] }, "display": true, "ID": 5 }]
-        this.state = { questions: questions }
+        this.history = props.history
+        this.state = { questions: [], user: props.user.user, id: props.user.id, position: props.user.position, selected: props.selected == undefined ? -1 : parseInt(props.selected) }
+
+    }
+    componentDidMount() {
+        this.setState({ questionnaires: this.questionnaireListHandler() })
     }
     projectListHandler() {
         let userID = 0
@@ -35,13 +39,16 @@ export default class QuestionnaireTaker extends Component {
         });
     }
     questionnaireListHandler() {
-
-        let projectID = 0
-
+        console.log(this.state);
+        let usersID = this.state.id
+        if (!usersID) {
+            return
+        }
+        console.log(usersID);
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ projectID })
+            body: JSON.stringify({ usersID })
         }
         fetch('http://localhost:3001/get_quiz_list', reqOpts).then(response => {
             response.json().then(json => {
@@ -52,13 +59,16 @@ export default class QuestionnaireTaker extends Component {
                     console.log(json)
                     let questionnaireList = json;
                     console.log(questionnaireList);
+                    this.setState({ questionnaires: json }, () => {
+                        if (json.map((cur) => { return cur.questionnairesID }).includes(this.state.selected)) {
+                            this.questionListHandler(this.state.selected)
+                        };
+                    })
                 }
             });
         });
     }
-    questionListHandler() {
-        let questionnairesID = 47
-
+    questionListHandler(questionnairesID) {
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -69,10 +79,12 @@ export default class QuestionnaireTaker extends Component {
                 if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
                     alert('Could not get list of questionnaires!');
                     console.log(json);
+                    this.setState({ questions: [] })
                 } else {
                     console.log(json)
                     let questionsList = json;
                     console.log(questionsList);
+                    this.setState({ questions: json })
                 }
             });
         });
@@ -81,26 +93,73 @@ export default class QuestionnaireTaker extends Component {
         let questionsCopy = this.state.questions
         this.setState({ questions: questionsCopy })
     }
+    submitHandler() {
+        console.log(this.state.questions);
+        // ${questionID}, ${userID}, ${answer});
+        let questions = this.state.questions.map((cur) => { return { id: cur.questionID, answer: !cur.answer ? "" : cur.answer } })
+        let submitJson = { userID: this.state.id, questions: questions }
+
+        const reqOpts = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(submitJson)
+        }
+        fetch('http://localhost:3001/complete_quiz', reqOpts).then(response => {
+            response.json().then(json => {
+                if (json == "COULD NOT SEND COMPLETION") {
+                    alert('Could not send completed quiz!');
+                    console.log(json);
+                } else {
+                    // alert('Questionnaire Submitted!')
+                    this.history.push(`/refresh?timer=3000&message=Questionnaire Submitted : ${this.state.questionnaires[this.state.questionnaires.map((cur) => { return cur.questionnairesID }).indexOf(this.state.selected)].questionnairesName}`)
+                    console.log(json)
+                }
+            });
+        });
+
+
+    }
     render() {
-        let questionList = this.state.questions.map((current, key) =>
-        (current.type === "YesNo" ? (<YesNoTaker key={key} handler={() => this.answerHandler()} question={current}></YesNoTaker>) :
-            current.type === "TextInput" ? (<TextInputTaker key={key} handler={() => this.answerHandler()} question={current}></TextInputTaker>) :
-                (<PredefinedListTaker key={key} handler={() => this.answerHandler()} question={current}></PredefinedListTaker>)))
-        return (
-            <div className="quest-taker-main-wrapper" >
-                <div className="quest-creator-icons-wrapper">
+        if (this.state.user + "#" + this.state.id + "#" + this.state.position + "#logged-in" == Cookies.get('access_token')) {
+
+            console.log(this.state.questionnaires);
+            let questionOptions = !this.state.questionnaires ? [] : this.state.questionnaires.map((current, index) =>
+                (<option key={index} value={current.questionnairesID}>{current.questionnairesName}</option>)
+            )
+            console.log(this.state.questions);
+            let questionList = this.state.questions.map((current, key) =>
+            (current.type === "YesNo" ? (<YesNoTaker key={key} handler={() => this.answerHandler()} question={current}></YesNoTaker>) :
+                current.type === "TextInput" ? (<TextInputTaker key={key} handler={() => this.answerHandler()} question={current}></TextInputTaker>) :
+                    (<PredefinedListTaker key={key} handler={() => this.answerHandler()} question={current}></PredefinedListTaker>)))
+            return (
+                <div className="quest-taker-main-wrapper" >
+                    {this.state.selected == -1 ? (<select onChange={(e) => { this.questionListHandler(e.target.value) }}> {/* if we are using a preselected don't render the selector */}
+                        <option disabled selected value> -- select an option -- </option>
+                        {questionOptions}
+             <div className="quest-creator-icons-wrapper">
                     <i className="fa fa-book" style={{ fontSize: "60px" }}></i>
                     <i className="fa fa-laptop" style={{ fontSize: "60px" }}></i>
                     <i className="fa fa-file-text" style={{ fontSize: "60px" }}></i>
                 </div>
-                { questionList}
-                {/* <button className="submit-answer-button" onClick={() => console.log(JSON.stringify(this.state.questions))}>Submit</button> */}
-                <button className="questionnaire-display-button" onClick={() => /*console.log(JSON.stringify(this.state.questions)) + */this.questionnaireListHandler()
-                }  > Questionnaire</button >
-                <button className="question-display-button" onClick={() => /*console.log(JSON.stringify(this.state.questions)) + */this.questionListHandler()
-                }  > Question</button >
+                    </select>) : (!this.state.questions.length) ? (<div> There is no questionniare with the id {this.state.selected} or you do not have access to it</div>) :
+                            (<div>{this.state.questionnaires[this.state.questionnaires.map((cur) => { return cur.questionnairesID }).indexOf(this.state.selected)].questionnairesName} </div>)}
 
-            </div >
-        )
+
+                    {questionList}
+                    {
+                        this.state.questions.length > 0 ?
+                            (<button onClick={() => this.submitHandler()}>
+                                Submit
+                            </button>) : null
+                    }
+                </div >
+            )
+        } else {
+            console.log("test, didn't get in");
+            this.history.push("/login")
+            return(
+                <div></div>
+            )
+        }
     }
 }

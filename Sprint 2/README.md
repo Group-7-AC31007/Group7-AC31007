@@ -31,7 +31,7 @@ All members were present
 ### Summary of Conversation:
 - What was accomplished the previous day: Developer team had updated on GitHub that all the leftover in progress work from sprint 1 was now finished and committed to the repository fully reviewed. Additionally some work was started on stories assigned for the second sprint.
 - Are there any impediments in your way: Team didn't report to any big difficulties from the previous day as the work had gone quite well except a few minor issues which just took a bit longer to resolve than expected.
-- What are you working on today: More stories from sprint 2 were assigned to team members and that was the main goal for the day. To assist recording progress, tasks: [2](https://github.com/Group-7-AC31007/Group7-AC31007/issues/2)],[18](https://github.com/Group-7-AC31007/Group7-AC31007/issues/18)],[20](https://github.com/Group-7-AC31007/Group7-AC31007/issues/20)] and [42](https://github.com/Group-7-AC31007/Group7-AC31007/issues/42)].
+- What are you working on today: More stories from sprint 2 were assigned to team members and that was the main goal for the day. To assist recording progress, tasks: [2](https://github.com/Group-7-AC31007/Group7-AC31007/issues/2),[18](https://github.com/Group-7-AC31007/Group7-AC31007/issues/18),[20](https://github.com/Group-7-AC31007/Group7-AC31007/issues/20) and [42](https://github.com/Group-7-AC31007/Group7-AC31007/issues/42).
 
 ---
 

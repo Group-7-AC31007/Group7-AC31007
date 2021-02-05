@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Cookies from 'js-cookie'
 import Task from './Task'
 
-export default class UserTasks extends Component {
+export default class TaskCreator extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -10,7 +10,6 @@ export default class UserTasks extends Component {
 			tasks: [],
 			selectedProject: "",
 			usersID: props.user.id,
-			projectAccessLevel: 0,
 			user: props.user.user,
 			position: props.user.position
 		}
@@ -28,7 +27,7 @@ export default class UserTasks extends Component {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				usersID: this.state.usersID,
-				projectAccessLevel: this.state.projectAccessLevel
+				projectAccessLevel: 1
 			})
 		}
 		fetch('http://localhost:3001/get_project_list', reqOpts)
@@ -44,28 +43,6 @@ export default class UserTasks extends Component {
 			}))
 	}
 
-	isTaskCompleted(tasksID) {
-		return new Promise((resolve, reject) => {
-			const reqOpts = {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ tasksID, usersID: this.state.usersID })
-			}
-			fetch('http://localhost:3001/get_task_completion', reqOpts)
-				.then(response => response.json().then(json => {
-					return resolve(!!json["0"] && !!json["0"].taskCompletionsID)
-				}))
-		})
-	}
-
-	// https://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript
-	urlify(text) {
-		var urlRegex = /(https?:\/\/[^\s]+)/g
-		return text.replace(urlRegex, (url) => {
-			return '<a href="' + url + '">' + url + '</a>'
-		})
-	}
-
 	getTaskList() {
 		const reqOpts = {
 			method: 'POST',
@@ -77,35 +54,10 @@ export default class UserTasks extends Component {
 				this.setState({ tasks: [] })
 				console.log("/get_task_list", json)
 				let tasksCopy = json.map(element => ({
-					"id": this.urlify(element.tasksID),
+					"id": element.tasksID,
 					"text": element.text,
-					"checked": false
 				}))
-				tasksCopy.forEach((element, ind) => {
-					this.isTaskCompleted(element.id).then(checked => {
-						tasksCopy[ind].checked = checked
-						this.setState({ tasks: tasksCopy })
-					})
-				})
-			}))
-	}
-
-	sendTaskStatus(task) {
-		const reqOpts = {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				usersID: this.state.usersID,
-				tasksID: task.id,
-				checked: task.checked
-			})
-		}
-		fetch('http://localhost:3001/set_task_completion', reqOpts)
-			.then(response => response.json().then(json => {
-				console.log("/set_task_status", json)
-				if (json == "COULD NOT SET COMPLETION") {
-					task.checked = !task.checked
-				}
+				this.setState({ tasks: tasksCopy })
 			}))
 	}
 
@@ -114,47 +66,85 @@ export default class UserTasks extends Component {
 		this.setState({ selectedProject: projectCopy }, () => this.getTaskList())
 	}
 
-	handleTaskStatusChange(task) {
-		let tasksCopy = this.state.tasks
-		this.setState({ tasks: tasksCopy })
-		this.sendTaskStatus(task)
+	handleTaskUpdate(task) {
+		const reqOpts = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tasksID: task.id })
+		}
+		fetch('http://localhost:3001/update_task', reqOpts)
+			.then(response => response.json().then(json => {
+				console.log("/update_task", json)
+				if (json != "TASK UPDATED") {
+					alert("Could not update task!")
+				} else {
+					let ind = tasksCopy.findIndex(element => task.id == element.id)
+					this.state.tasks[ind].text = task.text
+					let tasksCopy = this.state.tasks
+					this.setState({ tasks: tasksCopy })
+				}
+			})).catch(e => console.log("unexpected_err", e))
+	}
+
+	handleTaskDelete(task) {
+		const reqOpts = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tasksID: task.id })
+		}
+		fetch('http://localhost:3001/delete_task', reqOpts)
+			.then(response => response.json().then(json => {
+				console.log("/delete_task", json)
+				if (json != "TASK DELETED") {
+					alert("Could not delete task!")
+				} else {
+					let tasksCopy = this.state.tasks
+					let ind = tasksCopy.findIndex(element => task.id == element.id)
+					tasksCopy.splice(ind, 1)
+					this.setState({ tasks: tasksCopy })
+				}
+			})).catch(e => console.log("unexpected_err", e))
 	}
 
 	render() {
 		let projectList = this.state.projects.map((curr, key) => (
-			<option
-				value={curr.id} key={key} className="projects-item">{curr}
+			<option value={curr.id} key={key} className="projects-item">
+				{curr}
 			</option>
 		))
 		let taskList = this.state.tasks.map((curr, key) => (
 			<Task
 				key={key}
-				handler={(task) => this.handleTaskStatusChange(task)}
+				updHandler={(task) => this.handleTaskUpdate(task)}
+				delHandler={(task) => this.handleTaskDelete(task)}
 				task={curr}
 			/>
 		))
 
 		console.log("PROJECTS", this.state.projects)
 		console.log("TASKS", this.state.tasks)
+		console.log("TASKS_XML", taskList)
 
 		if (this.state.user + "#" + this.state.usersID + "#" + this.state.position +
 			"#logged-in" == Cookies.get('access_token')) {
 			return (
-				<div className="tasks-wrapper">
-					<div className="projects">
-						<label>Select a project</label>
-						<select onChange={(event => {
-							this.handleProjectChange(event.target.value)
-						}
-						)} className="projects-dropdown">
-							{projectList}
-						</select>
+				<div>
+					<div className="tasks-wrapper">
+						<div className="projects">
+							<label>Select a project</label>
+							<select onChange={(event => {
+								this.handleProjectChange(event.target.value)
+							}
+							)} className="projects-dropdown">
+								{projectList}
+							</select>
+						</div>
+						<div className="research-title">
+							Project {this.state.selectedProject} tasks
 					</div>
-					<div className="research-title">
-						Project {this.state.selectedProject} tasks
-					</div>
-					<div className="task-list">
-						{taskList}
+						<div className="task-list">
+							{taskList}
+						</div>
 					</div>
 				</div>
 			)

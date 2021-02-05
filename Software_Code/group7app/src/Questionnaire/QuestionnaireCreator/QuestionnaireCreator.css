@@ -124,6 +124,17 @@ hr {
     margin-top: 20px;
 }
 
+.response-delete-button{
+    background-color: red;
+    
+}
+.response-delete-button:hover{
+    background-color: red;
+    outline: red;
+    color: black;
+    
+}
+
 
 
 

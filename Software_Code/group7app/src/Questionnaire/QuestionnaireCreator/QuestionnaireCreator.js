@@ -206,8 +206,8 @@ export default class QuestionnaireCreator extends Component {
                 <button onClick={() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button button"> New Question </button>
                 {questionList}
                 <div>
+                    <hr></hr>
                     <button onClick={() => this.submitButtonHandler()} type="button" className="quest-creator-submitQuestionnaire-button"> Submit Questionnaire </button>
-                    <button onClick={() => this.getProjectList()} type="button" className="test-button"> test</button>
                 </div>
             </div>
 

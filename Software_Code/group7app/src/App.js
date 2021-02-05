@@ -159,11 +159,13 @@ function App() {
             Scotland, UK <br/>
             DD1 4HN <br/>
           </div>
+          <hr />
           <div className="col col-2">
             <a href="https://www.dundee.ac.uk/corporate-information/disclaimer-copyright-privacy-cookies">Disclaimer</a> <br/>
             <a href="https://www.dundee.ac.uk/corporate-information/accessibility-statement">Accessibility Statement</a> <br/>
             <a href="https://www.dundee.ac.uk/corporate-information/modern-slavery-statement">Modern Slavery Statement</a> <br/> 
           </div>
+          <hr />
           <div className="col col-3">
             <div>
               <a href="https://www.dundee.ac.uk/about">About</a>

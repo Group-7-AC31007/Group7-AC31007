@@ -10,16 +10,19 @@
     background-attachment: fixed;
     background-size: cover;
     min-height:100%;
+    position: relative;
 }
 
 .login-form {
     box-sizing: border-box;
     padding: 30px;
     background-color: rgba(255,255,255,0.8);
+    display: block;
+
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); 
     border-radius: 0.1cm;
     
 }

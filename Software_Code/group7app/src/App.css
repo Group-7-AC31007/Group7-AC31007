@@ -179,6 +179,15 @@ footer .col-3 {
     text-align: right;
 }
 
+footer .col-2 a, footer .col-3 div a {
+    transition: color 0.2s linear;
+}
+
+footer .col-2 a:hover, footer .col-3 div a:hover {
+    color: #4365e2;
+    font-weight: bold;
+}
+
 footer .col-3 .social-media a:nth-child(1) i {
     font-size:40px;
     color: #3b5998;

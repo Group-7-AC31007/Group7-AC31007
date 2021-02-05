@@ -16,7 +16,7 @@ app.use(connectHistoryApiFallback({
 app.use(cors())
 app.use(express.json());
 app.use(apiRouter);
-app.use(express.static(path.join(__dirname,"../group7app/build")));
+app.use(express.static(path.join(__dirname,"/group7app/build")));
 
 
 app.listen(process.env.PORT || 6969, () => {

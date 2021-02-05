@@ -7,144 +7,93 @@ export default class ProjectManagement extends Component {
     constructor(props) {
         super(props)
         this.history = props.history
-        this.state = { questions: [], user: props.user.user, id: props.user.id }
+        this.state = { questions: [], user: props.user.user, id: props.user.id, pid: [],position: props.user.position}
+        this.getProjectAccessList() 
 
-    }
-    componentDidMount() {
-        this.setState({ questionnaires: this.questionnaireListHandler() })
     }
     // This method gets the specific projects tied to this user ID
     getProjectAccessList() {
-        let usersID = 10
+        let usersID = this.state.id
+        let tempcheck = " "
 
+        if (this.state.position == 2) {
+            tempcheck = "get_lab_project"
+            
+        }
+        else
+        {
+            tempcheck = "get_project_access_list"
+        }
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ usersID })
         }
 
-        fetch('http://localhost:3001/get_project_access_list', reqOpts).then(response => {
+        fetch( `http://localhost:3001/${tempcheck}`, reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST OF PROJECTS") {
                     alert('Could not get list of projects!');
                     console.log(json);
                 } else {
-                    console.log(json)
+                    // console.log(json)
                     let projectjson = json;
-                    let projectID  = projectjson.map((cur)=> 
-                    {
+                    let projectID = projectjson.map((cur) => {
                         return cur.projectsID
                     })
-                    console.log(projectID)
-                    console.log(projectjson[0].projectsID)
-                    console.log(projectjson);
+                    console.log(projectID);
+                    this.setState({ pid: projectID })
+                    // console.log(projectID)
+                    // console.log(projectjson[0].projectsID)
+                    // console.log(projectjson);
                 }
             });
         });
     }
-    questionnaireListHandler() {
 
-        let usersID = this.state.id
-        if (!usersID) {
-            return
-        }
-        console.log(usersID);
-        const reqOpts = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ usersID })
-        }
-        fetch('http://localhost:3001/get_quiz_list', reqOpts).then(response => {
-            response.json().then(json => {
-                if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
-                    alert('Could not get list of questionnaires!');
-                    console.log(json);
-                } else {
-                    console.log(json)
-                    let questionnaireList = json;
-                    console.log(questionnaireList);
-                    this.setState({ questionnaires: json })
-                }
-            });
-        });
-    console.log(" state ")
-    console.log(this.state.id)
+    tablemaker(rID)
+    {
 
-    }
-    questionListHandler(questionnairesID) {
-        const reqOpts = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ questionnairesID })
-        }
-        fetch('http://localhost:3001/get_quiz', reqOpts).then(response => {
-            response.json().then(json => {
-                if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
-                    alert('Could not get list of questionnaires!');
-                    console.log(json);
-                    this.setState({ questions: [] })
-                } else {
-                    console.log(json)
-                    let questionsList = json;
-                    console.log(questionsList);
-                    this.setState({ questions: json })
-                }
-            });
-        });
-    }
-    answerHandler() {
-        let questionsCopy = this.state.questions
-        this.setState({ questions: questionsCopy })
-    }
-    submitHandler() {
-        console.log(this.state.questions);
-        // ${questionID}, ${userID}, ${answer});
-        let questions = this.state.questions.map((cur) => { return { id: cur.questionID, answer: !cur.answer ? "" : cur.answer } })
-        let submitJson = { userID: this.state.id, questions: questions }
 
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(submitJson)
+            body: JSON.stringify({ rID })
         }
-        fetch('http://localhost:3001/complete_quiz', reqOpts).then(response => {
+
+        fetch( 'http://localhost:3001/get_project_users', reqOpts).then(response => {
             response.json().then(json => {
-                if (json == "COULD NOT SEND COMPLETION") {
-                    alert('Could not send completed quiz!');
+                if (json == "COULD NOT GET LIST OF PROJECTS") {
+                    alert('Could not get list of projects!');
                     console.log(json);
                 } else {
-                    alert('Questionnaire Submitted!')
-                    this.history.push("/")
-                    console.log(json)
+                    // console.log(json)
+                    let projectjson = json;
+                    let projectID = projectjson.map((cur) => {
+                        return cur.projectsID
+                    })
+                    // console.log(projectID);
+                    console.log(" Reached ")
                 }
             });
         });
-
-
+    
     }
     render() {
-        console.log(this.state.questionnaires);
-        let questionOptions = !this.state.questionnaires ? [] : this.state.questionnaires.map((current, index) =>
-            (<option key={index} value={current.questionnairesID}>{current.questionnairesName}</option>)
-        )
-        console.log(this.state.questions);
-        let questionList = this.state.questions.map((current, key) =>
-        (current.type === "YesNo" ? (<YesNoTaker key={key} handler={() => this.answerHandler()} question={current}></YesNoTaker>) :
-            current.type === "TextInput" ? (<TextInputTaker key={key} handler={() => this.answerHandler()} question={current}></TextInputTaker>) :
-                (<PredefinedListTaker key={key} handler={() => this.answerHandler()} question={current}></PredefinedListTaker>)))
+        console.log(this.state.pid)
+        let vstate = this.state.pid.map((cur) => {
+            return <option value={cur} selected={this.tablemaker(cur)}>
+                {console.log("cur is")}
+                {console.log(cur)}
+                {cur}
+            </option>
+        })
         return (
             <div className="quest-taker-main-wrapper" >
-                <select onClick={() => {this.getProjectAccessList()}}>
-                    <option disabled selected value> -- select an option -- </option>
-                    {questionOptions}
+                <select  >
+                    <option disabled selected value> -- select a research -- </option>
+                    {vstate}
                 </select>
-                { questionList}
-                {
-                    this.state.questions.length > 0 ?
-                        (<button onClick={() => this.submitHandler()}>
-                            Submit
-                        </button>) : null
-                }
             </div >
         )
     }

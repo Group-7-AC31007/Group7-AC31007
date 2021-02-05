@@ -164,7 +164,18 @@ database.getProjectList = (req) => {
 database.getProjectAccessList = (req) => {
 	return new Promise((resolve, reject) => {
 		const { usersID } = req;
-		pool.query(`SELECT * FROM ProjectAccess WHERE usersID=${usersID}`, (err, res) => {
+		pool.query(`SELECT * FROM projects WHERE researcherID=${usersID}`, (err, res) => {
+			if (err) {
+				return reject("COULD NOT GET LIST OF PROJECTS");
+			}
+			return resolve(res);
+		});
+	});
+};
+database.getLabProjects = (req) => {
+	return new Promise((resolve, reject) => {
+		const { usersID } = req;
+		pool.query(`SELECT * FROM projects`, (err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF PROJECTS");
 			}

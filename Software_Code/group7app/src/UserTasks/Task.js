@@ -19,7 +19,7 @@ export default class Task extends Component {
 	urlify(text) {
 		var urlRegex = /(https?:\/\/[^\s]+)/g;
 		return text.replace(urlRegex, (url) => {
-			return '<a href="' + url + '">Click here</a>';
+			return '<a href="' + "/share" +url.split("share")[1] + '">Click here</a>';
 		})
 	}
 

@@ -229,7 +229,7 @@ database.getProjectList = (req) => {
 // Get the list of questionnaires available for user based on projectAccess
 database.getQVisualization = (req) => {
 	return new Promise((resolve, reject) => {
-		const {questionnairesID} = req;
+		const { questionnairesID } = req;
 		console.log("WAAAAAGH");
 		pool.query(`SELECT * FROM Qtesting WHERE questionnairesID=${questionnairesID}`, (err, res) => {
 			if (err) {
@@ -453,6 +453,41 @@ database.setTaskCompletion = (req) => {
 				console.log("setTaskComplete_res", res)
 				return resolve("COMPLETION SET")
 			})
+		})
+	})
+}
+
+database.updateTask = (req) => {
+	return new Promise((resolve, reject) => {
+		const { tasksID, text } = req
+
+		let sql = `UPDATE Tasks SET text='${sanitize(text)}' ` +
+			`WHERE tasksID=${tasksID};`
+
+		pool.query(sql, (err, res) => {
+			if (err) {
+				console.log("updateTask_err", err)
+				reject(err)
+			}
+			console.log("updateTask_res", res)
+			resolve("TASK UPDATED")
+		})
+	})
+}
+
+database.deleteTask = (req) => {
+	return new Promise((resolve, reject) => {
+		const { tasksID } = req
+
+		let sql = `DELETE FROM Tasks WHERE tasksID=${tasksID};`
+
+		pool.query(sql, (err, res) => {
+			if (err) {
+				console.log("deleteTask_err", err)
+				reject(err)
+			}
+			console.log("deleteTask_res", res)
+			resolve("TASK DELETED")
 		})
 	})
 }

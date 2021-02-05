@@ -93,6 +93,14 @@ router.post("/set_task_completion", async(req, res) => {
 	sendResponse(req, res, db.setTaskCompletion);
 });
 
+router.post("/update_task", async(req, res) => {
+	sendResponse(req, res, db.updateTask);
+});
+
+router.post("/delete_task", async(req, res) => {
+	sendResponse(req, res, db.deleteTask);
+});
+
 router.get("/get_users", async (req, res) => {
 	sendResponse(req, res, db.getUsers)
 })

@@ -4,7 +4,6 @@ export default class Task extends Component {
 	constructor(props) {
 		super(props)
 		this.state = props.task
-		this.textUpdateHandler = props.textHandler
 		this.updateHandler = props.updHandler
 		this.deleteHandler = props.delHandler
 	}
@@ -30,11 +29,13 @@ export default class Task extends Component {
 				<span>
 					<input
 						type="text"
-						onChange={(event) => this.setState({text: event.targetvalue})}
+						onChange={(event) => {
+							this.setState({text: event.target.value})
+						}}
 						value={this.state.text}>
 					</input>
 					<button onClick={() => this.handleUpdate()}>Update</button>
-					<button onClick={() => this.handleDelete()}>X</button>
+					{/* <button onClick={() => this.handleDelete()}>X</button> */}
 				</span>
 			</div>
 		)

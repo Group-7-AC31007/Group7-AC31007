@@ -67,21 +67,22 @@ export default class TaskCreator extends Component {
 	}
 
 	handleTaskUpdate(task) {
+		console.log("AAAAA", task.text)
 		const reqOpts = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ tasksID: task.id })
+			body: JSON.stringify({ tasksID: task.id, text: task.text })
 		}
 		fetch('http://localhost:3001/update_task', reqOpts)
 			.then(response => response.json().then(json => {
 				console.log("/update_task", json)
-				if (json != "TASK UPDATED") {
-					alert("Could not update task!")
-				} else {
+				if (json == "TASK UPDATED") {
 					let ind = tasksCopy.findIndex(element => task.id == element.id)
 					this.state.tasks[ind].text = task.text
 					let tasksCopy = this.state.tasks
 					this.setState({ tasks: tasksCopy })
+				} else {
+					alert("Could not update task!")
 				}
 			})).catch(e => console.log("unexpected_err", e))
 	}
@@ -95,13 +96,13 @@ export default class TaskCreator extends Component {
 		fetch('http://localhost:3001/delete_task', reqOpts)
 			.then(response => response.json().then(json => {
 				console.log("/delete_task", json)
-				if (json != "TASK DELETED") {
-					alert("Could not delete task!")
-				} else {
+				if (json == "TASK DELETED") {
 					let tasksCopy = this.state.tasks
 					let ind = tasksCopy.findIndex(element => task.id == element.id)
 					tasksCopy.splice(ind, 1)
 					this.setState({ tasks: tasksCopy })
+				} else {
+					alert("Could not delete task!")
 				}
 			})).catch(e => console.log("unexpected_err", e))
 	}

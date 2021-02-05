@@ -87,6 +87,7 @@ html {
 
 
 @media screen and (max-width: 1130px) {
+
     .header a:not(:first-child) {display: none;}
     .header a.icon {
         float: right;
@@ -94,6 +95,7 @@ html {
         padding-top: 10px;
     }
 }
+
 
 @media screen and (max-width: 1130px) {
     .header.responsive {position: relative;}

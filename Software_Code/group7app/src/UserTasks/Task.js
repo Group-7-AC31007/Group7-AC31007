@@ -24,6 +24,7 @@ export default class Task extends Component {
 	}
 
 	render() {
+		console.log("i",this.state.text);
 		return (
 			<div className="task">
 				<input

@@ -225,7 +225,7 @@ export default class Visualization extends Component {
                     </select>
                     <hr className="bar-chart-lines" />
 
-                <div>
+                
                     {console.log(this.state.question)}
 
                     <Bar
@@ -238,12 +238,6 @@ export default class Visualization extends Component {
                     <div className="clear"> </div>
                     <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </button>
                     <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> <i class="fa fa-long-arrow-left" aria-hidden="true"></i> </button>
-                    <label>Choose a Questionnaire:
-                    <select name="Questionnaire" id="Questionnaire" onChange={(e) => this.QVisualizerHandler(e.target.value)}>
-                            {qlist}
-                        </select>
-                    </label>
-                    <hr></hr>
                     <hr></hr>
 
                 </div >

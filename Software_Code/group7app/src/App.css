@@ -19,6 +19,28 @@ html {
     /* box-sizing: border-box; */
 }
 
+.container {
+    overflow: auto;
+    min-height: 100%;
+    position: relative; 
+
+    /*new*/
+    height: 100vh;
+    display: flex; 
+    flex-direction: column;
+
+}
+
+#root {
+    height:100%;
+}
+
+.main{
+    flex: 1;
+}
+
+
+
 /* ------------------------------------------------------ HEADER ----------------------------------------------------------- */
 
 /* Code for header taken from https://www.w3schools.com/howto/howto_js_topnav_responsive.asp  and adapted to our design */
@@ -64,7 +86,8 @@ html {
   }
 
 
-@media screen and (max-width: 970px) {
+@media screen and (max-width: 1130px) {
+
     .header a:not(:first-child) {display: none;}
     .header a.icon {
         float: right;
@@ -73,7 +96,8 @@ html {
     }
 }
 
-@media screen and (max-width: 970px) {
+
+@media screen and (max-width: 1130px) {
     .header.responsive {position: relative;}
     .header.responsive .icon {
         position: absolute;
@@ -104,40 +128,25 @@ html {
 }
 
 /* ----------------------------------------------------- FOOTER -----------------------------------------------------------------*/
-.container {
-    overflow: auto;
-    min-height: 100%;
-    position: relative; 
 
-    /*new*/
-    height: 100vh;
-    display: flex; 
-    flex-direction: column;
-
-}
-
-#root {
-    height:100%;
-}
+/* Design taken from the footer on the University of Dundee website
+https://www.dundee.ac.uk/#main-content along with the appropriate links included in it */
 
 
-
-.site-footer{
+footer{
     padding: 20px 15%;
     background-color: #DDD9D6;
     
-    text-transform: uppercase;
+    text-transform: capitalize;
+    color: #464646;
     /* margin-top: -38px; negative value of footer height */
 
-
+    display: flex;
     left: 0;
     bottom: 0;
     right: 0;
     /* width: 100%; */
-}
 
-.main{
-    flex: 1;
 }
 
 footer div p {
@@ -145,3 +154,99 @@ footer div p {
     margin: 0;
 
 }
+
+footer hr {
+    display: none;
+}
+
+footer .col-1 {
+    flex-basis: 33.3%;
+    line-height: 20px;
+}
+
+ footer .col-2 {
+    flex-basis: 33.3%;
+    text-align: center;
+}
+
+footer .col-2 a {
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #464646;
+}
+
+footer .col-3 {
+    flex-basis: 33.3%;
+    text-align: right;
+}
+
+footer .col-2 a, footer .col-3 div a {
+    transition: color 0.2s linear;
+}
+
+footer .col-2 a:hover, footer .col-3 div a:hover {
+    color: #4365e2;
+    font-weight: bold;
+}
+
+footer .col-3 .social-media a:nth-child(1) i {
+    font-size:40px;
+    color: #3b5998;
+ }
+
+ footer .col-3 .social-media a:nth-child(2) i {
+    font-size:40px;
+    color:rgb(29,161,242)
+ }
+
+ footer .col-3 .social-media a:nth-child(3) i {
+    font-size:40px;
+    color: red;
+ }
+
+footer .col-3 .social-media a:nth-child(4) i {
+    font-size: 40px;
+    
+    /* Gradient copied from https://stackoverflow.com/questions/48719337/how-to-give-gradient-color-to-icon/48719471 */
+    background:-moz-linear-gradient(top, #e72c83 0%, #a742c6 100%); 
+    background: -webkit-linear-gradient(top, #e72c83 0%,#a742c6 100%); 
+    background: linear-gradient(to bottom, #e72c83 0%,#a742c6 100%);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color:transparent;
+}
+
+
+footer .col-3 div{
+     margin-bottom: 10px;
+ }
+
+footer .col-3 div a{
+    text-decoration: none;
+    margin-right: 10px;
+    color: black;
+}
+
+@media all and (max-width: 910px) {
+    footer {
+        display: block;
+    }
+    footer hr {
+        display: block;
+        flex-basis: 100%;
+    }
+    footer .col-1 {
+        text-align: center;
+    }
+    footer .col-3 {
+        text-align: center;
+    }
+    footer .col-1, footer .col-2, footer .col-3 {
+        flex-basis: 100%;
+    }
+}
+
+
+

@@ -65,6 +65,16 @@ router.post("/api/get_quiz_list", async (req, res) => {
 router.post("/api/get_quiz", async (req, res) => {
   sendResponse(req, res, db.getQuiz);
 });
+
+
+router.post("/api/get_user_quiz_list", async(req, res) => {
+	sendResponse(req, res, db.getUsersQuizList);
+});
+
+router.post("/api/get_user_project_list", async(req, res) => {
+	sendResponse(req, res, db.getUsersProjectList);
+});
+
 router.post("/api/get_qvisualization", async(req, res) => {
 	sendResponse(req, res, db.getQVisualization);
 });
@@ -93,15 +103,27 @@ router.post("/api/set_task_completion", async(req, res) => {
 	sendResponse(req, res, db.setTaskCompletion);
 });
 
+router.post("/api/update_task", async(req, res) => {
+	sendResponse(req, res, db.updateTask);
+});
+
+router.post("/api/delete_task", async(req, res) => {
+	sendResponse(req, res, db.deleteTask);
+});
+
+
 router.get("/api/get_users", async (req, res) => {
 	sendResponse(req, res, db.getUsers)
 })
+
 router.post("/api/update_user",async(req,res)=>{
 	sendResponse(req,res,db.updateUser)
 })
+
 router.post("/api/delete_user",async(req,res)=>{
 	sendResponse(req,res,db.deleteUser)
 })
+
 router.post("/api/update_password",async(req,res)=>{
 	sendResponse(req,res,db.updatePassword)
 })

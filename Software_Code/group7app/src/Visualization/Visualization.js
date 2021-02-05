@@ -1,6 +1,10 @@
+
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Bar } from 'react-chartjs-2';
+import './Visualization.css'
+import Cookies from 'js-cookie'
+
 
 const testData = {
     labels: ['answer 1', 'answer 2', 'answer 3',
@@ -8,7 +12,7 @@ const testData = {
     datasets: [
         {
             label: 'Question1',
-            backgroundColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(196,235,208,1)',
             barThickness: 50,
             maxBarThickness: 100,
             maxBarLength: 100,
@@ -23,7 +27,8 @@ const testData = {
 export default class Visualization extends Component {
     constructor(props) {
         super(props)
-        this.state = { data: [], question: 0, questionnaireList: [] }
+        this.state = { data: [], question: 0, questionnaireList: [] ,user: props.user.user, id: props.user.id, position: props.user.position}
+        this.history = props.history
         this.GetQuizListHandler()
     }
     NextButton(ch) {
@@ -60,15 +65,29 @@ export default class Visualization extends Component {
     }
 
     GetQuizListHandler() {
-        const reqOpts = {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+        let cookie = Cookies.get('access_token')
+        if (!cookie) {
+            return
         }
-        fetch('/api/get_complete_quiz_list', reqOpts).then(response => {
+        let patt = /#\d+#/i
+        let matchResult1 = cookie.match(patt)
+        let patt2 = /\d+/i
+        let matchResult2 = matchResult1[0].match(patt2)
+        let userID = matchResult2[0]
+        console.log("userID");
+        console.log(userID);
+        const reqOpts = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userID })
+
+        }
+        fetch('http://localhost:3001/get_user_quiz_list', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST OF QUESTIONNAIRES") {
                     alert('Could not get list of questionnaires!');
                     console.log(json);
+                    console.log(response);
                 } else {
                     console.log(json)
                     let questionnaireList = json;
@@ -88,7 +107,7 @@ export default class Visualization extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ questionnairesID })
         }
-        fetch('/api/get_qvisualization', reqOpts).then(response => {
+        fetch('http://localhost:3001/get_qvisualization', reqOpts).then(response => {
             response.json().then(json => {
                 if (json == "COULD NOT GET LIST FOR CHARTS") {
                     alert('Could not get list for charts!');
@@ -139,6 +158,7 @@ export default class Visualization extends Component {
                         console.log(curQuestion);
                         result.push({ questionnairesID: questionnairesID, questionnaireName: json[0].questionnairesName, answers: answersCount, questionText: curQuestion[0].questionText })
                     }
+                    console.log("result");
                     console.log(result);
                     let arrayOfQuestionData = []
                     for (let x in result) {
@@ -153,72 +173,96 @@ export default class Visualization extends Component {
                             datasets: [
                                 {
                                     label: result[x].questionText,
-                                    backgroundColor: 'rgba(75,192,192,1)',
+                                    backgroundColor: 'rgba( 70,70,70,0.5)',
                                     data: data,
+                                    borderWidth: 2,
+                                    borderColor: 'rgb( 70,70,70)'
                                 }
                             ],
 
                         }
                         arrayOfQuestionData.push(curData)
                     }
-                    this.setState({ data: arrayOfQuestionData })
+                    console.log(arrayOfQuestionData);
+                    this.setState({ data: arrayOfQuestionData, question: 0 })
                 }
             });
         });
     }
 
     render() {
-        let qlist = this.state.questionnaireList.map((cur) => {
-            return <option value={cur.questionnairesID}>
-                {cur.QuestionnaireName}
-            </option>
+        if (this.state.user + "#" + this.state.id + "#" + this.state.position + "#logged-in" == Cookies.get('access_token')) {
+            let qlist = this.state.questionnaireList.map((cur) => {
+                return <option value={cur.questionnairesID}>
+                    {cur.QuestionnaireName}
+                </option>
 
-        })
-        let options = {
-            scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true,
+            })
+
+            let options = {
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true,
+                            },
                         },
-                    },
-                ],
-            },
-            maintainAspectRatio: false,
-            layout: {
-                padding: {
-                    top: 5,
-                    left: 200,
-                    right: 200,
-                    bottom: 50
-                }
-            },
-        }
-        if (this.state.data.length) {
-            return (
-                <div>
+                    ],
+                },
+                maintainAspectRatio: true,
+                responsive: true,
 
-                    <Bar
-                        data={this.state.data[this.state.question]}
-                        height={500}
-                        width={500}
-                        options={options}
-                    />
-                    <label>Choose a Questionnaire:
-                    <select name="Questionnaire" id="Questionnaire" onChange={(e) => this.QVisualizerHandler(e.target.value)}>
+                layout: {
+                    padding: {
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0
+                    }
+                },
+            }
+            if (this.state.data.length) {
+                console.log(this.state);
+                return (
+                    <div className="chart-wrapper">
+                        <label className="choose-questionnaire">Choose a Questionnaire:</label>
+                        <select className="questionnaire-options" name="Questionnaire" id="Questionnaire" onChange={(e) => this.QVisualizerHandler(e.target.value)}>
                             {qlist}
                         </select>
-                    </label>
-                    <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> Next Question </button>
-                    <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> Prev Question </button>
-                    <hr></hr>
-                    <hr></hr>
-                </div >
-            )
-        } else {
-            return (
+                        <hr className="bar-chart-lines" />
 
-                <div></div>
+
+                        {console.log(this.state.question)}
+
+                        <Bar
+                            data={this.state.data[this.state.question]}
+                            /*height={500}
+                            width={500} */
+                            options={options}
+                        />
+                        <hr className="bar-chart-lines" />
+                        <div className="clear"> </div>
+                        <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </button>
+                        <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> <i class="fa fa-long-arrow-left" aria-hidden="true"></i> </button>
+                        <hr></hr>
+
+                    </div >
+                )
+            } else {
+                return (
+
+                    <div></div>
+                )
+            }
+        } else {
+            this.history.push("/login")
+
+            return (
+                <div className="redirecting_to_login_wrapper">
+                    <div className="redirecting_to_login">
+                        <p>Redirecting to login</p>
+                    </div>
+                </div>
             )
         }
     }

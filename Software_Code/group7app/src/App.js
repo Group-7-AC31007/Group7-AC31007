@@ -139,8 +139,6 @@ function App() {
 
           {(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (
             <Link to="/visualisation" onClick={(e) => { dropDown(e) }}>visualisation</Link>) : null}
-          {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (
-            <Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
           <Link className="Home" to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
         </header>
         <div className="main">

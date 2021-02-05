@@ -3,12 +3,49 @@ import "./QuestionnaireCreator.css"
 import YesNo from './Types/YesNo'
 import TextInput from './Types/TextInput'
 import PredefinedList from './Types/PredefinedList'
+import Cookies from 'js-cookie'
 
 export default class QuestionnaireCreator extends Component {
     constructor(props) {
         super(props) /* Calls the parent constructor */
         this.questions = []
-        this.state = { selectValue: "PredefinedList", questions: [], submitError: false, user: props.user.user, id: props.user.id, position: props.user.position }
+        this.state = { projectList: [], selectValue: "PredefinedList", questions: [], submitError: false, user: props.user.user, id: props.user.id, position: props.user.position }
+
+    }
+
+    getProjectList() {
+        let cookie = Cookies.get('access_token')
+        let patt = /#\d+#/i
+        let matchResult1 = cookie.match(patt)
+        let patt2 = /\d+/i
+        let matchResult2 = matchResult1[0].match(patt2)
+        let userID = matchResult2[0]
+
+        const reqOpts = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userID })
+
+        }
+        fetch('http://localhost:3001/get_user_project_list', reqOpts).then(response => {
+            response.json().then(json => {
+                if (json == "COULD NOT GET LIST OF PROJECTS") {
+                    alert('Could not get list of projects!');
+                    console.log(json);
+                    console.log(response);
+                } else {
+                    console.log(json)
+                    let projectsList = json;
+                    this.setState({ projectList: projectsList })
+                    console.log(projectsList);
+                    console.log(this.state.projectList);
+
+                }
+
+                console.log("pog");
+            });
+        });
+
 
     }
 
@@ -35,6 +72,10 @@ export default class QuestionnaireCreator extends Component {
     submitButtonHandler() {
         //handle quiz is not complete
         let hasError = false
+        if (!this.state.pID) {
+            alert("You have not selected a project!")
+            return
+        }
         if (!this.state.questions.length) {
             hasError = true
         }
@@ -71,7 +112,7 @@ export default class QuestionnaireCreator extends Component {
             return
         }
         let questionsCopyNormalised = this.state.questions.map((cur, ind) => { cur.id = ind; return cur })// return a copy of the state with index's normalisd
-        let result = { researcherID: this.state.id, projectID: 1, questions: questionsCopyNormalised ,host: "https://localhost:3000"} // prepare json for sending with questionnaire & project ID 
+        let result = { researcherID: this.state.id, projectID: this.state.pID, questions: questionsCopyNormalised, host: "https://localhost:3000" } // prepare json for sending with questionnaire & project ID 
         const reqOpts = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -110,7 +151,12 @@ export default class QuestionnaireCreator extends Component {
         this.setState({ questions: questionsCopy })
     }
     render() {
+        let plist = this.state.projectList.map((cur) => {
+            return <option value={cur.projectsID}>
+                {cur.title}
+            </option>
 
+        })
         let createProps = (cur) => {
             return {
                 handler: (q) => this.questionChangeHandler(q),
@@ -134,12 +180,12 @@ export default class QuestionnaireCreator extends Component {
                 {this.state.submitError == true ? <div className="quest-creator-error">
                     Errors Below Please ammend
                     </div> : null}
-                <div className="quest-creator-product-wrapper">
-                    <label className="quest-creator-product-label" htmlFor="quest-creator-product-dropdown"> Products: </label>
-                    <select className="quest-creator-product-dropdown" name="quest-creator-product-dropdown">
-                        <option value="oneOption"> Product1 </option>
-                        <option value="oneOption"> Product2 </option>
-                        {/* Link to already existing products drom db */}
+                <div className="quest-creator-project-wrapper">
+                    <label className="quest-creator-project-label" htmlFor="quest-creator-project-dropdown"> Projects: </label>
+                    <select onClick={() => this.getProjectList()} onChange={(e) => this.setState({ pID: e.target.value })} className="quest-creator-project-dropdown" name="quest-creator-project-dropdown">
+                        <option disabled selected value>Please select a project</option>
+                        {plist}
+                        {/* Link to already existing projects drom db */}
                     </select>
                 </div>
                 <div className="quest-creator-name-wrapper">
@@ -158,10 +204,10 @@ export default class QuestionnaireCreator extends Component {
                 </div>
 
                 <button onClick={() => this.createButtonHandler()} type="button" className="quest-creator-newQuestion-button button"> New Question </button>
-
                 {questionList}
                 <div>
                     <button onClick={() => this.submitButtonHandler()} type="button" className="quest-creator-submitQuestionnaire-button"> Submit Questionnaire </button>
+                    <button onClick={() => this.getProjectList()} type="button" className="test-button"> test</button>
                 </div>
             </div>
 

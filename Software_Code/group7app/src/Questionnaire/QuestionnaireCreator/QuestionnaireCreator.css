@@ -126,6 +126,7 @@ hr {
 
 .response-delete-button{
     background-color: red;
+    float: right;
     
 }
 .response-delete-button:hover{

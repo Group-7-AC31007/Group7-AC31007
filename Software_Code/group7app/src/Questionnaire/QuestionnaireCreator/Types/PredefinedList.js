@@ -61,7 +61,7 @@ export default class PredefinedList extends Component {
         let responses = (this.state.value != null && this.state.value.responses != null) ? this.state.value.responses.map((current) => (
             <li key={current.id} >
                 <input onChange={(e) => this.responsesHandler(e, current)} className="quest-creator-predefinedList-response-textField" type="text" value={current.value} />
-                <button className="response-delete-button" onClick= {()=> this.deleteResponse(current.id)}>del</button>
+                <button className="response-delete-button" onClick= {()=> this.deleteResponse(current.id)}> Delete Option</button>
             </li>)) : []
         return (
             <div className="quest-creator-predefinedList-wrapper questions">

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Cookies from 'js-cookie'
 import Task from './Task'
+import './Task.css'
 
 export default class UserTasks extends Component {
 	constructor(props) {
@@ -77,14 +78,17 @@ export default class UserTasks extends Component {
 				this.setState({ tasks: [] })
 				console.log("/get_task_list", json)
 				let tasksCopy = json.map(element => ({
-					"id": this.urlify(element.tasksID),
+					"id": element.tasksID,
 					"text": element.text,
 					"checked": false
 				}))
+				console.log("tc",tasksCopy);
+				console.log("json",json);
 				tasksCopy.forEach((element, ind) => {
 					this.isTaskCompleted(element.id).then(checked => {
 						tasksCopy[ind].checked = checked
-						this.setState({ tasks: tasksCopy })
+						console.log("l",tasksCopy);
+						this.setState({ tasks: tasksCopy },()=>{console.log(this.state.tasks);})
 					})
 				})
 			}))
@@ -136,16 +140,23 @@ export default class UserTasks extends Component {
 
 		console.log("PROJECTS", this.state.projects)
 		console.log("TASKS", this.state.tasks)
-
 		if (this.state.user + "#" + this.state.usersID + "#" + this.state.position +
 			"#logged-in" == Cookies.get('access_token')) {
 			return (
+			<div className="tasks-main-wrapper">
 				<div className="tasks-wrapper">
+				<div className="quest-creator-icons-wrapper">
+                    <i className="fa fa-book" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-laptop" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-file-text" style={{ fontSize: "60px" }}></i>
+                </div>
 					<div className="projects">
-						<label>Select a project</label>
-						<select onChange={(event => {
-							this.handleProjectChange(event.target.value)
-						}
+					
+						<label>Select a project: </label>
+						<select value={this.state.selectedProject} onChange={(
+							event => {
+								this.handleProjectChange(event.target.value)
+							}
 						)} className="projects-dropdown">
 							{projectList}
 						</select>
@@ -153,11 +164,16 @@ export default class UserTasks extends Component {
 					<div className="research-title">
 						Project {this.state.selectedProject} tasks
 					</div>
+					<hr />
 					<div className="task-list">
 						{taskList}
 					</div>
 				</div>
-			)
+
+			</div>
+		)
+
+			
 		} else {
 			this.history.push("/refresh?next=login&message=You must be logged in to" +
 				" view this page&timer=3000")
@@ -169,5 +185,6 @@ export default class UserTasks extends Component {
 				</div>
 			)
 		}
+
 	}
 }

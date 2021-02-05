@@ -16,7 +16,7 @@ export default class Questionnaire extends Component {
     constructor(props) {
         super(props)
         this.history = props.history
-        this.state = { user: props.user.user, id: props.user.id ,position : props.user.position}
+        this.state = { user: props.user.user, id: props.user.id, position: props.user.position }
     }
     render() {
         console.log(Cookies.get('access_token'));
@@ -28,7 +28,9 @@ export default class Questionnaire extends Component {
                     <Router>
                         <div className="quest-parent-wrapper">
                             <div className="questionnaireCreator-label">
-                                <Link className="questionnaireCreator-label-text quest-nav-item" to="/questionnaireCreator"> Questionnaire Creator </Link>
+                                {(this.state.position != undefined && this.state.position > 0) ?
+                                    <Link className="questionnaireCreator-label-text quest-nav-item" to="/questionnaireCreator"> Questionnaire Creator </Link> : null
+                                }
                                 <Link className="questionnaireTaker-label-text quest-nav-item" to="/questionnaireTaker"> Questionnaire Taker </Link>
                             </div>
 
@@ -41,11 +43,12 @@ export default class Questionnaire extends Component {
                     of them to render at a time
                     */}
                             <Switch>
-                                <Route path="/questionnaireCreator">
-                                    <QuestionnaireCreator>  </QuestionnaireCreator>
-                                </Route>
+                                {(this.state.position != undefined && this.state.position > 0) ?
+                                    (<Route path="/questionnaireCreator">
+                                        <QuestionnaireCreator user={{ user: this.state.user, id: this.state.id, position: this.state.position }}>  </QuestionnaireCreator>
+                                    </Route>) : null}
                                 <Route path="/questionnaireTaker">
-                                    <QuestionnaireTaker user = {{user: this.state.user, id: this.state.id}} history= {this.history}>  </QuestionnaireTaker>
+                                    <QuestionnaireTaker user={{ user: this.state.user, id: this.state.id, position: this.state.position }} history={this.history}>  </QuestionnaireTaker>
                                 </Route>
                             </Switch>
                         </div>
@@ -58,7 +61,7 @@ export default class Questionnaire extends Component {
 
             return (
                 <div className="redirecting_to_login_wrapper">
-                    <div className="redirecting_to_login">      
+                    <div className="redirecting_to_login">
                         <p>Redirecting to login</p>
                     </div>
                 </div>

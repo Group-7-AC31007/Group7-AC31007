@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Bar } from 'react-chartjs-2';
+import './Visualization.css'
 import Cookies from 'js-cookie'
+
 
 const testData = {
     labels: ['answer 1', 'answer 2', 'answer 3',
@@ -9,7 +11,7 @@ const testData = {
     datasets: [
         {
             label: 'Question1',
-            backgroundColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(196,235,208,1)',
             barThickness: 50,
             maxBarThickness: 100,
             maxBarLength: 100,
@@ -166,8 +168,10 @@ export default class Visualization extends Component {
                             datasets: [
                                 {
                                     label: result[x].questionText,
-                                    backgroundColor: 'rgba(75,192,192,1)',
+                                    backgroundColor: 'rgba( 70,70,70,0.5)',
                                     data: data,
+                                    borderWidth: 2,
+                                    borderColor: 'rgb( 70,70,70)'
                                 }
                             ],
 
@@ -199,37 +203,49 @@ export default class Visualization extends Component {
                     },
                 ],
             },
-            maintainAspectRatio: false,
-            layout: {
+            maintainAspectRatio: true,
+            responsive: true,
+
+            layout: { 
                 padding: {
-                    top: 5,
-                    left: 200,
-                    right: 200,
-                    bottom: 50
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
                 }
             },
         }
         if (this.state.data.length) {
             console.log(this.state);
             return (
+                <div className="chart-wrapper">
+                    <label className="choose-questionnaire">Choose a Questionnaire:</label>
+                    <select className="questionnaire-options" name="Questionnaire" id="Questionnaire" onChange={(e) => this.QVisualizerHandler(e.target.value)}>
+                            {qlist}
+                    </select>
+                    <hr className="bar-chart-lines" />
+
                 <div>
                     {console.log(this.state.question)}
+
                     <Bar
                         data={this.state.data[this.state.question]}
-                        height={500}
-                        width={500}
+                        /*height={500}
+                        width={500} */
                         options={options}
                     />
+                    <hr className= "bar-chart-lines" />
+                    <div className="clear"> </div>
+                    <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </button>
+                    <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> <i class="fa fa-long-arrow-left" aria-hidden="true"></i> </button>
                     <label>Choose a Questionnaire:
                     <select name="Questionnaire" id="Questionnaire" onChange={(e) => this.QVisualizerHandler(e.target.value)}>
                             {qlist}
                         </select>
                     </label>
-                    <button className=" next-button " onClick={() => this.NextButton(this.state.question)}> Next Question </button>
-                    <button className=" prev-button " onClick={() => this.PrevButton(this.state.question)}> Prev Question </button>
-                    <button className=" test-button " onClick={() => console.log(this.state.data)}> test </button>
                     <hr></hr>
                     <hr></hr>
+
                 </div >
             )
         } else {

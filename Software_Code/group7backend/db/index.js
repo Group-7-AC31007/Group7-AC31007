@@ -8,7 +8,6 @@ const pool = mysql.createPool(config.mysql);
 
 let database = {};
 
-// Testing endpoint. Pretty much there to check if the database is live
 database.test = () => {
 	return new Promise((resolve, reject) => {
 		pool.query("SELECT * FROM testing", (err, results) => {
@@ -52,6 +51,17 @@ database.signin = (req) => {
 				return reject("NOMATCH PASS");
 			}
 			return resolve(results[0]);
+		});
+	});
+};
+database.getUsers = () => {
+	return new Promise((resolve, reject) => {
+		pool.query(`SELECT usersID, forename, surname, email, phoneNumber, position, locked FROM Users`, (err, results) => {
+			console.log(results);
+			if (err || results[0] == undefined) {
+				return reject("UNABLE TO GET USERS");
+			}
+			return resolve(results);
 		});
 	});
 };
@@ -131,6 +141,7 @@ database.getProjectList = (req) => {
 	});
 };
 
+// Get the list of questionnaires available for user based on projectAccess
 database.getQVisualization = (req) => {
 	return new Promise((resolve, reject) => {
 		const {questionnairesID} = req;
@@ -150,8 +161,8 @@ database.getQVisualization = (req) => {
 database.getQuizList = (req) => {
 	return new Promise((resolve, reject) => {
 		console.log(req);
-		const {projectID} = req;
-		pool.query(`SELECT * FROM Questionnaires WHERE projectID=${projectID}`, (err, res) => {
+		const { usersID } = req;
+		pool.query(`SELECT questionnairesID, questionnairesName FROM user_questionnaires WHERE usersID = ${usersID}`, (err, res) => {
 			if (err) {
 				return reject("COULD NOT GET LIST OF QUESTIONNAIRES");
 			}
@@ -234,10 +245,15 @@ database.getQuiz = (req) => {
 database.completeQuiz = (req) => {
 	return new Promise((resolve, reject) => {
 		const { userID, questions } = req;
+		console.log(req);
 		for (let i in questions) {
-			questionID = questions[i].id;
-			answer = question.answer;
-			pool.query(`INSERT INTO QuestionAnswers (questionID, userID, answer) VALUES (${questionID}, ${userID}, ${answer});`, (err, res) => {
+			console.log(i);
+			let questionID = questions[i].id;
+			let answer = questions[i].answer;
+			console.log(questionID, userID, answer);
+			pool.query(`INSERT INTO QuestionAnswers (questionID, userID, answer) VALUES (${questionID}, ${userID}, '${answer}');`, (err, res) => {
+				console.log(res);
+				console.log(err);
 				if (err) {
 					return reject("COULD NOT SEND COMPLETION");
 				}
@@ -246,5 +262,63 @@ database.completeQuiz = (req) => {
 		return resolve("QUESTIONNAIRE COMPLETED");
 	});
 };
+database.updateUser = (req) => {
+	return new Promise((resolve, reject) => {
+		const { usersID, changed } = req;
 
+		console.log(usersID, changed);
+
+		let queryString = ``
+		for (let x in changed) {
+			if (x != 0) {
+				queryString += " ,"
+			}
+			queryString += `${changed[x].key} =`
+			queryString += changed[x].key == "position" ? " " + changed[x].new : `\"${changed[x].new}\"`
+
+
+		}
+		console.log(queryString);
+		//return
+		pool.query(`UPDATE users SET ${queryString} WHERE usersID = ${usersID};`), (err, res) => {
+			console.log(res);
+			console.log(err);
+			if (err) {
+				return reject("COULD NOT UPDATE USER");
+			}
+		};
+
+		return resolve("USER UPDATED");
+	});
+};
+database.deleteUser = (req) => {
+	return new Promise((resolve, reject) => {
+		const { usersID } = req;
+		pool.query(`UPDATE users SET hashPassword = \"DELETED${usersID}\", email= \"DELETED${usersID}\", forename = \"DELETED${usersID}\", surname = \"DELETED${usersID}\", phoneNumber = \"DELETED${usersID}\", locked = 1 WHERE usersID = ${usersID};`), (err, res) => {
+			console.log(res);
+			console.log(err);
+			if (err) {
+				return reject("COULD NOT DELETE USER");
+			}
+			
+		};
+		return resolve("USER DELETED");
+	}
+	)
+}
+database.updatePassword = (req) => {
+	return new Promise((resolve, reject) => {
+		const { usersID, newPassword } = req;
+		console.log(req);
+		pool.query(`UPDATE users SET hashPassword = \"${newPassword}\" WHERE usersID = ${usersID};`), (err, res) => {
+			console.log(res);
+			console.log(err);
+			if (err) {
+				return reject("COULD NOT UPDATE USER PASSWORD");
+			}
+		};
+
+		return resolve("USER PASSWORD UPDATED");
+	});
+};
 module.exports = database;

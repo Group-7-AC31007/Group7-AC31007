@@ -16,11 +16,11 @@ export default class Questionnaire extends Component {
     constructor(props) {
         super(props)
         this.history = props.history
-        this.state = { user: props.user.user, id: props.user.id }
+        this.state = { user: props.user.user, id: props.user.id ,position : props.user.position}
     }
     render() {
         console.log(Cookies.get('access_token'));
-        if (this.state.user + "#" + this.state.id + "#logged-in" == Cookies.get('access_token')) {
+        if (this.state.user + "#" + this.state.id + "#" + this.state.position + "#logged-in" == Cookies.get('access_token')) {
 
 
             return (
@@ -45,7 +45,7 @@ export default class Questionnaire extends Component {
                                     <QuestionnaireCreator>  </QuestionnaireCreator>
                                 </Route>
                                 <Route path="/questionnaireTaker">
-                                    <QuestionnaireTaker>  </QuestionnaireTaker>
+                                    <QuestionnaireTaker user = {{user: this.state.user, id: this.state.id}} history= {this.history}>  </QuestionnaireTaker>
                                 </Route>
                             </Switch>
                         </div>
@@ -57,11 +57,12 @@ export default class Questionnaire extends Component {
             this.history.push("/login")
 
             return (
-                <div>
-                    Redirecting to login
+                <div className="redirecting_to_login_wrapper">
+                    <div className="redirecting_to_login">      
+                        <p>Redirecting to login</p>
+                    </div>
                 </div>
             )
-
         }
     }
 }

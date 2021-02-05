@@ -59,13 +59,20 @@ export default class UserTasks extends Component {
 		})
 	}
 
+	// https://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript
+	urlify(text) {
+		var urlRegex = /(https?:\/\/[^\s]+)/g
+		return text.replace(urlRegex, (url) => {
+			return '<a href="' + url + '">' + url + '</a>'
+		})
+	}
+
 	getTaskList() {
 		const reqOpts = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ projectsID: this.state.selectedProject })
 		}
-		console.log("XDDDDDDDD", this.state.selectedProject)
 		fetch('http://localhost:3001/get_task_list', reqOpts)
 			.then(response => response.json().then(json => {
 				this.setState({ tasks: [] })
@@ -118,20 +125,17 @@ export default class UserTasks extends Component {
 	}
 
 	render() {
-		let taskList = this.state.tasks.map((curr, key) => 
-		 {	console.log("curr",curr);
-			 return(
-			
+		let projectList = this.state.projects.map((curr, key) => (
+			<option
+				value={curr.id} key={key} className="projects-item">{curr}
+			</option>
+		))
+		let taskList = this.state.tasks.map((curr, key) => (
 			<Task
 				key={key}
 				handler={(task) => this.handleTaskStatusChange(task)}
 				task={curr}
 			/>
-		)})
-		let projectList = this.state.projects.map((curr, key) => (
-			<option
-				value={curr.id} key={key} className="projects-item">{curr}
-			</option>
 		))
 
 		console.log("PROJECTS", this.state.projects)

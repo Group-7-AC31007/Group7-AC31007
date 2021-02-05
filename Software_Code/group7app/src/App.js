@@ -11,6 +11,7 @@ import Login from "./Login/Login";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import Registration from "./Registration/Registration";
 import UserTasks from "./UserTasks/UserTasks";
+import TaskCreator from "./UserTasks/TaskCreator/TaskCreator";
 import UserManagement from './UserManagement/UserManagement'
 import Visualization from "./Visualization/Visualization";
 
@@ -79,11 +80,16 @@ function App() {
   let tasksWrapper = (props) => {
     return (<UserTasks history={props.history} user={user}>
 
-    </UserTasks>)
-  }
-  let visualizationWrapper = (props) => {
-    return (
-      <Visualization history={props.history} user={user}></Visualization>
+		</UserTasks>)
+	}
+	let taskCreatorWrapper = (props) => {
+		return (<TaskCreator history={props.history} user={user}>
+
+		</TaskCreator>)
+	}
+  let visualizationWrapper = (props) =>{
+    return(
+      <Visualization history = {props.history} user={user}></Visualization>
     )
   }
   let shareWrapper = (props) => {
@@ -124,17 +130,17 @@ function App() {
             <Link to="user_management" onClick={(e) => { dropDown(e) }}> Manage Users</Link>) : null}
 
           {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in")) ? (
-            <Link to="/tasks" onClick={(e) => { dropDown(e) }}> Tasks</Link>) : null}
-
-          {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (
-            <Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
-
+          <Link to="/tasks" onClick={(e) => { dropDown(e) }}>Tasks</Link>) : null}
+		  {((Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") && user.position >= 1) ? (
+          <Link to="/task_creator" onClick={(e) => { dropDown(e) }}>Task Creator</Link>) : null}
+          {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (<Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
           {(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ?
             (<Link to="/questionnaire" onClick={(e) => { dropDown(e) }}>Questionnaire </Link>) : null}
 
           {(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (
             <Link to="/visualisation" onClick={(e) => { dropDown(e) }}>visualisation</Link>) : null}
-
+          {!(Cookies.get('access_token') == user.user + "#" + user.id + "#" + user.position + "#logged-in") ? (
+            <Link to="/registration" onClick={(e) => { dropDown(e) }}>Registration</Link>) : null}
           <Link className="Home" to="/" onClick={(e) => { dropDown(e) }}>Home </Link>
         </header>
         <div className="main">
@@ -147,6 +153,7 @@ function App() {
             you have multiple routes, but you want only one
             of them to render at a time
           */}
+		<Route path="/task_creator" component={taskCreatorWrapper}/>
 
           <Route exact path="/" component={homeWrapper} />
           <Route path="/login" component={loginWrapper} />

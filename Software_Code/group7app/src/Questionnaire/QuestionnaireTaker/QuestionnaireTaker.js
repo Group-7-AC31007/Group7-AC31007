@@ -136,8 +136,14 @@ export default class QuestionnaireTaker extends Component {
                     {this.state.selected == -1 ? (<select onChange={(e) => { this.questionListHandler(e.target.value) }}> {/* if we are using a preselected don't render the selector */}
                         <option disabled selected value> -- select an option -- </option>
                         {questionOptions}
+             <div className="quest-creator-icons-wrapper">
+                    <i className="fa fa-book" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-laptop" style={{ fontSize: "60px" }}></i>
+                    <i className="fa fa-file-text" style={{ fontSize: "60px" }}></i>
+                </div>
                     </select>) : (!this.state.questions.length) ? (<div> There is no questionniare with the id {this.state.selected} or you do not have access to it</div>) :
                             (<div>{this.state.questionnaires[this.state.questionnaires.map((cur) => { return cur.questionnairesID }).indexOf(this.state.selected)].questionnairesName} </div>)}
+
 
                     {questionList}
                     {

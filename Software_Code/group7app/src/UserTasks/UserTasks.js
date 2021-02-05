@@ -75,10 +75,13 @@ export default class UserTasks extends Component {
 					"text": element.text,
 					"checked": false
 				}))
+				console.log("tc",tasksCopy);
+				console.log("json",json);
 				tasksCopy.forEach((element, ind) => {
 					this.isTaskCompleted(element.id).then(checked => {
 						tasksCopy[ind].checked = checked
-						this.setState({ tasks: tasksCopy })
+						console.log("l",tasksCopy);
+						this.setState({ tasks: tasksCopy },()=>{console.log(this.state.tasks);})
 					})
 				})
 			}))
@@ -115,13 +118,16 @@ export default class UserTasks extends Component {
 	}
 
 	render() {
-		let taskList = this.state.tasks.map((curr, key) => (
+		let taskList = this.state.tasks.map((curr, key) => 
+		 {	console.log("curr",curr);
+			 return(
+			
 			<Task
 				key={key}
 				handler={(task) => this.handleTaskStatusChange(task)}
 				task={curr}
 			/>
-		))
+		)})
 		let projectList = this.state.projects.map((curr, key) => (
 			<option
 				value={curr.id} key={key} className="projects-item">{curr}
@@ -164,7 +170,7 @@ export default class UserTasks extends Component {
 			</div>
 		)
 
-			)
+			
 		} else {
 			this.history.push("/refresh?next=login&message=You must be logged in to" +
 				" view this page&timer=3000")

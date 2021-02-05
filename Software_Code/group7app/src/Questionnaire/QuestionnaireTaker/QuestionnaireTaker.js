@@ -133,7 +133,7 @@ export default class QuestionnaireTaker extends Component {
                     (<PredefinedListTaker key={key} handler={() => this.answerHandler()} question={current}></PredefinedListTaker>)))
             return (
                 <div className="quest-taker-main-wrapper" >
-                    {this.state.selected == -1 ? (<select onChange={(e) => { this.questionListHandler(e.target.value) }}> {/* if we are using a preselected don't render the selector */}
+                    {this.state.selected == -1 ? (<select className="quest-taker-choose-quest" onChange={(e) => { this.questionListHandler(e.target.value) }}> {/* if we are using a preselected don't render the selector */}
                         <option disabled selected value> -- select an option -- </option>
                         {questionOptions}
              <div className="quest-creator-icons-wrapper">

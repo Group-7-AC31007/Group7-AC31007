@@ -152,9 +152,33 @@ function App() {
         </div>    
           
         <footer className="site-footer">
-          <div>
-            <p> Footer </p>
+          <div className="col col-1">
+            University of Dundee <br/>
+            Nethergate <br/>
+            Dundee <br/>
+            Scotland, UK <br/>
+            DD1 4HN <br/>
           </div>
+          <div className="col col-2">
+            <a href="https://www.dundee.ac.uk/corporate-information/disclaimer-copyright-privacy-cookies">Disclaimer</a> <br/>
+            <a href="https://www.dundee.ac.uk/corporate-information/accessibility-statement">Accessibility Statement</a> <br/>
+            <a href="https://www.dundee.ac.uk/corporate-information/modern-slavery-statement">Modern Slavery Statement</a> <br/> 
+          </div>
+          <div className="col col-3">
+            <div>
+              <a href="https://www.dundee.ac.uk/about">About</a>
+              <a href="https://www.dundee.ac.uk/hr/uodrecruitment/jobvacancies/">Jobs</a>
+              <a href="https://www.dundee.ac.uk/events">Events</a>
+              <a href="https://www.dundee.ac.uk/stories">Stories</a>
+            </div>
+            <div className="social-media">
+              <a href="https://www.facebook.com/UniversityofDundee"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+              <a href="https://twitter.com/dundeeuni"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+              <a href="https://www.youtube.com/universityofdundee"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+              <a href="https://www.instagram.com/dundeeuni/"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+            </div> 
+          </div>
+          
 
         </footer>
       </div>

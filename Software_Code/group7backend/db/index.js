@@ -275,6 +275,19 @@ database.getUsersQuizList = (req) => {
 	});
 };
 
+database.getUsersProjectList = (req) => {
+	return new Promise((resolve, reject) => {
+		console.log(req);
+		const {userID} = req;
+		pool.query(`SELECT * FROM User_projects WHERE usersID=${userID}`, (err, res) => {
+			if (err) {
+				return reject("COULD NOT GET LIST OF PROJECTS");
+			}
+			return resolve(res);
+		});
+	});
+};
+
 database.getCompleteQuizList = () => {
 	return new Promise((resolve, reject) => {
 		pool.query(`SELECT * FROM Questionnaires`, (err, res) => {
